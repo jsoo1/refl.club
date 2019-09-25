@@ -8,9 +8,7 @@ import Aws.Lambda
 data Person = Person
   { personName :: String
   , personAge :: Int
-  } deriving (Generic)
-instance FromJSON Person
-instance ToJSON Person
+  } deriving (Generic, FromJSON, ToJSON)
 
 handler :: Person -> Context -> IO (Either String Person)
 handler person context =

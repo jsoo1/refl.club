@@ -5,7 +5,7 @@ homepage:       https://github.com/jsoo1/refl.club#readme
 bug-reports:    https://github.com/jsoo1/refl.club/issues
 author:         John Soo <jsoo1@asu.edu>
 copyright:      2018 John Soo
-license:        GPL3
+license:        GPL-3
 build-type:     Simple
 cabal-version:  >= 2.0
 
