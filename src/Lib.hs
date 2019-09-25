@@ -1,7 +1,7 @@
 module Lib where
 
 import GHC.Generics
-import Data.Aeson
+import Lucid
 
 import Aws.Lambda
 

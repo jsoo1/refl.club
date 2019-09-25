@@ -4,4 +4,13 @@ import Aws.Lambda
 
 import qualified Lib
 
-generateLambdaDispatcher
+main :: IO ()
+main = do
+  name <- getHandlerName
+  ctx <- getContext
+  input <- getInput
+  case name of
+    "src/Lib.handler" -> do
+      result <- Lib.handler input ctx
+      publish result
+    _ -> fail
