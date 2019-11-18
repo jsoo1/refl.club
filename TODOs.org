@@ -1,0 +1,3 @@
+* Todos
+* Notes
+** Using docker for the time being for build env.
