@@ -34,6 +34,19 @@ env PATH "$PATH:/root/.cabal/bin"
 workdir /src/ghc-8.6.5
 run cabal update
 run cabal v1-install alex happy
+run yum install -y \
+        autoconf \
+        automake \
+        libtool \
+        gcc \
+        gcc-c++ \
+        perl \
+        python3 \
+        happy \
+        alex \
+        git \
+        cpp
+run ./boot
 run ./configure
 run make
 run make install
