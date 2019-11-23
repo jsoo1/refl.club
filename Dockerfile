@@ -38,12 +38,9 @@ run yum install -y \
         autoconf \
         automake \
         libtool \
-        gcc \
         gcc-c++ \
         perl \
         python3 \
-        happy \
-        alex \
         git \
         cpp
 run ./boot
