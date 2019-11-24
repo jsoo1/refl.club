@@ -5,6 +5,7 @@ run yum update -y
 run yum install -y \
         git \
         gcc \
+        glibc-devel \
         libffi-devel \
         gmp-devel \
         zlib-devel \
@@ -12,7 +13,17 @@ run yum install -y \
         tar \
         gzip \
         xz \
-        ncurses-devel
+        ncurses-devel \
+        autoconf \
+        automake \
+        libtool \
+        gcc-c++ \
+        perl \
+        python3 \
+        git \
+        which
+env CC gcc
+env LD ld
 workdir /home/root
 run mkdir /src
 run curl -L https://downloads.haskell.org/~ghc/8.6.5/ghc-8.6.5-src.tar.xz > /src/ghc
@@ -28,21 +39,15 @@ workdir /src
 run curl -LO https://downloads.haskell.org/~cabal/cabal-install-3.0.0.0/cabal-install-3.0.0.0.tar.gz
 run tar -xzf cabal-install-3.0.0.0.tar.gz --totals
 workdir /src/cabal-install-3.0.0.0
-run yum install -y which
 run ./bootstrap.sh
 env PATH "$PATH:/root/.cabal/bin"
 workdir /src/ghc-8.6.5
 run cabal update
 run cabal v1-install alex happy
-run yum install -y \
-        autoconf \
-        automake \
-        libtool \
-        gcc-c++ \
-        perl \
-        python3 \
-        git \
-        cpp
+run echo /lib > /etc/ld.so.conf.d/00
+run echo /usr/local/lib > /etc/ld.so.conf.d/01
+run echo /lib64 > /etc/ld.so.conf.d/02
+run ldconfig
 run ./boot
 run ./configure
 run make
@@ -51,7 +56,7 @@ run rm -rf /src/ghc-8.4.4 /src/ghc-*.tar.xz /src/ghc-8.6.5
 run cabal update
 volume /src/refl-club
 workdir /src/refl-club
-add . /src/refl-club
 run cabal new-update
+add . /src/refl-club
 run cabal new-configure
 run cabal new-build
