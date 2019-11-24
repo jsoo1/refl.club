@@ -29,9 +29,9 @@ executable bootstrap
   other-modules: Paths_refl_club
   hs-source-dirs: app
   default-extensions: TemplateHaskell RecordWildCards OverloadedLists OverloadedStrings DeriveGeneric
-  ghc-options: -threaded -rtsopts -O2 -static -with-rtsopts=-N
+  ghc-options: -threaded -rtsopts -O2 -static -with-rtsopts=-N -optl-pthread -optl-static
   cc-options: -static
-  ld-options: -static -pthread -L/lib64
+  ld-options: -static -pthread
   build-depends:
       aeson
     , base >=4.7 && <5

@@ -2,7 +2,6 @@
 
 module Lib where
 
-import Aws.Lambda
 import Data.Aeson
 import GHC.Generics
 import Lucid
@@ -11,8 +10,8 @@ data Person
   = Person {personName :: String, personAge :: Int}
   deriving (Generic, FromJSON, ToJSON)
 
-handler :: Person -> Context -> IO (Either String Person)
-handler person context =
+handler :: Person -> IO (Either String Person)
+handler person =
   if personAge person > 0
     then return (Right person)
     else return (Left "A person's age must be positive")
