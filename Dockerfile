@@ -11,11 +11,15 @@ run ./configure
 run make install
 workdir /src
 run rm -rf ghc*
-volume /src/refl.club
-add . /src/refl.club 
-workdir /src/refl.club
 run apk update
 run apk add --no-cache cabal
+run mkdir -p /home/john/projects/refl.club
+volume /home/john/projects/refl.club
+add . /home/john/projects/refl.club
+workdir /home/john/projects/refl.club
+run mkdir -p "/home/john/.cabal/bin"
+env PATH "$PATH:/home/john/.cabal/bin"
+run cabal update
 run cabal new-update
 run cabal new-configure
 run cabal new-build
