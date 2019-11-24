@@ -3,14 +3,19 @@
       . (setq
          projectile-project-compilation-cmd
          (concat
-          "docker run -it"
-          " --volume " (projectile-project-root) ":/src "
-          "refl.club-build "
+          "docker run --rm -it"
+          " --volume " (projectile-project-root) ":" (projectile-project-root)
+          " refl.club-build "
           "cabal new-build")
+         projectile-project-run-cmd
+         (concat
+          "docker run --rm --name refl.club"
+          " --volume " (projectile-project-root) ":" (projectile-project-root)
+          " refl.club-build "
+          "sh")
          haskell-process-wrapper-function
          (lambda (argv)
-           (append
-            `("env" "-u" "GHC_PACKAGE_PATH") argv))))))
+           (append `("docker" "exec" "-it" "refl.club") argv))))))
  (haskell-mode
   . ((haskell-process-type . cabal-new-repl)
      (haskell-mode-stylish-haskell-path . "ormolu")
