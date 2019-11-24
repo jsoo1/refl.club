@@ -19,7 +19,6 @@ library
   default-extensions: TemplateHaskell RecordWildCards OverloadedLists OverloadedStrings DeriveGeneric
   build-depends:
       aeson
-    , aws-lambda-haskell-runtime >=2.0.1
     , base >=4.7 && <5
     , lucid >=2.9.11 && <3
   default-language: Haskell2010
@@ -32,10 +31,8 @@ executable bootstrap
   default-extensions: TemplateHaskell RecordWildCards OverloadedLists OverloadedStrings DeriveGeneric
   ghc-options: -threaded -rtsopts -O2 -static -with-rtsopts=-N
   cc-options: -static
-  ld-options: -static -pthread
+  ld-options: -static -pthread -L/lib64
   build-depends:
       aeson
-    , aws-lambda-haskell-runtime >=2.0.1
     , base >=4.7 && <5
-    , refl-club
   default-language: Haskell2010
