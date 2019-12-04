@@ -6,7 +6,6 @@ import qualified Data.Text as T
 import Data.Text (Text)
 import Hreq.Client
 import Hreq.Core.Client.BaseUrl
-import Startup
 import System.Environment (getEnv, setEnv)
 import System.Exit
 

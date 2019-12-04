@@ -1,12 +1,12 @@
-module Startup
+module AWS.Startup
   ( StartupEnv (..),
     StartupError,
     startupEnv,
   )
 where
 
-import qualified AWS
-import AWS (ToAWSError (..))
+import Data.AWS (ToAWSError (..), Error(errorType, errorMessage, stackTrace))
+import qualified Data.AWS as AWS
 import Control.Error.Util (note)
 import Data.Aeson
 import qualified Data.Text as T

@@ -31,8 +31,8 @@ library
   exposed-modules: AWS
                  , Data.AWS
                  , AWS.InitError
+                 , AWS.Startup
                  , Lib
-                 , Startup
 
 executable bootstrap
   main-is: Main.hs
