@@ -2,7 +2,7 @@
 {-# LANGUAGE TypeOperators #-}
 module AWS.InitError where
 
-import AWS.Data
+import Data.AWS
 import Control.Applicative ((<|>))
 import Data.Aeson
 import Data.Text (Text)

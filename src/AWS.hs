@@ -1,10 +1,11 @@
 module AWS
-  ( module AWS.Data,
+  ( module Data.AWS,
     module AWS.InitError,
+    runtimeApiUrl
   )
 where
 
-import AWS.Data
+import Data.AWS
 import AWS.InitError
 import Data.Text (Text)
 import Hreq.Client

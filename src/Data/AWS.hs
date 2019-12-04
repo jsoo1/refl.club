@@ -2,7 +2,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 
-module AWS.Data where
+module Data.AWS where
 
 import Data.Aeson
 import Data.Text (Text)
