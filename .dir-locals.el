@@ -15,8 +15,9 @@
           "sh")
          haskell-process-wrapper-function
          (lambda (argv)
-           (append `("docker" "exec" "-it" "refl.club") argv))))))
+           (append `("env" "-u" "GHC_PACKAGE_PATH") argv))))))
  (haskell-mode
   . ((haskell-process-type . cabal-new-repl)
      (haskell-mode-stylish-haskell-path . "ormolu")
+     (haskell-mode-stylish-haskell-args . ("--ghc-opt TypeApplications"))
      (haskell-stylish-on-save . t))))
