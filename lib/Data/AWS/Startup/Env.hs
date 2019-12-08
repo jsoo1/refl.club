@@ -1,8 +1,11 @@
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE ExistentialQuantification #-}
+
 module Data.AWS.Startup.Env
   ( Env (..),
     RuntimeApiHost,
     unRuntimeApiHost,
-    Error,
+    Error (..),
     env,
   )
 where
@@ -25,16 +28,24 @@ data Env
 
 newtype RuntimeApiHost = RuntimeApiHost {unRuntimeApiHost :: Text}
 
-newtype Error
+data Error
   = VarNotFound Text
-  deriving (Show)
+  | HandlerNotFound Text
+  | forall e. AWS.ToError e => FunctionInitError e
 
 instance AWS.ToError Error where
-  toAWSError (VarNotFound var) = AWS.Error
-    { AWS.errorType = "VarNotFound",
-      AWS.errorMessage = var,
-      AWS.stackTrace = []
-    }
+  toError = \case 
+    VarNotFound var -> AWS.Error
+      { AWS.errorType = "VarNotFound",
+        AWS.errorMessage = var,
+        AWS.stackTrace = []
+      }
+    HandlerNotFound handler -> AWS.Error
+      { AWS.errorType = "HandlerNotFound",
+        AWS.errorMessage = handler,
+        AWS.stackTrace = []
+      }
+    FunctionInitError e -> AWS.toError e
 
 env :: IO (Either Error Env)
 env =

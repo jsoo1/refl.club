@@ -31,4 +31,4 @@ instance FromJSON AWS.InitError.Response where
 
 initError :: (AWS.ToError a, RunClient m) => a -> m Runtime.Status
 initError e =
-  hreq @InitError $ "Unhandled" :. toAWSError e :. Empty
+  hreq @InitError $ "Unhandled" :. toError e :. Empty

@@ -9,7 +9,7 @@ import Data.Text (Text)
 import GHC.Generics (Generic)
 
 class ToError a where
-  toAWSError :: a -> Error
+  toError :: a -> Error
 
 data Error
   = Error
