@@ -32,4 +32,4 @@ data ErrorResponse
       }
   deriving (Generic, ToJSON, FromJSON)
 
-type EventReponse = Object
+type EventResponse = Object
