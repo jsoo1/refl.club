@@ -3,15 +3,16 @@
 
 module AWS.Invocation where
 
-import Data.AWS
+import Data.AWS.Runtime
 import Data.Text (Text)
 import Hreq.Client
+import Hreq.Core.Client.BaseUrl
 
 type Next =
   "invocation"
     :> "next"
     :> Get
-         '[ ResBody JSON EventResponse,
+         '[ ResBody JSON Event,
             ResHeaders
               '[ "Lambda-Runtime-Aws-Request-Id" := Text,
                  "Lambda-Runtime-Trace-Id" := Text,
@@ -22,6 +23,7 @@ type Next =
                ]
           ]
 
-next :: RunClient m => m (Hlist '[EventResponse, [Header]])
+-- | For use with @runtimeApiUrl.
+next :: RunClient m => m (Hlist '[Event, [Header]])
 next =
   hreq @Next Empty

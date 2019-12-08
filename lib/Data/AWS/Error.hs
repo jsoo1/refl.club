@@ -2,13 +2,13 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 
-module Data.AWS where
+module Data.AWS.Error where
 
 import Data.Aeson
 import Data.Text (Text)
 import GHC.Generics (Generic)
 
-class ToAWSError a where
+class ToError a where
   toAWSError :: a -> Error
 
 data Error
@@ -18,18 +18,3 @@ data Error
         stackTrace :: [Text]
       }
   deriving (Generic, ToJSON)
-
-newtype StatusResponse
-  = StatusResponse
-      { status :: Text
-      }
-  deriving (Generic, ToJSON, FromJSON)
-
-data ErrorResponse
-  = ErrorResponse
-      { errorMessage :: Text,
-        errorType :: Text
-      }
-  deriving (Generic, ToJSON, FromJSON)
-
-type EventResponse = Object

@@ -15,7 +15,7 @@ source-repository head
 
 library
   other-modules: Paths_refl_club
-  hs-source-dirs: src
+  hs-source-dirs: src, lib
   default-extensions: TypeApplications LambdaCase TemplateHaskell RecordWildCards OverloadedLists OverloadedStrings DeriveGeneric
   build-depends: aeson
                , base >=4.7 && <5
@@ -29,10 +29,16 @@ library
                , uuid >1.3 && <1.4
   default-language: Haskell2010
   exposed-modules: AWS
-                 , Data.AWS
                  , AWS.InitError
-                 , AWS.Startup
-                 , Lib
+                 , AWS.Invocation
+                 , AWS.Lambda
+                 , Data.AWS.Error
+                 , Data.AWS.Runtime
+                 , Data.AWS.Runtime.Context
+                 , Data.AWS.Runtime.Response
+                 , Data.AWS.Startup
+                 , Data.AWS.Startup.Env
+                 , Index
 
 executable bootstrap
   main-is: Main.hs
