@@ -34,13 +34,13 @@ library
                  , AWS.InitError
                  , AWS.Invocation
                  , AWS.Lambda
+                 , AWS.Startup
                  , Data.AWS.Error
                  , Data.AWS.Runtime
                  , Data.AWS.Runtime.Context
                  , Data.AWS.Runtime.Invocation
                  , Data.AWS.Runtime.Response
                  , Data.AWS.Startup
-                 , Data.AWS.Startup.Env
                  , Index
 
 executable bootstrap

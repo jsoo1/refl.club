@@ -28,7 +28,7 @@ main :: IO ()
 main = do
   hSetBuffering stdout LineBuffering
   hSetBuffering stderr LineBuffering
-  Startup.env >>= either failOnInit runLambdaFunctions
+  AWS.env >>= either failOnInit runLambdaFunctions
 
 -- | Fail on startup.
 failOnInit :: AWS.ToError e => e -> IO ()
@@ -51,7 +51,6 @@ lambdaLoop contextAWSEnv@Startup.Env {..} lambdaFn@Lambda {..} =
       loop contextEnv = do
         (contextEvent :. contextEventHeaders :. Empty) <-
           runHreq (runtimeApiUrl runtimeApi) next
-        let runLambda handler = runExceptT . runReaderT handler
         reqId <-
           maybe (fail "Request Id not found in next invocation") pure
           $ lookup "Lambda-Runtime-Aws-Request-Id" contextEventHeaders
@@ -61,14 +60,17 @@ lambdaLoop contextAWSEnv@Startup.Env {..} lambdaFn@Lambda {..} =
         setEnv "_X_AMZN_TRACE_ID" $ BLU.toString traceId
         runLambda lambdaHandler Context {..} >>= \case
           Left e -> do
-            let err = AWS.TextErr e
-                reportError = AWS.error (T.decodeUtf8 reqId) (Response.Response err)
             stat <- runHreq (invocationUrl runtimeApi) reportError
             loop contextEnv
+            where
+              err = Response.Response $ AWS.TextErr e
+              reportError = AWS.error (T.decodeUtf8 reqId) err
           Right res -> do
-            let respondSuccess = AWS.response (T.decodeUtf8 reqId) res
             stat <- runHreq (invocationUrl runtimeApi) respondSuccess
             loop contextEnv
+            where
+              respondSuccess = AWS.response (T.decodeUtf8 reqId) res
+
 
 lambda :: Monad m => Text -> Either Startup.Error (Lambda m)
 lambda = \case

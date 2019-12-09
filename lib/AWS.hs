@@ -2,6 +2,7 @@ module AWS
   ( module AWS.InitError,
     module AWS.Invocation,
     module AWS.Lambda,
+    module AWS.Startup,
     runtimePath,
     runtimeApiUrl,
     invocationUrl
@@ -11,6 +12,7 @@ where
 import AWS.InitError
 import AWS.Invocation
 import AWS.Lambda
+import AWS.Startup
 import Data.AWS.Startup
 import Data.Text (Text)
 import Hreq.Client
