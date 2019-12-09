@@ -20,7 +20,7 @@ runLambdaFunctions env =
   either AWS.failOnInit (AWS.lambdaLoop env)
   $ resolveLambda (Startup.handler env)
 
-resolveLambda :: Monad m => Text -> Either Startup.Error (AWS.Lambda m)
+resolveLambda :: Text -> Either Startup.Error (AWS.Lambda IO)
 resolveLambda = \case
     "Index.handler" -> pure Index.lambda
     handler -> Left $ Startup.HandlerNotFound handler 

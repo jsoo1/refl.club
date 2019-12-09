@@ -64,7 +64,7 @@ failOnInit e = do
 -- | Run a lambda in AWS. Includes context startup and run loop.
 -- | This is due to the existential quantification of the lambda.
 -- | To use this, implement a @Lambda and use @Startup.env to
--- | Get the required environment variables.
+-- | get the required environment variables. Non-terminating.
 lambdaLoop :: Env -> Lambda IO -> IO ()
 lambdaLoop contextAWSEnv@Env {..} lambdaFn@Lambda {..} =
   lambdaSetup contextAWSEnv >>= either failOnInit loop

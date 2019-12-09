@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE ExistentialQuantification #-}
 
@@ -13,6 +15,7 @@ import Data.Aeson
 import qualified Data.Text as T
 import Data.Text (Text)
 import qualified Data.Text.Encoding as T
+import GHC.Generics (Generic)
 import GHC.Natural (Natural)
 
 -- | The startup environment variables parsed during bootstrap initialization.
@@ -22,12 +25,12 @@ data Env
       { handler :: Text,
         taskRoot :: Text,
         runtimeApi :: RuntimeApi
-      }
+      } deriving (Generic, ToJSON, FromJSON)
 
 data RuntimeApi = RuntimeApi
   { runtimeApiHost :: Text,
     runtimeApiPort :: Natural
-  }
+  } deriving (Generic, ToJSON, FromJSON)
 
 data Error
   = VarNotFound Text

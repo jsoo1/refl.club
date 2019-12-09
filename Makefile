@@ -17,6 +17,7 @@ out/bootstrap: clean-container out
 		-it \
 		--volume $(PWD)/out:/root/.cabal/bin \
 		--volume $(PWD):$(PWD) \
+		--workdir $(PWD) \
 		refl-club-build \
 		cabal v1-install
 	sudo chmod 755 out/bootstrap
