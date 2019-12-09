@@ -1,24 +1,13 @@
-{-# LANGUAGE DeriveAnyClass #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE ExistentialQuantification #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Data.AWS.Runtime.Response where
 
-import Data.Aeson
 import Data.Text (Text)
-import GHC.Generics (Generic)
+import qualified Data.Text
 
-newtype Status
-  = Status
-      { status :: Text
-      }
-  deriving (Generic, ToJSON, FromJSON)
+data Response =
+  forall a. ToText a => Response a
 
-data Error
-  = Error
-      { errorMessage :: Text,
-        errorType :: Text
-      }
-  deriving (Generic, ToJSON, FromJSON)
-
-type Event = Object
+class ToText a where
+  toText :: a -> Text
