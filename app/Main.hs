@@ -55,7 +55,7 @@ lambdaLoop contextAWSEnv@Startup.Env {..} lambdaFn@Lambda {..} =
       loop contextEnv = do
         (contextEvent :. contextEventHeaders :. Empty) <-
           runHreq (runtimeApiUrl runtimeApi) next
-        let runLambda (MonadLambda handler) = runExceptT . runReaderT handler
+        let runLambda handler = runExceptT . runReaderT handler
         reqId <-
           maybe (fail "Request Id not found in next invocation") pure
           $ lookup "Lambda-Runtime-Aws-Request-Id" contextEventHeaders

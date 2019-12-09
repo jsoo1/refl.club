@@ -1,8 +1,5 @@
 {-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE DeriveFunctor #-}
-{-# LANGUAGE DeriveAnyClass #-}
-{-# OPTIONS_GHC -Wno-missing-methods #-}
  
 module AWS.Lambda where
 
@@ -12,9 +9,7 @@ import Control.Monad.Except (ExceptT, MonadError)
 import Data.AWS.Runtime
 import qualified Data.AWS.Startup as Startup
 
-newtype MonadLambda ctx e m a =
-  MonadLambda (ReaderT (Context ctx) (ExceptT e m) a)
-    deriving (Functor, Applicative, Monad, MonadError e, MonadReader (Context ctx))
+type MonadLambda ctx e m a = ReaderT (Context ctx) (ExceptT e m) a
 
 data Lambda m
   = forall startupError runtimeError ctx.
