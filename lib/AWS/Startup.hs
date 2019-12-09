@@ -1,11 +1,12 @@
 module AWS.Startup (env) where
 
-import Data.Aeson
 import Control.Error.Util (note)
+import Data.Aeson
 import Data.AWS.Startup 
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
 import GHC.Natural (Natural)
+import Hreq.Client
 import System.Posix.Env (getEnv)
 
 env :: IO (Either Error Env)
@@ -16,7 +17,8 @@ env =
     r <- fmap (T.splitOn ":") <$> getEnv' runtimeApiVar
     pure $ Env <$> h <*> t <*> apiUrl r
   where
-    getEnv' var = note (VarNotFound (T.pack var)) . fmap T.pack <$> getEnv var
+    getEnv' var =
+      note (VarNotFound (T.pack var)) . fmap T.pack <$> getEnv var
     apiUrl ts = do
       items <- ts
       let err = InvalidRuntimeApi $ T.intercalate ":" items
