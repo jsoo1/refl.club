@@ -5,13 +5,13 @@
          (concat
           "docker run --rm -it"
           " --volume " (projectile-project-root) ":" (projectile-project-root)
-          " refl.club-build "
+          " refl-club-build "
           "cabal new-build")
          projectile-project-run-cmd
          (concat
           "docker run --rm --name refl.club"
           " --volume " (projectile-project-root) ":" (projectile-project-root)
-          " refl.club-build "
+          " refl-club-build "
           "sh")
          haskell-process-wrapper-function
          (lambda (argv)
