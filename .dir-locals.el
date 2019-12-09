@@ -16,6 +16,7 @@
          haskell-process-wrapper-function
          (lambda (argv)
            (append `("env" "-u" "GHC_PACKAGE_PATH") argv))))))
+ (makefile-mode . ((tab-width . 4)))
  (haskell-mode
   . ((haskell-process-type . cabal-new-repl)
      (haskell-mode-stylish-haskell-path . "ormolu")
