@@ -1,8 +1,8 @@
 aws = docker run --rm -it --workdir / --volume $(PWD)/out:/out --volume ~/.aws:/root/.aws mikesir87/aws-cli aws
 
-default: out/bootstrap out/refl.club.zip
+default: out/bootstrap clean-zip out/refl.club.zip
 
-all: out/bootsrap clean-zip out/refl.club.zip modify
+all: default modify
 
 out/refl.club.zip: #out/bootstrap required but omitted for speed
 	zip -j out/refl.club.zip out/bootstrap
