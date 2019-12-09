@@ -41,16 +41,12 @@ failOnInit e = do
   exitWith $ ExitFailure 1
 
 runLambdaFunctions :: Startup.Env -> IO ()
-runLambdaFunctions contextAWSEnv =
-  case lambda (Startup.handler contextAWSEnv) of
-    Left e -> failOnInit e
-    Right lambdaFn@Lambda {..} -> lambdaLoop contextAWSEnv lambdaFn
+runLambdaFunctions env =
+  either failOnInit (lambdaLoop env) $ lambda (Startup.handler env)
 
 lambdaLoop :: Startup.Env -> Lambda IO -> IO ()
 lambdaLoop contextAWSEnv@Startup.Env {..} lambdaFn@Lambda {..} =
-  lambdaSetup contextAWSEnv >>= \case
-    Left e -> failOnInit e
-    Right env -> loop env
+  lambdaSetup contextAWSEnv >>= either failOnInit loop
     where
       loop contextEnv = do
         (contextEvent :. contextEventHeaders :. Empty) <-
