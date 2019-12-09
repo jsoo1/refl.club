@@ -2,6 +2,8 @@ aws = docker run --rm -it --workdir / --volume $(PWD)/out:/out --volume ~/.aws:/
 
 default: out/bootstrap out/refl.club.zip
 
+all: out/bootsrap out/refl.club.zip modify
+
 out/refl.club.zip: #out/bootstrap required but omitted for speed
 	zip -j out/refl.club.zip out/bootstrap
 
@@ -43,7 +45,7 @@ create: #out/refl.club.zip required but omitted for speed
 modify:
 	$(aws) lambda update-function-code \
 		--function-name refl-club \
-		--zip-file fileb://out/refl.club.zip \
+		--zip-file fileb://out/refl.club.zip
 
 .PHONY: delete
 delete:
