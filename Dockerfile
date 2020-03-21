@@ -13,13 +13,14 @@ workdir /src
 run rm -rf ghc*
 run apk update
 run apk add --no-cache cabal
-run mkdir -p /home/john/projects/refl.club
-volume /home/john/projects/refl.club
-add . /home/john/projects/refl.club
-workdir /home/john/projects/refl.club
-run mkdir -p "/home/john/.cabal/bin"
-env PATH "$PATH:/home/john/.cabal/bin"
-run cabal update
+run adduser builder -h /home/builder -G users -D
+user builder
+run mkdir -p /home/builder/refl.club
 run cabal new-update
+add . /home/builder/refl.club
+workdir /home/builder/refl.club
 run cabal new-configure
 run cabal new-build
+
+from alpine:latest as run
+run apk update
