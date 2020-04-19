@@ -44,7 +44,7 @@ create: #out/refl.club.zip required but omitted for speed
 		--zip-file fileb://out/refl.club.zip \
 		--handler Index.handler \
 		--runtime provided \
-		--role $(shell cat ~/.aws/arn) 
+		--role $(shell cat ~/.aws/arn)
 
 .PHONY: modify
 modify:
@@ -59,6 +59,3 @@ delete:
 .PHONY: test
 test:
 	$(aws) lambda invoke --function-name refl-club out/response.txt
-
-
-

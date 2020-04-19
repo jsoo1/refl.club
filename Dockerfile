@@ -19,8 +19,13 @@ run mkdir -p /home/builder/refl.club
 run cabal new-update
 add . /home/builder/refl.club
 workdir /home/builder/refl.club
-run cabal new-configure
-run cabal new-build
+run cabal new-install exe:refl-club
+run mkdir out && cp $(realpath ~/.cabal/bin/refl-club) out
 
 from alpine:latest as run
-run apk update
+run apk update && apk upgrade
+copy --from=build /home/builder/refl.club/out/refl-club /usr/local/bin
+run addgroup app && adduser refl -G app -G users -D
+run chown refl:app /usr/local/bin/refl-club
+user refl
+cmd [ "refl-club" ]
