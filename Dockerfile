@@ -16,8 +16,8 @@ run apk add --no-cache cabal
 run adduser builder -h /home/builder -G users -D
 user builder
 run mkdir -p /home/builder/refl.club
-run cabal new-update
 add . /home/builder/refl.club
+run cabal new-update
 workdir /home/builder/refl.club
 run cabal new-install exe:refl-club
 run mkdir out && cp $(realpath ~/.cabal/bin/refl-club) out

@@ -12,7 +12,7 @@ clean-zip:
 	rm out/refl.club.zip
 
 out/bootstrap: clean-container out
-	sudo docker run \
+	docker run \
 		--name refl.club \
 		-it \
 		--volume $(PWD)/out:/root/.cabal/bin \

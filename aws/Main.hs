@@ -23,5 +23,4 @@ runLambdaFunctions env =
 resolveLambda :: Text -> Either Startup.Error (AWS.Lambda IO)
 resolveLambda = \case
     "Index.handler" -> pure Index.lambda
-    handler -> Left $ Startup.HandlerNotFound handler 
-      
+    handler -> Left $ Startup.HandlerNotFound handler
