@@ -12,10 +12,10 @@ run make install
 workdir /src
 run rm -rf ghc*
 run mkdir -p /refl.club
+run cabal new-update
 add . /refl.club
 workdir /refl.club
-run cabal new-update
-run cabal new-install exe:refl-club
+run cabal v1-install
 run mv $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
 run make static
 
