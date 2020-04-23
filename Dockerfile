@@ -13,14 +13,12 @@ workdir /src
 run rm -rf ghc*
 run apk update
 run apk add --no-cache cabal
-run adduser builder -h /home/builder -G users -D
-user builder
-run mkdir -p /home/builder/refl.club
-add . /home/builder/refl.club
+run mkdir -p /refl.club
+add . /refl.club
+workdir /refl.club
 run cabal new-update
-workdir /home/builder/refl.club
 run cabal new-install exe:refl-club
-run mkdir out && cp $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
+run cp $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
 run addgroup app && adduser refl -G app -G users -D
 run chown refl:app /usr/local/bin/refl-club
 user refl
