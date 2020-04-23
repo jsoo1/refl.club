@@ -21,15 +21,22 @@ instance ToHtml () where
   toHtml _ =
     doctypehtml_ $ do
       head_ $ do
-        title_ "Welcome to the Refl Club"
+        title_ "John Soo"
         link_
           [ href_ "/static/refl.css",
             rel_ "stylesheet",
             type_ "text/css"
           ]
       body_ $ section_ $ do
-        h1_ "hello"
-        p_ "have some text"
+        h1_ "John Soo"
+        p_
+          "Software Engineer, \
+          \functional programming enthusiast, \
+          \aspiring proof engineer."
+        p_ "5A15 8FAF 406A 748A 81A9  DC4E 4F43 7A76 B448 A23B"
+        nav_ $ ul_ [style_ "display:flex;"] $ do
+          a_ [href_ "https://github.com/jsoo1"] $ li_ "github.com/jsoo1"
+          a_ [href_ "https://twitter.com/jsoo1"] $ li_ "twitter.com/jsoo1"
 
 club :: String -> Server Club
 club staticDir =
