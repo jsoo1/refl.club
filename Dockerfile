@@ -18,8 +18,9 @@ add . /refl.club
 workdir /refl.club
 run cabal new-update
 run cabal new-install exe:refl-club
-run cp $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
+run mv $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
+run mv static /
 run addgroup app && adduser refl -G app -G users -D
 run chown refl:app /usr/local/bin/refl-club
 user refl
-cmd [ "refl-club" ]
+cmd [ "refl-club", "/static"]
