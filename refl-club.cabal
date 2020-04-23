@@ -49,9 +49,8 @@ executable refl-club
   other-modules: Paths_refl_club
   hs-source-dirs: gcp
   default-extensions: TypeApplications LambdaCase TemplateHaskell RecordWildCards OverloadedLists OverloadedStrings DeriveGeneric
-  ghc-options: -threaded -rtsopts -O2 -static -with-rtsopts=-N -optl-pthread -optl-static
-  cc-options: -static
-  ld-options: -static -pthread
+  ghc-options: -threaded -rtsopts -O2 -with-rtsopts=-N -optl-pthread
+  ld-options: -pthread
   build-depends: aeson
                , base >=4.7 && <5
                , bytestring >=0.10 && <0.11
