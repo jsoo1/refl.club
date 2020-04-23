@@ -11,8 +11,7 @@ import Servant.HTML.Lucid
 import System.Environment
 
 type Club =
-  Get '[HTML] ()
-    :<|> "static" :> Raw
+  Get '[HTML] () :<|> Raw
 
 instance ToHtml () where
 
@@ -23,7 +22,7 @@ instance ToHtml () where
       head_ $ do
         title_ "John Soo"
         link_
-          [ href_ "/static/refl.css",
+          [ href_ "/refl.css",
             rel_ "stylesheet",
             type_ "text/css"
           ]
@@ -36,7 +35,7 @@ instance ToHtml () where
           \aspiring proof engineer."
         p_ "5A15 8FAF 406A 748A 81A9  DC4E 4F43 7A76 B448 A23B"
         nav_ $ ul_ [style_ "display:flex;"] $ do
-          a_ [href_ "/static/john-soo-resume.pdf"] $ li_ "Resume"
+          a_ [href_ "/john-soo-resume.pdf"] $ li_ "Resume"
           a_ [href_ "mailto:jsoo1@asu.edu"] $ li_ "jsoo1@asu.edu"
           a_ [href_ "https://github.com/jsoo1"] $ li_ "github.com/jsoo1"
           a_ [href_ "https://twitter.com/jsoo1"] $ li_ "twitter.com/jsoo1"
