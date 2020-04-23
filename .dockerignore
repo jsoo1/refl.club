@@ -4,8 +4,6 @@ dist
 dist-newstyle
 cabal.project.local*
 .ghc.environment*
-.git
 .envrc
 README.org
 TODOs.org
-.gitignore
