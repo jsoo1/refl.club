@@ -17,8 +17,7 @@ workdir /refl.club
 run cabal new-update
 run cabal new-install exe:refl-club
 run mv $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
-run mkdir -p .static
-run for f in static/*; do cp "$f" ".static/$(git rev-parse HEAD)-$f"; done
+run make static
 
 from alpine:3.10 as run
 
