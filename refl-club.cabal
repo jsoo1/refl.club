@@ -16,7 +16,6 @@ source-repository head
 library
   other-modules: Paths_refl_club
   hs-source-dirs: src
-  default-extensions: TypeApplications LambdaCase TemplateHaskell RecordWildCards OverloadedLists OverloadedStrings DeriveGeneric
   default-language: Haskell2010
   exposed-modules: Index
 
@@ -24,7 +23,6 @@ executable refl-club
   main-is: Main.hs
   other-modules: Paths_refl_club
   hs-source-dirs: gcp
-  default-extensions: TypeApplications LambdaCase TemplateHaskell RecordWildCards OverloadedLists OverloadedStrings DeriveGeneric
   ghc-options: -threaded -rtsopts -O2 -static -with-rtsopts=-N -optl-pthread -optl-static
   cc-options: -static
   build-depends: aeson
