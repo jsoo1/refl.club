@@ -1,12 +1,18 @@
 * {
     font-family: sans-serif;
+    font-size: 1.25rem;
 }
 
 ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-ul > a {
+section {
+    padding: 0.5rem;
+}
+
+p > a {
     margin-right: 0.5rem;
 }
