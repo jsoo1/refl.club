@@ -40,28 +40,21 @@ instance ToHtml About where
               li_ "meetup.com/orange-combinator"
         section_ [id_ "activity"] $ do
           h2_ "Activity"
-          ul_ $ do
-            li_ $ do
-              p_ $ do
-                a_ [href_ "https://guix.gnu.org"] "Guix"
-                "(functional package manager extended in scheme)"
-              p_
-                [style_ "padding-left:0.5rem"]
-                "Currently working on ecosystem support for \
-                \Haskell, Coq, Cedille and Rust"
-            li_ $ do
-              p_ $ do
-                a_ [href_ "https://github.com/jsoo1/guix-channel"] "Guix Channel"
-                "(extra packages for Guix)"
-              p_
-                [style_ "padding-left:0.5rem"]
-                "These packages tend to go upstream after incubation."
-            li_ $ do
-              a_ [href_ "https://github.com/jsoo1/dotfiles"] "Dotfiles"
-              p_
-                [style_ "padding-left:0.5rem"]
-                "Assortment of configurations for Guix, Alacritty, \
-                \Tmux, Emacs, and Xmonad."
+          section_ $ do
+            h3_ $ do
+              a_ [href_ "https://guix.gnu.org"] "Guix"
+              "(functional package manager extended in scheme)"
+            p_ "Currently working on ecosystem support for \
+               \Haskell, Coq, Cedille and Rust"
+          section_ $ do
+            h3_ $ do
+              a_ [href_ "https://github.com/jsoo1/guix-channel"] "Guix Channel"
+              "(extra packages for Guix)"
+            p_ "These packages tend to go upstream after incubation."
+          section_ $ do
+            h3_ $ a_ [href_ "https://github.com/jsoo1/dotfiles"] "Dotfiles"
+            p_ "Assortment of configurations for Guix, Alacritty, \
+               \Tmux, Emacs, and Xmonad"
         section_ [id_ "implementation"] $ do
           h2_ "Implementation"
           p_ $ do

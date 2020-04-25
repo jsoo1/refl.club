@@ -13,6 +13,6 @@ section {
     padding: 0.5rem;
 }
 
-p > a {
+h1 > a, h2 > a, h3 > a, h4 > a, h5 > a, h6 > a {
     margin-right: 0.5rem;
 }
