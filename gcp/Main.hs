@@ -81,6 +81,7 @@ instance ToHtml About where
                 href_ "https://github.com/jsoo1/refl.club"
               ]
               "(Source)"
+          p_ $ "Commit " <> $(gitHash)
 
 club :: String -> Server Club
 club staticDir =
