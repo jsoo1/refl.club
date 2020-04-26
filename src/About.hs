@@ -3,6 +3,7 @@
 
 module About where
 
+import qualified Club.Html as Club
 import Development.GitRev (gitHash)
 import Lucid
 
@@ -16,11 +17,7 @@ instance ToHtml About where
     doctypehtml_ $ do
       head_ $ do
         title_ "John Soo"
-        link_
-          [ href_ $ "/" <> $(gitHash) <> "-refl.css",
-            rel_ "stylesheet",
-            type_ "text/css"
-          ]
+        Club.css
       body_ $ do
         section_ [id_ "title"] $ do
           h1_ "John Soo"

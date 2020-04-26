@@ -4,7 +4,13 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE LambdaCase #-}
 
-module Data.Posts (Post(..), PostError(..), orgToPost) where
+module Data.Post
+  ( Post(..)
+  , PostMeta(..)
+  , PostError(..)
+  , dateFormat
+  , orgToPost
+  ) where
 
 import Data.Data (Data)
 import Data.Org (OrgFile(..), OrgDoc(..))
@@ -17,12 +23,18 @@ import Data.Time (UTCTime)
 import qualified Data.Time.Format as Time
 import Language.Haskell.TH.Syntax (Lift(..))
 
-data PostError = NoTitle | NoSlug | NoDate | MalformedDate String
+data PostError
+  = NoTitle
+  | NoSlug
+  | NoDate
+  | NoDescription
+  | MalformedDate String
 data Post = Post { postMeta :: PostMeta, postDoc :: OrgDoc }
   deriving (Show, Lift)
 data PostMeta = PostMeta
   { postMetaSlug :: Text
   , postMetaTitle :: Text
+  , postMetaDescription :: Text
   , postMetaDate :: UTCTime
   } deriving (Show, Data)
 
@@ -38,6 +50,7 @@ orgToPost OrgFile {..} = do
   postMetaSlug <- maybe (Left NoSlug) pure $ Map.lookup "slug" orgMeta
   postMetaDate' <- maybe (Left NoDate) (pure . T.unpack) $ Map.lookup "date" orgMeta
   postMetaDate <- maybe (Left (MalformedDate postMetaDate')) pure $ parseTime postMetaDate'
+  postMetaDescription <- maybe (Left NoDescription) pure $  Map.lookup "description" orgMeta
   pure Post { postMeta = PostMeta {..}, postDoc = orgDoc }
   where
     parseTime = Time.parseTimeM True Time.defaultTimeLocale dateFormat
@@ -47,5 +60,6 @@ instance Show PostError where
     NoTitle -> "Missing a #+title:"
     NoSlug -> "Missing a #+slug:"
     NoDate -> "Missing a #+date:"
+    NoDescription -> "Missing a #+description:"
     MalformedDate d ->
       "Date " <> d <> "is malformed, please use format " <> dateFormat

@@ -5,6 +5,7 @@ module Club (Club, clubApi, club) where
 
 import Lucid
 import About (About(..))
+import Data.Text (Text)
 import Servant ((:<|>)(..), Proxy(..), Get, Raw, Server, serveDirectoryWebApp)
 import Servant.HTML.Lucid (HTML)
 

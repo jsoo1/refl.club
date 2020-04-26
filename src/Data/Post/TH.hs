@@ -8,7 +8,7 @@
 {-# LANGUAGE QuasiQuotes #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
-module Data.Posts.TH (embedPosts) where
+module Data.Post.TH (embedPosts) where
 
 import Control.Exception (ErrorCall(..), Exception(..), throw)
 import Control.Monad ((<=<))
@@ -19,19 +19,13 @@ import Data.Foldable (traverse_)
 import Data.Maybe (fromMaybe)
 import Data.Org (org)
 import Data.Org.Instances ()
-import Data.Posts (Post, PostError, orgToPost)
+import Data.Post (Post, PostError, orgToPost)
 import qualified Data.Text as T
 import Data.Text.Encoding (decodeUtf8')
 import Data.Text.Encoding.Error (UnicodeException)
 import Data.Text.Lift (liftDataWithText)
 import Language.Haskell.TH.Syntax
-       ( Exp(..),
-         Lift,
-         Q,
-         lift,
-         runIO,
-         Quasi(qAddDependentFile)
-       )
+       ( Exp(..), Lift, Q, lift, runIO, Quasi(qAddDependentFile))
 
 embedPosts :: FilePath -> Q Exp
 embedPosts fp = do

@@ -1,5 +1,6 @@
 #+title: Test
 #+date: 2020-04-25
 #+slug: slug
+#+description: Describing this
 
 * Some heading
