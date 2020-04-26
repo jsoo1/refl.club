@@ -8,7 +8,7 @@
 {-# LANGUAGE QuasiQuotes #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
-module TH.Posts (embedPosts) where
+module Data.Posts.TH (embedPosts) where
 
 import Control.Exception (ErrorCall(..), Exception(..), throw)
 import Data.ByteString (ByteString)
