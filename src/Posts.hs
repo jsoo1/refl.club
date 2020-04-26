@@ -2,9 +2,9 @@
 
 module Posts where
 
-import TH.Posts (embedPosts)
-import Data.Org (OrgFile)
+import Data.Posts.TH (embedPosts)
+import Data.Posts (Post)
 
-posts' :: [OrgFile]
+posts' :: [(FilePath, Post)]
 posts' =
   $(embedPosts "posts")
