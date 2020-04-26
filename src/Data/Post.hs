@@ -9,7 +9,9 @@ module Data.Post
   , PostMeta(..)
   , PostError(..)
   , dateFormat
+  , formatDate
   , orgToPost
+  , postToOrg
   ) where
 
 import Data.Data (Data)
@@ -44,6 +46,9 @@ instance Lift PostMeta where
 dateFormat :: String
 dateFormat = "%Y-%-m-%-d"
 
+formatDate :: Time.FormatTime t => t -> String
+formatDate = Time.formatTime Time.defaultTimeLocale dateFormat
+
 orgToPost :: OrgFile -> Either PostError Post
 orgToPost OrgFile {..} = do
   postMetaTitle <- maybe (Left NoTitle) pure $ Map.lookup "title" orgMeta
@@ -54,6 +59,17 @@ orgToPost OrgFile {..} = do
   pure Post { postMeta = PostMeta {..}, postDoc = orgDoc }
   where
     parseTime = Time.parseTimeM True Time.defaultTimeLocale dateFormat
+
+postToOrg :: Post -> OrgFile
+postToOrg Post {..} =
+  OrgFile meta postDoc
+  where
+    meta :: Map.Map Text Text
+    meta =
+      Map.insert "title" (postMetaTitle postMeta)
+      $ Map.insert "slug" (postMetaSlug postMeta)
+      $ Map.insert "date" (T.pack (formatDate (postMetaDate postMeta)))
+      $ Map.insert "description" (postMetaDescription postMeta) mempty
 
 instance Show PostError where
   show = \case
