@@ -1,4 +1,4 @@
-from refl.club.build:latest as build
+from docker.pkg.github.com/jsoo1/refl.club/refl.club.build:7afa8a80a3ccbfb294d271684a8e5497d09f4f0a as build
 
 add . /refl.club
 workdir /refl.club
