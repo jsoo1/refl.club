@@ -14,5 +14,5 @@ run rm -rf ghc*
 run mkdir -p /refl.club
 add . /refl.club
 workdir /refl.club
-run cabal new-update
-run cabal new-build --only-dependencies
+run cabal update
+run cabal v1-install --force-reinstalls

@@ -1,8 +1,7 @@
-from docker.pkg.github.com/jsoo1/refl.club/refl.club.build:cdab0e41596dae59f5dd73af785276b988a3fe48 as build
+from refl.club.build:latest as build
 
 add . /refl.club
 workdir /refl.club
-run cabal new-update
 run cabal v1-install
 run mv $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
 run make static
