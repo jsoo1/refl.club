@@ -1,19 +1,25 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE TemplateHaskell #-}
 
-module Posts where
+module Posts
+  ( AllPosts(..)
+  , embedPosts
+  , lookupPost
+  )
+where
 
 import qualified Club.Html as Club
 import Data.Foldable (traverse_)
-import Data.Post.TH (embedPosts)
+import qualified Data.List as List
 import Data.Post (Post(..), PostMeta(..))
+import Data.Post.TH (embedPosts)
+import Data.Text (Text)
 import Lucid
 
-posts :: [Post]
-posts = snd <$> $(embedPosts "posts")
-
 newtype AllPosts = AllPosts [Post]
+
+lookupPost :: (Post -> Bool) -> AllPosts -> Maybe Post
+lookupPost f (AllPosts ps) = List.find f ps
 
 instance ToHtml AllPosts where
   toHtmlRaw = toHtml
