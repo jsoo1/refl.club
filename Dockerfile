@@ -1,20 +1,8 @@
-from alpine:3.10 as build
+from docker.pkg.github.com/jsoo1/refl.club/refl.club.build:cdab0e41596dae59f5dd73af785276b988a3fe48 as build
 
-run apk update && apk upgrade
-run apk add --no-cache cabal curl gcc git gmp-dev make musl-dev ncurses-dev perl zlib-dev
-workdir /src
-run curl -LO https://github.com/redneb/ghc-alt-libc/releases/download/ghc-8.6.5-musl/ghc-8.6.5-x86_64-unknown-linux-musl.tar.xz
-workdir /src
-run tar xvf ghc-8.6.5-x86_64-unknown-linux-musl.tar.xz
-workdir /src/ghc-8.6.5
-run ./configure
-run make install
-workdir /src
-run rm -rf ghc*
-run mkdir -p /refl.club
-run cabal new-update
 add . /refl.club
 workdir /refl.club
+run cabal new-update
 run cabal v1-install
 run mv $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
 run make static
