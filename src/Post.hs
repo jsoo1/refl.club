@@ -44,6 +44,10 @@ instance ToHtml Post where
         Club.prismJs
         section_ $ do
           h1_ $ toHtml $ postMetaTitle postMeta
-          p_ $ toHtml $ Post.formatDate $ postMetaDate postMeta
-          p_ "John Soo"
+          p_ [style_ "display:flex;"] $ do
+            toHtml $ Post.formatDate $ postMetaDate postMeta
+            Club.verticalSep ""
+            toHtml $ postMetaAuthor postMeta
+            Club.verticalSep ""
+            toHtml $ postMetaEmail postMeta
           toHtml $ Org.body orgStyle (Post.postToOrg p)

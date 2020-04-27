@@ -28,14 +28,15 @@ instance ToHtml AllPosts where
   toHtml (AllPosts ps) =
     doctypehtml_ $ do
       head_ $ do
-        title_ "All Posts - John Soo"
+        title_ "Posts - John Soo"
         Club.css
-      body_ $ section_ $ do
-        h1_ "All Posts"
-        ul_ $ traverse_ (postLinkItem . postMeta) ps
+      body_ $ section_ $ ul_ $ do
+        h1_ "Posts"
+        traverse_ (postLinkItem . postMeta) ps
 
 postLinkItem :: Monad m => PostMeta -> HtmlT m ()
 postLinkItem PostMeta {..} =
-  li_ $ do
+  li_ [style_ "display:flex;"] $ do
     a_ [href_ ("/post/" <> postMetaSlug)] (toHtml postMetaTitle)
+    Club.verticalSep ""
     toHtml postMetaDescription

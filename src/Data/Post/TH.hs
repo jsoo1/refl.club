@@ -1,20 +1,23 @@
-{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveLift #-}
-{-# LANGUAGE StandaloneDeriving #-}
-{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE TemplateHaskell #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
-module Data.Post.TH (embedPosts) where
+module Data.Post.TH
+  ( embedPosts,
+  )
+where
 
-import Control.Exception (ErrorCall(..), Exception(..), throw)
+import Control.Exception (ErrorCall (..), Exception (..), throw)
 import Control.Monad ((<=<))
 import Data.ByteString (ByteString)
-import Data.Data (Typeable, Data, cast)
-import Data.FileEmbed (embedDir, getDir, bsToExp)
+import Data.Data (Data, Typeable, cast)
+import Data.FileEmbed (bsToExp, embedDir, getDir)
 import Data.Foldable (traverse_)
 import Data.Maybe (fromMaybe)
 import Data.Org (org)
@@ -25,15 +28,21 @@ import Data.Text.Encoding (decodeUtf8')
 import Data.Text.Encoding.Error (UnicodeException)
 import Data.Text.Lift (liftDataWithText)
 import Language.Haskell.TH.Syntax
-       ( Exp(..), Lift, Q, lift, runIO, Quasi(qAddDependentFile))
+  ( Exp (..),
+    Lift,
+    Q,
+    Quasi (qAddDependentFile),
+    lift,
+    runIO,
+  )
 
 embedPosts :: FilePath -> Q Exp
 embedPosts fp = do
-    typ <- [t| [(FilePath, Post)] |]
-    orgFiles <- either (fail . show) pure =<< runIO (postsDir fp)
-    traverse_ (qAddDependentFile . (\p -> fp <> "/" <> p) . fst) orgFiles
-    e <- ListE <$> traverse lift orgFiles
-    pure $ SigE e typ
+  typ <- [t|[(FilePath, Post)]|]
+  orgFiles <- either (fail . show) pure =<< runIO (postsDir fp)
+  traverse_ (qAddDependentFile . (\p -> fp <> "/" <> p) . fst) orgFiles
+  e <- ListE <$> traverse lift orgFiles
+  pure $ SigE e typ
 
 postsDir :: FilePath -> IO (Either DecodeError [(FilePath, Post)])
 postsDir fp = do
@@ -56,3 +65,4 @@ instance Show DecodeError where
   show = \case
     UnicodeError e -> show e
     ImproperOrgFile -> "Malformed Org file"
+    ImproperPost e -> show e

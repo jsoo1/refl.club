@@ -27,6 +27,8 @@ instance ToHtml About where
           nav_ $ ul_ $ do
             a_ [href_ $ "/" <> $(gitHash) <> "-john-soo-resume.pdf"] $
               li_ "Resume"
+            a_ [href_ "/posts"] $
+              li_ "Posts"
             a_ [href_ "mailto:jsoo1@asu.edu"] $
               li_ "jsoo1@asu.edu"
             a_ [href_ "https://github.com/jsoo1"] $
@@ -57,13 +59,20 @@ instance ToHtml About where
         section_ [id_ "implementation"] $ do
           h2_ "Implementation"
           p_ $ do
-            "This is a very simple Servant application"
+            "This is a very simple Servant application ("
             a_
-              [ style_ "margin-left:0.25rem",
+              [ style_ "margin-right:0.25rem",
                 href_ "https://github.com/jsoo1/refl.club"
               ]
-              "(Source)"
-          p_ $ "Commit " <> $(gitHash)
+              "source"
+            ", commit " <> $(gitHash) <> ")"
+          p_ $ do
+            "Org file parsing and formatting with"
+            a_
+              [ href_ "https://github.com/fosskers/org-mode",
+                style_ "margin-left:0.25rem;"
+              ]
+              "org-mode"
           p_ $ do
             "Syntax highlighting by"
             a_

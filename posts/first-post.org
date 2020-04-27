@@ -1,9 +1,13 @@
-#+title: Test
-#+date: 2020-04-25
-#+slug: slug
-#+description: Describing this
+#+title: Writing blogging software, as one does
+#+author: John Soo
+#+email: jsoo1@asu.edu
+#+date: 2020-04-26
+#+slug: first-post
+#+description: How I wrote this blog.
 
-* Some heading
+* Why write blogging software?
+
+No reason. Moving on to the technical details.
 
 some text
 
