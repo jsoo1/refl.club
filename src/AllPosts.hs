@@ -30,7 +30,7 @@ instance ToHtml AllPosts where
       head_ $ do
         title_ "Posts - John Soo"
         Club.css
-      body_ $ section_ $ ul_ $ do
+      body_ [style_ "padding:3rem;"] $ section_ $ ul_ $ do
         h1_ "Posts"
         traverse_ (postLinkItem . postMeta) ps
 

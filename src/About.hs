@@ -18,7 +18,7 @@ instance ToHtml About where
       head_ $ do
         title_ "John Soo"
         Club.css
-      body_ $ do
+      body_ [style_ "padding:3rem;"] $ do
         section_ [id_ "title"] $ do
           h1_ "John Soo"
           p_ "Software Engineer and functional programming enthusiast."

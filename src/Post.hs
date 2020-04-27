@@ -40,9 +40,9 @@ instance ToHtml Post where
         title_ $ toHtml $ postMetaTitle postMeta
         Club.css
         Club.prismCss
-      body_ $ do
+      body_ [style_ "padding:3rem;"] $ do
         Club.prismJs
-        section_ [style_ "padding:3rem;"] $ do
+        section_ $ do
           h1_ $ toHtml $ postMetaTitle postMeta
           byLine postMeta
           toHtml $ Org.body orgStyle (Post.postToOrg p)
