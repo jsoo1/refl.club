@@ -1,0 +1,46 @@
+#+title: Why another blogging program?
+#+author: John Soo
+#+email: jsoo1@asu.edu
+#+date: 2020-04-26
+#+slug: why-another-blogging-program
+#+description: Why I wrote this blog program.
+
+No one asks for more blogging software, but I did want to write some posts.
+Some colleagues of mine almost begged that I use a common static site generator or repository integration.
+My thinking about blogs is that they can be simpler and more transparent to the author.
+Yes even more simple than a templating engine with a markup.
+Like most other computing problems, I tend to believe that
+
+I wanted to take the opportunity to finally host my own site and show my own work.
+
+I also always try to take any opportunity I can to learn about computing, so I set out with two design goals.
+These goals are definitely not met yet, but I have learned a lot so far.
+
+1. Use as few tools as possible - ideally bringing everything under the programming language.
+
+2. Be as polymorphic in the runtime and hosting as possible.
+
+* Goal 1 - Bring disparate tools closer together, preferably under the language.
+
+This means that if I can write blog posts in plain text or a markup language, so be it.
+But, those posts should be statically checked.
+I do not want to have to do so much extra work to validate, load, and ensure their existence in a static directory, etc.
+Ideally, the blog post should be as much a language construct as possible.
+
+This would go for styling, deployment, (comments?!) and more.
+
+#+BEGIN_SRC haskell
+print "hi"
+#+END_SRC
+
+would this be how I would go about it?
+
+I am not sure.
+
+#+BEGIN_SRC coq
+Inductive nat : Type :=
+| s : nat -> nat
+| z : nat.
+#+END_SRC
+
+* Some other heading
