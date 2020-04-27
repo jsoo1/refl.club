@@ -10,8 +10,8 @@ import qualified Lucid.Base as Lucid
 verticalSep :: Applicative m => HtmlT m a -> HtmlT m a
 verticalSep =
   div_
-    [ style_ "margin-left:0.25rem;",
-      style_ "margin-right:0.25rem;",
+    [ style_ "margin-left:0.5rem;",
+      style_ "margin-right:0.5rem;",
       style_ "background-color:black;",
       style_ "width:1px;"
     ]
