@@ -1,17 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 
-module Posts
-  ( AllPosts(..)
-  , embedPosts
-  , lookupPost
+module AllPosts
+  ( AllPosts (..),
+    embedPosts,
+    lookupPost,
   )
 where
 
 import qualified Club.Html as Club
 import Data.Foldable (traverse_)
 import qualified Data.List as List
-import Data.Post (Post(..), PostMeta(..))
+import Data.Post (Post (..), PostMeta (..))
 import Data.Post.TH (embedPosts)
 import Data.Text (Text)
 import Lucid
@@ -22,6 +22,7 @@ lookupPost :: (Post -> Bool) -> AllPosts -> Maybe Post
 lookupPost f (AllPosts ps) = List.find f ps
 
 instance ToHtml AllPosts where
+
   toHtmlRaw = toHtml
 
   toHtml (AllPosts ps) =

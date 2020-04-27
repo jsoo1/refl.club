@@ -4,3 +4,26 @@
 #+description: Describing this
 
 * Some heading
+
+some text
+
+#+BEGIN_SRC shell
+echo 'hi'
+#+END_SRC
+
+#+RESULTS:
+: hi
+
+suppose I wanted to write a blog post.
+
+would this be how I would go about it?
+
+I am not sure.
+
+#+BEGIN_SRC coq
+Inductive nat : Type :=
+| s : nat -> nat
+| z : nat.
+#+END_SRC
+
+* Some other heading

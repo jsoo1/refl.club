@@ -41,8 +41,9 @@ instance ToHtml About where
             h3_ $ do
               a_ [href_ "https://guix.gnu.org"] "Guix"
               "(functional package manager extended in scheme)"
-            p_ "Currently working on ecosystem support for \
-               \Haskell, Coq, Cedille and Rust"
+            p_
+              "Currently working on ecosystem support for \
+              \Haskell, Coq, Cedille and Rust"
           section_ $ do
             h3_ $ do
               a_ [href_ "https://github.com/jsoo1/guix-channel"] "Guix Channel"
@@ -50,8 +51,9 @@ instance ToHtml About where
             p_ "These packages tend to go upstream after incubation."
           section_ $ do
             h3_ $ a_ [href_ "https://github.com/jsoo1/dotfiles"] "Dotfiles"
-            p_ "Assortment of configurations for Guix, Alacritty, \
-               \Tmux, Emacs, and Xmonad"
+            p_
+              "Assortment of configurations for Guix, Alacritty, \
+              \Tmux, Emacs, and Xmonad"
         section_ [id_ "implementation"] $ do
           h2_ "Implementation"
           p_ $ do
@@ -62,3 +64,10 @@ instance ToHtml About where
               ]
               "(Source)"
           p_ $ "Commit " <> $(gitHash)
+          p_ $ do
+            "Syntax highlighting by"
+            a_
+              [ style_ "margin-left:0.25rem",
+                href_ "https://github.com/PrismJS/prism/"
+              ]
+              "Prism"

@@ -1,5 +1,5 @@
 GIT_HASH = $(shell git rev-parse HEAD)
-STATIC = john-soo-resume.pdf refl.css
+STATIC = grammars john-soo-resume.pdf refl.css
 STATIC_SRC = $(foreach file,$(STATIC),static/$(file))
 STATIC_TARGET = $(foreach file,$(STATIC),.static/$(GIT_HASH)-$(file))
 aws = docker run --rm -it --workdir / --volume $(PWD)/out:/out --volume ~/.aws:/root/.aws mikesir87/aws-cli aws
@@ -15,7 +15,7 @@ out/refl.club.zip: #out/bootstrap required but omitted for speed
 static: $(STATIC_TARGET)
 
 $(STATIC_TARGET): $(STATIC_SRC) | .static
-	for f in $?; do cp "$$f" ".static/$(GIT_HASH)-$$(basename $$f)"; done
+	for f in $?; do cp -r "$$f" ".static/$(GIT_HASH)-$$(basename $$f)"; done
 
 .static:
 	mkdir -p $@

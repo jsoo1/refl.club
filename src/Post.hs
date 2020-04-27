@@ -1,28 +1,37 @@
-{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
 
 module Post where
 
 import qualified Club.Html as Club
-import Data.Org (OrgDoc(..))
-import Data.Org.Lucid (OrgStyle(..))
+import Data.Org (Language (..), OrgDoc (..))
+import Data.Org.Lucid (Highlighting, OrgStyle (..))
 import qualified Data.Org.Lucid as Org
-import Data.Post (PostMeta(..), Post(..))
+import Data.Post (Post (..), PostMeta (..))
 import qualified Data.Post as Post
+import Data.Text (Text)
 import qualified Data.Time.Format as Time
 import Lucid
 
 orgStyle :: OrgStyle
 orgStyle =
   Org.defaultStyle
-    { includeTitle = False
-    , tableOfContents = Nothing
-    , bootstrap = False
-    , highlighting = Org.codeHTML
-    , hrBetweenSections = False
+    { includeTitle = False,
+      tableOfContents = Nothing,
+      bootstrap = False,
+      highlighting = prismHighlighting,
+      hrBetweenSections = False
     }
 
+languageClass :: Language -> Text
+languageClass (Language l) = "language-" <> l
+
+prismHighlighting :: Highlighting
+prismHighlighting lang =
+  pre_ . code_ [class_ (maybe "" languageClass lang)] . toHtml
+
 instance ToHtml Post where
+
   toHtmlRaw = toHtml
 
   toHtml p@Post {..} =
@@ -30,14 +39,11 @@ instance ToHtml Post where
       head_ $ do
         title_ $ toHtml $ postMetaTitle postMeta
         Club.css
-      body_ $ section_ $ do
-        h1_ $ toHtml $ postMetaTitle postMeta
-        p_ $ toHtml $ Post.formatDate $ postMetaDate postMeta
-        p_ "John Soo"
-        toHtml $ Org.body orgStyle (Post.postToOrg p)
-
-instance ToHtml OrgDoc where
-  toHtmlRaw = toHtml
-
-  toHtml OrgDoc {..} =
-    p_ "hi"
+        Club.prismCss
+      body_ $ do
+        Club.prismJs
+        section_ $ do
+          h1_ $ toHtml $ postMetaTitle postMeta
+          p_ $ toHtml $ Post.formatDate $ postMetaDate postMeta
+          p_ "John Soo"
+          toHtml $ Org.body orgStyle (Post.postToOrg p)
