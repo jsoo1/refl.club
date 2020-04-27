@@ -20,6 +20,10 @@ $(STATIC_TARGET): $(STATIC_SRC) | .static
 .static:
 	mkdir -p $@
 
+.PHONY: clean-static
+clean-static:
+	rm -rf .static
+
 .PHONY: clean-zip
 clean-zip:
 	rm out/refl.club.zip
