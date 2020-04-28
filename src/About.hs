@@ -22,8 +22,8 @@ instance ToHtml About where
       body_ $ do
         section_ [id_ "title"] $ do
           h1_ "John Soo"
-          p_ "Software Engineer and functional programming enthusiast."
-          p_ "Host of the Orange Combinator meetup and aspiring proof engineer."
+          p_ "Functional programming enthusiast"
+          p_ "Host: Orange Combinator, aspiring proof engineer"
           p_ "5A15 8FAF 406A 748A 81A9  DC4E 4F43 7A76 B448 A23B"
           nav_ $ ul_ $ do
             a_ [href_ $ "/" <> $(gitHash) <> "-john-soo-resume.pdf"] $
@@ -43,20 +43,17 @@ instance ToHtml About where
           section_ $ do
             h3_ $ do
               a_ [href_ "https://guix.gnu.org"] "Guix"
-              "(functional package manager extended in scheme)"
+              "(functional package manager)"
             p_
-              "Currently working on ecosystem support for \
-              \Haskell, Coq, Cedille and Rust"
+              "Ecosystem support for functional languages"
           section_ $ do
             h3_ $ do
               a_ [href_ "https://github.com/jsoo1/guix-channel"] "Guix Channel"
               "(extra packages for Guix)"
-            p_ "These packages tend to go upstream after incubation."
+            p_ "To upstream after incubation"
           section_ $ do
             h3_ $ a_ [href_ "https://github.com/jsoo1/dotfiles"] "Dotfiles"
-            p_
-              "Assortment of configurations for Guix, Alacritty, \
-              \Tmux, Emacs, and Xmonad"
+            p_ "Guix, Alacritty, Tmux, Emacs, and Xmonad"
         section_ [id_ "implementation"] $ do
           h2_ "Implementation"
           p_ $ do
@@ -67,29 +64,28 @@ instance ToHtml About where
               "Source"
             " (commit " <> $(gitHash) <> ")"
           p_ $ do
-            "Talks to the web with"
-            a_
-              [ href_ "https://www.haskell.org",
-                style_ "margin-left:0.25rem;",
-                style_ "margin-right:0.25rem;"
-              ]
-              "Haskell"
-            "and"
+            a_ [href_ "https://www.haskell.org"] "Haskell"
+            ","
             a_
               [ href_ "https://docs.servant.dev/",
-                style_ "margin-left:0.25rem;",
-                style_ "margin-right:0.25rem;"
+                style_ "margin-left:0.25rem;"
               ]
               "Servant"
           p_ $ do
-            "Org file parsing and formatting with"
+            "Org files:"
+            a_
+              [ href_ "https://www.orgmode.org",
+                style_ "margin-left:0.25rem;"
+              ]
+              "org-mode"
+            ","
             a_
               [ href_ "https://github.com/fosskers/org-mode",
                 style_ "margin-left:0.25rem;"
               ]
-              "org-mode"
+              "parser"
           p_ $ do
-            "Syntax highlighting by"
+            "Syntax:"
             a_
               [ style_ "margin-left:0.25rem",
                 href_ "https://github.com/PrismJS/prism/"

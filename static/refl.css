@@ -2,6 +2,12 @@ body {
     font-family: 'CMUSerifRoman',serif;
     font-size: 1.5rem;
     margin: 3rem 5rem;
+    background-color: white;
+    color: black;
+}
+
+a {
+    color: black;
 }
 
 code {

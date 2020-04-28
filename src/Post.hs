@@ -51,11 +51,10 @@ instance ToHtml Post where
 byLine :: Monad m => PostMeta -> HtmlT m ()
 byLine PostMeta {..} =
   p_ [style_ "display:flex;", style_ "flex-wrap:wrap;"] $ do
-    span_ [style_ "margin-right:0.5rem;"]
-      $ toHtml
-      $ Post.formatDate postMetaDate
-    span_ [style_ "margin-right:0.5rem;"] $
-      toHtml postMetaAuthor
+    span_ $ toHtml $ Post.formatDate postMetaDate
+    Club.verticalSep ""
+    span_ $ toHtml postMetaAuthor
+    Club.verticalSep ""
     a_
       [href_ ("mailto:" <> postMetaEmail)]
       (toHtml postMetaEmail)

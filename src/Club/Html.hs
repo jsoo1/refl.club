@@ -18,7 +18,7 @@ cmuSerif =
 
 verticalSep :: Applicative m => HtmlT m a -> HtmlT m a
 verticalSep =
-  div_
+  span_
     [ style_ "margin-left:0.5rem;",
       style_ "margin-right:0.5rem;",
       style_ "background-color:black;",
