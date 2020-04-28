@@ -1,11 +1,9 @@
-#+title: Why another blogging program?
+#+title: No one asks for more blogging software
 #+author: John Soo
 #+email: jsoo1@asu.edu
 #+date: 2020-04-26
-#+slug: why-another-blogging-program
+#+slug: the-entire-program
 #+description: Why I wrote this program.
-
-* No one asks for more blogging software.
 
 But I did want to write some posts.
 I wanted to finally host my own site and show my own work.
