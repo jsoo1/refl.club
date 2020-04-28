@@ -38,9 +38,10 @@ instance ToHtml Post where
     doctypehtml_ $ do
       head_ $ do
         title_ $ toHtml $ postMetaTitle postMeta
+        Club.cmuSerif
         Club.css
         Club.prismCss
-      body_ [style_ "padding:3rem;"] $ do
+      body_ $ do
         Club.prismJs
         section_ $ do
           h1_ $ toHtml $ postMetaTitle postMeta

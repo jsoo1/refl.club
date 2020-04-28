@@ -29,8 +29,9 @@ instance ToHtml AllPosts where
     doctypehtml_ $ do
       head_ $ do
         title_ "Posts - John Soo"
+        Club.cmuSerif
         Club.css
-      body_ [style_ "padding:3rem;"] $ section_ $ ul_ $ do
+      body_ $ section_ $ ul_ $ do
         h1_ "Posts"
         traverse_ (postLinkItem . postMeta) ps
 

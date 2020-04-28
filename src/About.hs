@@ -17,8 +17,9 @@ instance ToHtml About where
     doctypehtml_ $ do
       head_ $ do
         title_ "John Soo"
+        Club.cmuSerif
         Club.css
-      body_ [style_ "padding:3rem;"] $ do
+      body_ $ do
         section_ [id_ "title"] $ do
           h1_ "John Soo"
           p_ "Software Engineer and functional programming enthusiast."
@@ -59,13 +60,27 @@ instance ToHtml About where
         section_ [id_ "implementation"] $ do
           h2_ "Implementation"
           p_ $ do
-            "This is a very simple Servant application ("
             a_
               [ style_ "margin-right:0.25rem",
                 href_ "https://github.com/jsoo1/refl.club"
               ]
-              "source"
-            ", commit " <> $(gitHash) <> ")"
+              "Source"
+            " (commit " <> $(gitHash) <> ")"
+          p_ $ do
+            "Talks to the web with"
+            a_
+              [ href_ "https://www.haskell.org",
+                style_ "margin-left:0.25rem;",
+                style_ "margin-right:0.25rem;"
+              ]
+              "Haskell"
+            "and"
+            a_
+              [ href_ "https://docs.servant.dev/",
+                style_ "margin-left:0.25rem;",
+                style_ "margin-right:0.25rem;"
+              ]
+              "Servant"
           p_ $ do
             "Org file parsing and formatting with"
             a_

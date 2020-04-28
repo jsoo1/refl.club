@@ -7,6 +7,15 @@ import Development.GitRev (gitHash)
 import Lucid
 import qualified Lucid.Base as Lucid
 
+cmuSerif :: Applicative m => HtmlT m ()
+cmuSerif =
+  link_
+    [ rel_ "stylesheet",
+      media_ "screen",
+      href_ "https://fontlibrary.org/face/cmu-serif",
+      type_ "text/css"
+    ]
+
 verticalSep :: Applicative m => HtmlT m a -> HtmlT m a
 verticalSep =
   div_
