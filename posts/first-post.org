@@ -3,15 +3,29 @@
 #+email: jsoo1@asu.edu
 #+date: 2020-04-26
 #+slug: why-another-blogging-program
-#+description: Why I wrote this blog program.
+#+description: Why I wrote this program.
 
-No one asks for more blogging software, but I did want to write some posts.
-Some colleagues of mine almost begged that I use a common static site generator or repository integration.
-My thinking about blogs is that they can be simpler and more transparent to the author.
-Yes even more simple than a templating engine with a markup.
-Like most other computing problems, I tend to believe that
+* No one asks for more blogging software.
 
-I wanted to take the opportunity to finally host my own site and show my own work.
+But I did want to write some posts.
+I wanted to finally host my own site and show my own work.
+
+I was begged to use a common static site generator or repository integration.
+But I thought: blogs can be more transparent to the author.
+Writing a blog need not imply submitting markup to an opaque binary program.
+Theming and styling can be transparent and alive to the author.
+Hosting and runtime, similarly, might be closer to the author's fingertips.
+
+Moreover: the humble blog presents an opportunity to bring a problem into a language.
+
+[[https://twitter.com/GabrielG439/status/1186451668944113664?s=20][Gabriel Gonzalez says the following]].
+Also - note the lack of quote formatting, I'll come back to that.
+
+#+BEGIN_SRC none
+Your average developer will struggle with things not built into their programming language, including operations, security, packaging, and distributed systems
+
+Many engineering problems are actually programming language problems in disguise
+#+END_SRC
 
 I also always try to take any opportunity I can to learn about computing, so I set out with two design goals.
 These goals are definitely not met yet, but I have learned a lot so far.
@@ -29,7 +43,7 @@ Ideally, the blog post should be as much a language construct as possible.
 
 This would go for styling, deployment, (comments?!) and more.
 
-#+BEGIN_SRC haskell
+#+BEGIN_SRC hs
 print "hi"
 #+END_SRC
 
