@@ -15,6 +15,7 @@ where
 
 import Control.Exception (ErrorCall (..), Exception (..), throw)
 import Control.Monad ((<=<))
+import Data.Bifunctor (first)
 import Data.ByteString (ByteString)
 import Data.Data (Data, Typeable, cast)
 import Data.FileEmbed (bsToExp, embedDir, getDir)
@@ -51,9 +52,9 @@ postsDir fp = do
 
 decodePost :: ByteString -> Either DecodeError Post
 decodePost bs = do
-  txt <- either (Left . UnicodeError) pure $ decodeUtf8' bs
+  txt <- first UnicodeError $ decodeUtf8' bs
   org <- maybe (Left ImproperOrgFile) pure $ org txt
-  either (Left . ImproperPost) pure $ orgToPost org
+  first ImproperPost $ orgToPost org
 
 data DecodeError
   = UnicodeError UnicodeException
