@@ -28,6 +28,7 @@ import qualified Club.Html as Club
 import Data.Foldable (traverse_)
 import qualified Data.List as List
 import Data.Post (Post (..), PostMeta (..))
+import qualified Data.Post as Post
 import Data.Post.TH (embedPosts)
 import Data.Text (Text)
 import Lucid
@@ -54,6 +55,8 @@ instance ToHtml AllPosts where
 postLinkItem :: Monad m => PostMeta -> HtmlT m ()
 postLinkItem PostMeta {..} =
   li_ [style_ "display:flex;"] $ do
+    toHtml $ Post.formatDate postMetaDate
+    Club.verticalSep ""
     a_ [href_ ("/post/" <> postMetaSlug)] (toHtml postMetaTitle)
     Club.verticalSep ""
     toHtml postMetaDescription
