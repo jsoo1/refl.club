@@ -2,22 +2,24 @@
 #+author: John Soo
 #+email: jsoo1@asu.edu
 #+date: 2020-04-26
-#+slug: the-entire-program
+#+slug: no-one-asks-for-more-blogging-software
 #+description: Why I wrote this program.
 
-But I did want to write some posts.
-I wanted to finally host my own site and show my own work.
+But I did want to write some posts.  I wanted to finally host my own
+site and show my own work.
 
-I was begged to use a common static site generator or repository integration.
-But I thought: blogs can be more transparent to the author.
-Writing a blog need not imply submitting markup to an opaque binary program - with one big caveat.
-Theming and styling can be transparent and alive to the author.
-Hosting and runtime, similarly, might be closer to the author's fingertips.
+I was begged to use a common static site generator or repository
+integration.  But I thought: blogs can be more transparent to the
+author.  Writing a blog need not imply submitting markup to an opaque
+binary program - with one big caveat.  Theming and styling can be
+transparent and alive to the author.  Hosting and runtime, similarly,
+might be closer to the author's fingertips.
 
-Moreover: the humble blog presents an opportunity to bring a problem into a language.
+Moreover: the humble blog presents an opportunity to bring a problem
+into a language.
 
-[[https://twitter.com/GabrielG439/status/1186451668944113664?s=20][Gabriel Gonzalez]] says the following.
-Also - note the lack of quote formatting, I'll come back to that.
+[[https://twitter.com/GabrielG439/status/1186451668944113664?s=20][Gabriel Gonzalez]] says the following.  Also - note the lack of quote
+formatting, I'll come back to that.
 
 #+BEGIN_SRC none
 Your average developer will struggle with things not built into their programming language,
@@ -26,49 +28,54 @@ Your average developer will struggle with things not built into their programmin
 Many engineering problems are actually programming language problems in disguise
 #+END_SRC
 
-Why bring a problem into a language?
-Good question.
-Sounds like a good blog post, journal article even.
+Why bring a problem into a language?  Good question.  Sounds like a
+good blog post, journal article even.
 
-So ignoring any justification for the language-oriented approach, I set out with two design goals for this blog.
+So ignoring any justification for the language-oriented approach, I
+set out with two design goals for this blog.  I have definitely not
+met these goals yet.  What follows is my experience so far - what went
+well and what could use improvement.
 
-These goals are definitely not met yet - /goals/, yeah?
+* Goal 1 - Make as many tasks as possible language constructs
 
-* Goal 1 - Bring disparate tools closer together
-
-(preferably use the programming language)
-
-This means that if I can write blog posts in plain text or a markup language, so be it.
-But, those posts should be managed by the language.
-I do not want to have to do so much extra work to validate, load, and ensure their existence in a static directory, etc.
-Ideally, the blog post should be as much a language construct as possible.
-
-This would go for styling, comments, and more.
+If I can write blog posts in plain text or a markup language, great!
+But, those posts should be managed by the language.  I do not want to
+have to do so much extra work to validate, load, and ensure their
+existence in a static directory at runtime.  For example if posts were
+written in a markdown format I would not want to place them in a
+directory and let blog software parse and render them at runtime.
+Ideally, the blog post should be as much a language construct as
+possible.  I would love if styling, spell checking, comments, and
+deployment could all be expressed in this language.
 
 Disclaimers 1 and 2:
 
-1. [[https://racket-lang.org/][Racket]] is a language oriented programming language that is elegant and wonderful and everyone should totally try it one day.
-I like types and I am already familiar with Haskell, though, so I chose it.
+1. [[https://racket-lang.org/][Racket]] is a language oriented programming language that is elegant
+and wonderful and everyone should totally try it one day. I like types
+and I am already familiar with Haskell, though, so I chose it.
 
 2. I am using Template Haskell ([[https://hackage.haskell.org/package/template-haskell][a library for manipulating Haskell source code]]).
-[[https://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell][Template Haskell is Bad™]] because it is slow and not type-safe and more.
-It also elegantly brings more things into the language that I want.
-Admittedly, language oriented design makes the most sense when the language has simple and proven constructs (like lambda calculus).
-Again, that's a different blog post.
-This is my first blog post.
-If Template Haskell does not work, I will try something else.
+[[https://stackoverflow.com/questions/10857030/whats-so-bad-about-template-haskell][Template Haskell is Bad™]] because it is slow to compile, not type-safe
+and more.  It also elegantly brings more things into the language that
+I want.  Admittedly, language oriented design makes the most sense
+when the language has simple and proven constructs (like lambda
+calculus).  Again, that's a different blog post.  This is my first
+blog post.  If Template Haskell does not work, I will try something
+else.
 
 ** One big caveat
 
-"Submitting a markup language to an opaque binary" is exactly what one does when sending source code through a compiler.
+"Submitting a markup language to an opaque binary" is exactly what one
+does when sending source code through a compiler.
 
 ** Early success
 
-Template Haskell, [[https://hackage.haskell.org/package/file-embed][file-embed]] and [[https://hackage.haskell.org/package/org-mode][org-mode]] give me hooks to extend Haskell with [[https://www.orgmode.org][org files]].
-At compile time I parse each org file into a valid ~Post~.
-This grants me extra parsing that can be hooked into the Haskell compiler.
-If I leave out the ~#+description~ metadata, for instance, the post won't parse.
-Then the ~Show~ instance for ~DecodeError~ lets me write my own error messages.
+Template Haskell, [[https://hackage.haskell.org/package/file-embed][file-embed]] and [[https://hackage.haskell.org/package/org-mode][org-mode]] give me hooks to extend
+Haskell with [[https://www.orgmode.org][org files]].  At compile time I parse each org file into a
+valid ~Post~.  This grants me extra parsing that can be hooked into
+the Haskell compiler.  If I leave out the ~#+description~ metadata,
+for instance, the post won't parse.  Then the ~Show~ instance for
+~DecodeError~ lets me write my own error messages.
 
 #+BEGIN_SRC haskell
 embedPosts :: FilePath -> Q Exp
@@ -79,47 +86,74 @@ embedPosts fp = do
   e <- ListE <$> traverse lift orgFiles
   pure $ SigE e typ
 
+postsDir :: FilePath -> IO (Either DecodeError [(FilePath, Post)])
+postsDir fp = do
+  files <- getDir fp
+  pure $ traverse (traverse decodePost) files
+
 decodePost :: ByteString -> Either DecodeError Post
 decodePost bs = do
-  txt <- either (Left . UnicodeError) pure $ decodeUtf8' bs
+  txt <- first UnicodeError $ decodeUtf8' bs
   org <- maybe (Left ImproperOrgFile) pure $ org txt
-  either (Left . ImproperPost) pure $ orgToPost org
+  first ImproperPost $ orgToPost org
 #+END_SRC
 
-~embedPosts~ is a only a slight modification of ~embedDir~ from file-embed.
-There are almost certainly some issues with the above code.
-I'm not sure ~addDependentFile~ correctly registers the org files as dependencies, for instance.
+~embedPosts~ is a only a slight modification of ~embedDir~ from
+file-embed.  There are almost certainly some issues with the above
+code.  I'm not sure ~addDependentFile~ correctly registers the org
+files as dependencies, for instance.
 
-The Haskell org-mode library even has a library to generate Html: [[https://hackage.haskell.org/package/org-mode-lucid][org-mode-lucid]].
-Almost all of my newfound problems as a compiler writer have been solved for me.
+There are a couple immediate benefits here.  To check my post is
+formatted the way I want, I just recompile the program.  The language
+user specifies the posts directory in the program as opposed to a
+runtime flag.  At some point this could cause problems but for one
+contributor and one post it will do.
+
+The Haskell org-mode library even has a library to generate Html:
+[[https://hackage.haskell.org/package/org-mode-lucid][org-mode-lucid]].  One of my newfound problems as a compiler writer has
+been solved for me.
 
 ** Possible improvements
 
-The org file parsing library is incomplete, as is to be expected.
-Org mode has many features including spreadsheets, agendas, and literate programming.
-One simple fix I will look into submitting will be to add parsing for quote blocks.
-They are currently missing which is why I used a code block for the quote above.
+The org file parsing library is incomplete, as is to be expected.  Org
+mode has many features including spreadsheets, agendas, and literate
+programming.  One simple fix I will look into submitting will be to
+add parsing for quote blocks.  They are currently missing which is why
+I used a code block for the quote above.
+
+Syntax highlighting and fonts are currently provided outside of the
+blog language.  There are some haskell libraries for syntax
+highlighting but I need to look more closely into them.  CSS, likewise
+is put in a separate file.  While it might be nice to have separate
+CSS files, I would love if the stylesheets were also parsed by GHC
+like posts. The same issues also go for fonts.
 
 * Goal 2 - Be polymorphic in runtime and hosting
 
 ** Early failure
 
-I wrote a whole library to run in a popular [[https://github.com/jsoo1/yawll]["Function as a service"]] (FAAS) environment.
-Implementing the runtime for the environment went smoothly.
-After the initial elation over implementing the runtime, I found I would have to implement a webserver on top of it.
-I searched - maybe incompletely - for WAI (the [[https://hackage.haskell.org/package/wai][Web Application Interface]]) implementations that might shed some light on my situation.
+I wrote a whole library to run in a popular [[https://github.com/jsoo1/yawll][function as a service]]
+environment.  Implementing the runtime for the environment went
+smoothly.  After the initial elation over implementing the runtime, I
+found I would have to implement a webserver on top of it.  I
+searched - maybe incompletely - for WAI (the [[https://hackage.haskell.org/package/wai][Web Application
+Interface]]) implementations that might shed some light on my situation.
 That search seemed to justify my desire for polymorphism over runtime.
-Primary implementations of WAI involve very concrete socket management.
-Making an alternative would probably require more work from the ground up.
+Primary implementations of WAI involve very concrete socket
+management.  Making an alternative would probably require more work
+from the ground up.
 
-I moved the FAAS implementation aside and decided to use a more standard web server runtime.
-This version allowed me to get up and going quickly, with [[https://cloud.google.com/run][many of the same benefits as the FAAS]].
-The downsides to both of these current solutions is that they are neither transparent to the author nor easily integrated into a language.
+I moved the function as a service implementation aside and decided to
+use a more standard web server runtime.  This version allowed me to
+get up and going quickly, with [[https://cloud.google.com/run][many of the same benefits as the FAAS]].
+The downsides to both of these current solutions is that they are
+neither transparent to the author nor easily integrated into a
+language.
 
 ** Clear polymorphism wins
 
-The [[http://hackage.haskell.org/package/servant][servant]] Haskell library provides a /language/ to express a web api.
-refl.club looks like this:
+The [[http://hackage.haskell.org/package/servant][Servant]] Haskell library provides a /language/ to express a web
+api.  refl.club looks like this:
 
 #+BEGIN_SRC haskell
 type Club =
@@ -129,22 +163,60 @@ type Club =
     :<|> Raw
 #+END_SRC
 
-No references to sockets (or servers!) in sight.
-Servant means that you can implement a server or client or more.
-Plus servant provides standard function to turn your type into a WAI type.
-More WAI implementations would allow polymorphism over runtime.
+No references to sockets (or servers!) in sight.  One Servant API
+definition specifies a server, client, documentation, or more.  Plus
+Servant provides standard function to turn your type into a WAI type.
 
 ** Possible improvements
 
-A functional package manager that could play a role in the future of the blog.
-Most functional package managers express polymorphism in runtime quite nicely.
-Most of them have deployment options.
-And, importantly, most of them have extension languages.
-They are not yet expressible in the one language like Hakell, yet, though.
+Servant's general use case is json APIs, even though it has library
+support for html, xml, websockets and more.  There exists at least one
+library to generate api definition formats (like Swagger) from a
+Servant api.  I would love to generate a sitemap for an api, too.
 
-* The entire program
+A functional package manager could play a role in the future of the
+blog.  Most functional package managers express polymorphism in
+runtime quite nicely, also have deployment options, and have extension
+languages.  The problem is that languages aside from their official
+extension language are not yet supported.  If operations is to be
+brought into the blog language, more tooling will be necessary.
 
-Recent efforts try to express distributed systems in one concrete syntax.
-But a principled core allows the language to apply more broadly.
-Some new languages (like [[https://darklang.com/][darklang]]) seem like Template Haskell to the lambda calculus of [[https://www.unisonweb.org/][Unison]] and [[https://www.erlang.org/][Erlang]].
-Why not try to use System Fɷ to express a whole blog?
+A more achievable near-term goal would just be more WAI
+implementations.  Just one lightweight implementation that wasn't
+"industrial grade" would do a lot to help my polymorphism story.
+
+* Concluding
+
+Ideally the kernel of this blogging language would be simple and
+proven. Though there is probably nothing as elegant as lambda calculus
+underpinning the org format or a blog post. For this reason I find
+Template Haskell fits my use case very well.  Template Haskell has so
+far allowed me to extend GHC with whatever nonesense I saw fit without
+bringing any of my nonesense into GHC.  The common refrain from
+various lisp communities is that the language should be as simple as
+possible but extendable by the user and I find Template Haskell suits
+that goal nicely.
+
+Recent languages try to express distributed systems in one concrete
+syntax.  Some new languages (like [[https://darklang.com/][darklang]]) seem like Template Haskell
+to the lambda calculus of [[https://www.unisonweb.org/][Unison]] and [[https://www.erlang.org/][Erlang]].  One of my all-time
+favorite languages - [[http://impredicative.com/ur/][Ur/Web]] - provides one (or two) languages to
+express full web applications complete with databases and remote calls
+between javascript and server.  The more difficult challenges to
+writing the blog language will also be distribution and operations.
+Instead of creating a large software stack for the purpose, I would
+prefer smaller pieces.  For instance: a WAI implementation with few
+dependencies that makes few assumptions would be a welcome starting
+point.
+
+Hosting will also be a problem for the blog language. The various
+platforms I have tried do not allow expression in a language with the
+exception of yaml. I will need to research how to embed hosting
+options since I have mostly been focused on blog posts and starting
+up.  The other problem with hosting options is they are neither
+simple, proven, or transparent to the blogger.
+
+With those challenges in mind I have really enjoyed working on this
+blog software. It has been a good set of yaks to shave. Plus I feel
+like I can make digestible improvements to existing libraries.  And of
+course, I am again reminded of how flexible GHC Haskell is.
