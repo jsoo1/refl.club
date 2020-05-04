@@ -164,8 +164,9 @@ type Club =
 #+END_SRC
 
 No references to sockets (or servers!) in sight.  One Servant API
-definition specifies a server, client, documentation, or more.  Plus
-Servant provides standard function to turn your type into a WAI type.
+definition specifies a server, client, documentation, or more.  Plus,
+Servant provides a standard function to turn your API type into a WAI
+application.
 
 ** Possible improvements
 
@@ -176,7 +177,7 @@ Servant api.  I would love to generate a sitemap for an api, too.
 
 A functional package manager could play a role in the future of the
 blog.  Most functional package managers express polymorphism in
-runtime quite nicely, also have deployment options, and have extension
+runtime quite nicely, have deployment options, and have extension
 languages.  The problem is that languages aside from their official
 extension language are not yet supported.  If operations is to be
 brought into the blog language, more tooling will be necessary.
