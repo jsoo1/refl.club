@@ -1,7 +1,7 @@
 #+title: No one asks for more blogging software
 #+author: John Soo
 #+email: jsoo1@asu.edu
-#+date: 2020-04-26
+#+date: 2020-05-04
 #+slug: no-one-asks-for-more-blogging-software
 #+description: Why I wrote this program.
 
