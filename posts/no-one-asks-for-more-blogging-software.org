@@ -221,3 +221,6 @@ With those challenges in mind I have really enjoyed working on this
 blog software. It has been a good set of yaks to shave. Plus I feel
 like I can make digestible improvements to existing libraries.  And of
 course, I am again reminded of how flexible GHC Haskell is.
+
+Full source from snippets: [[https://github.com/jsoo1/refl.club/][github.com/jsoo1/refl.club]], commit
+6dbe644ad7b06746cb62885a74cf1ba8ba395e6b
