@@ -53,10 +53,10 @@ instance Lift PostMeta where
   lift = T.liftDataWithText
 
 dateFormat :: String
-dateFormat = "%Y-%-m-%-d"
+dateFormat = "%Y-%m-%d"
 
 formatDate :: Time.FormatTime t => t -> String
-formatDate = Time.formatTime Time.defaultTimeLocale dateFormat
+formatDate = Time.formatTime Time.defaultTimeLocale "%Y-%02m-%02d"
 
 orgToPost :: OrgFile -> Either PostError Post
 orgToPost OrgFile {..} = do
