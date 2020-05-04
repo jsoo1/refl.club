@@ -49,7 +49,8 @@ instance ToHtml Post where
           toHtml $ Org.body orgStyle (Post.postToOrg p)
 
 byLine :: Monad m => PostMeta -> HtmlT m ()
-byLine PostMeta {..} =
+byLine PostMeta {..} = do
+  p_ [style_ "font-style:italic;"] $ toHtml postMetaDescription
   p_ [style_ "display:flex;", style_ "flex-wrap:wrap;"] $ do
     span_ $ toHtml $ Post.formatDate postMetaDate
     Club.verticalSep ""
