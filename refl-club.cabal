@@ -4,8 +4,9 @@ description:    Personal website
 homepage:       https://github.com/jsoo1/refl.club#readme
 bug-reports:    https://github.com/jsoo1/refl.club/issues
 author:         John Soo <jsoo1@asu.edu>
-copyright:      2018 John Soo
+copyright:      2020 John Soo
 license:        GPL-3
+license-file:   COPYING
 build-type:     Simple
 cabal-version:  >= 2.0
 tested-with: GHC == 8.6.5
