@@ -7,12 +7,28 @@ import Development.GitRev (gitHash)
 import Lucid
 import qualified Lucid.Base as Lucid
 
-navBar :: Monad m => HtmlT m ()
-navBar =
+data NavLocation = NavLocationAbout | NavLocationPosts
+  deriving (Eq)
+
+navBar :: Monad m => Maybe NavLocation -> HtmlT m ()
+navBar curr =
   nav_ $ ul_ [style_ "display:flex;"] $ do
-    a_ [href_ "/"] $ li_ "About"
+    skipToContent
+    a_ (href_ "/" : [borderSolid | curr == Just NavLocationAbout]) $
+      li_ [padLight] "About"
     verticalSep
-    a_ [href_ "/posts"] $ li_ "Posts"
+    a_ (href_ "/posts" : [borderSolid | curr == Just NavLocationPosts]) $
+      li_ [padLight] "Posts"
+
+padLight :: Attribute
+padLight = class_ "pad-light"
+
+borderSolid :: Attribute
+borderSolid = class_ "border-solid"
+
+skipToContent :: Monad m => HtmlT m ()
+skipToContent =
+  a_ [href_ "#main", class_ "skip-to-content"] "Skip to content"
 
 verticalSep :: Monad m => HtmlT m ()
 verticalSep =

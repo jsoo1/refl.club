@@ -48,9 +48,11 @@ instance ToHtml AllPosts where
         title_ "Posts - John Soo"
         Club.cmuSerif
         Club.css
-      body_ $ section_ $ ul_ $ do
-        h1_ "Posts"
-        traverse_ (postLinkItem . postMeta) ps
+      body_ $ do
+        Club.navBar $ Just Club.NavLocationPosts
+        section_ [id_ "main"] $ ul_ $ do
+          h1_ "Posts"
+          traverse_ (postLinkItem . postMeta) ps
 
 postLinkItem :: Monad m => PostMeta -> HtmlT m ()
 postLinkItem PostMeta {..} =

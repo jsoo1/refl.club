@@ -26,6 +26,17 @@ a {
     color: black;
 }
 
+.skip-to-content {
+  height: 30px;
+  position: absolute;
+  transform: translateY(-30rem);
+  transition: transform 0.3s;
+}
+
+.skip-to-content:focus {
+  transform: translateY(-2.25rem);
+}
+
 code {
     font-family: monospace;
 }
@@ -36,10 +47,19 @@ ul {
     margin: 0;
 }
 
-section {
+section, nav {
     padding: 0.5rem;
 }
 
 h1 > a, h2 > a, h3 > a, h4 > a, h5 > a, h6 > a {
     margin-right: 0.5rem;
+}
+
+.border-solid {
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+.pad-light {
+    padding: 0.25rem;
 }

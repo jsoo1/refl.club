@@ -59,7 +59,8 @@ instance ToHtml Post where
         Club.prismCss
       body_ $ do
         Club.prismJs
-        section_ $ do
+        Club.navBar Nothing
+        section_ [id_ "main"] $ do
           h1_ $ toHtml $ postMetaTitle postMeta
           byLine postMeta
           toHtml $ Org.body orgStyle (Post.postToOrg p)

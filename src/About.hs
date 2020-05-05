@@ -36,7 +36,8 @@ instance ToHtml About where
         Club.cmuSerif
         Club.css
       body_ $ do
-        section_ [id_ "title"] $ do
+        Club.navBar $ Just Club.NavLocationAbout
+        section_ [id_ "main"] $ do
           h1_ "John Soo"
           p_ "Functional programming enthusiast"
           p_ "Host: Orange Combinator, aspiring proof engineer"
