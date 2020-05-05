@@ -64,6 +64,7 @@ instance ToHtml Post where
           h1_ $ toHtml $ postMetaTitle postMeta
           byLine postMeta
           toHtml $ Org.body orgStyle (Post.postToOrg p)
+          footer_ Club.ccBySa
 
 byLine :: Monad m => PostMeta -> HtmlT m ()
 byLine PostMeta {..} = do

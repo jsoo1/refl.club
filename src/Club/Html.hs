@@ -87,3 +87,10 @@ cmuSerif =
       href_ "https://fontlibrary.org/face/cmu-serif",
       type_ "text/css"
     ]
+
+ccBySa :: Monad m => HtmlT m ()
+ccBySa = p_ $ do
+  "This work is licensed under a "
+  a_
+    [rel_ "license", href_ "http://creativecommons.org/licenses/by-sa/4.0/"]
+    "Creative Commons Attribution-ShareAlike 4.0 International License"
