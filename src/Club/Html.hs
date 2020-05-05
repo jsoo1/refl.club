@@ -7,16 +7,8 @@ import Development.GitRev (gitHash)
 import Lucid
 import qualified Lucid.Base as Lucid
 
-cmuSerif :: Applicative m => HtmlT m ()
-cmuSerif =
-  link_
-    [ rel_ "stylesheet",
-      media_ "screen",
-      href_ "https://fontlibrary.org/face/cmu-serif",
-      type_ "text/css"
-    ]
 
-verticalSep :: Applicative m => HtmlT m a -> HtmlT m a
+verticalSep :: Monad m => HtmlT m ()
 verticalSep =
   span_
     [ style_ "margin-left:0.5rem;",
@@ -24,6 +16,7 @@ verticalSep =
       style_ "background-color:black;",
       style_ "width:1px;"
     ]
+    ""
 
 -- | Lucid script_ has no attributes.
 script' :: Functor m => [Attribute] -> HtmlT m a -> HtmlT m a
@@ -63,3 +56,12 @@ prismJs = do
     ]
     ""
   script_ $ "Prism.plugins.autoloader.languages_path = '/" <> $(gitHash) <> "-grammars/';"
+
+cmuSerif :: Applicative m => HtmlT m ()
+cmuSerif =
+  link_
+    [ rel_ "stylesheet",
+      media_ "screen",
+      href_ "https://fontlibrary.org/face/cmu-serif",
+      type_ "text/css"
+    ]

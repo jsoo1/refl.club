@@ -56,7 +56,7 @@ postLinkItem :: Monad m => PostMeta -> HtmlT m ()
 postLinkItem PostMeta {..} =
   li_ [style_ "display:flex;"] $ do
     toHtml $ Post.formatDate postMetaDate
-    Club.verticalSep ""
+    Club.verticalSep
     a_ [href_ ("/post/" <> postMetaSlug)] (toHtml postMetaTitle)
-    Club.verticalSep ""
+    Club.verticalSep
     toHtml postMetaDescription

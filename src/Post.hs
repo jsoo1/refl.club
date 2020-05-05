@@ -69,9 +69,9 @@ byLine PostMeta {..} = do
   p_ [style_ "font-style:italic;"] $ toHtml postMetaDescription
   p_ [style_ "display:flex;", style_ "flex-wrap:wrap;"] $ do
     span_ $ toHtml $ Post.formatDate postMetaDate
-    Club.verticalSep ""
+    Club.verticalSep
     span_ $ toHtml postMetaAuthor
-    Club.verticalSep ""
+    Club.verticalSep
     a_
       [href_ ("mailto:" <> postMetaEmail)]
       (toHtml postMetaEmail)
