@@ -7,6 +7,12 @@ import Development.GitRev (gitHash)
 import Lucid
 import qualified Lucid.Base as Lucid
 
+navBar :: Monad m => HtmlT m ()
+navBar =
+  nav_ $ ul_ [style_ "display:flex;"] $ do
+    a_ [href_ "/"] $ li_ "About"
+    verticalSep
+    a_ [href_ "/posts"] $ li_ "Posts"
 
 verticalSep :: Monad m => HtmlT m ()
 verticalSep =
