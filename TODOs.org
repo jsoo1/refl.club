@@ -1,6 +1,7 @@
 * Todos
 ** Servant sitemap library
 ** Quote parsing for org-mode
+** Feed atom and/or rss feed
 * Notes
 ** Using docker for the time being for build env.
 ** To push to google cloud.
