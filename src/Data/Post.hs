@@ -38,7 +38,7 @@ import Data.Org.Instances ()
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Lift as T
-import Data.Time (UTCTime)
+import Data.Time (ZonedTime)
 import qualified Data.Time.Format as Time
 import Language.Haskell.TH.Syntax (Lift (..))
 
@@ -61,7 +61,7 @@ data PostMeta
         postMetaSlug :: Text,
         postMetaTitle :: Text,
         postMetaDescription :: Text,
-        postMetaDate :: UTCTime
+        postMetaDate :: ZonedTime
       }
   deriving (Show, Data)
 
@@ -69,10 +69,10 @@ instance Lift PostMeta where
   lift = T.liftDataWithText
 
 dateFormat :: String
-dateFormat = "%Y-%m-%d"
+dateFormat = "%Y-%m-%d %I:%M%p %Z"
 
 formatDate :: Time.FormatTime t => t -> String
-formatDate = Time.formatTime Time.defaultTimeLocale "%Y-%02m-%02d"
+formatDate = Time.formatTime Time.defaultTimeLocale "%Y-%02m-%02d %I:%M%p %Z"
 
 orgToPost :: OrgFile -> Either PostError Post
 orgToPost OrgFile {..} = do
@@ -107,4 +107,4 @@ instance Show PostError where
     NoDate -> "Missing a #+date:"
     NoDescription -> "Missing a #+description:"
     MalformedDate d ->
-      "Date " <> d <> "is malformed, please use format " <> dateFormat
+      "Date " <> d <> " is malformed, please use format " <> dateFormat
