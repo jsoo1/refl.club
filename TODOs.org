@@ -1,8 +1,8 @@
 * Todos
-** Servant sitemap library
-** Quote parsing for org-mode
-** Feed atom and/or rss feed
-** Clay or language-css for css files?
+** TODO Servant sitemap library
+** TODO Quote parsing for org-mode
+** IN-PROGRESS Feed atom and/or rss feed
+** TODO Clay or language-css for css files?
 * Notes
 ** Using docker for the time being for build env.
 ** To push to google cloud.
