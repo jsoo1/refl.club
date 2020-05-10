@@ -2,6 +2,7 @@
 ** Servant sitemap library
 ** Quote parsing for org-mode
 ** Feed atom and/or rss feed
+** Clay or language-css for css files?
 * Notes
 ** Using docker for the time being for build env.
 ** To push to google cloud.
