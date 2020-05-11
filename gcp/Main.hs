@@ -25,6 +25,7 @@ import Club (Club, club, clubApi)
 import Network.Wai.Handler.Warp (run)
 import Servant (serve)
 import System.Environment
+import Text.Atom.Xmlbf ()
 
 main :: IO ()
 main = do

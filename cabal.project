@@ -1,0 +1,16 @@
+source-repository-package
+  type: git
+  location: git://github.com/jsoo1/servant-feed.git
+  branch: 02741c6631631c377be29b9ef3306f1aee0eaef7
+
+source-repository-package
+  type: git
+  location: git://github.com/jsoo1/feed-xmlbf.git
+  branch: f74fbb827d97ecde9b60099d81198e2580bcbd41
+
+source-repository-package
+  type: git
+  location: git://github.com/jsoo1/xml-types-xmlbf.git
+  branch: 7134425d927b1ad5596a431ce0a6fe59230f6232
+
+packages: ./refl-club.cabal

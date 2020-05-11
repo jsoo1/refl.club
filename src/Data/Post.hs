@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE DeriveLift #-}
 {-# LANGUAGE LambdaCase #-}
@@ -31,6 +32,8 @@ module Data.Post
   )
 where
 
+import Control.Monad.Catch (Exception, SomeException, catch)
+import Data.Bifunctor (first)
 import Data.Data (Data)
 import qualified Data.Map as Map
 import Data.Org (OrgDoc (..), OrgFile (..))
@@ -41,15 +44,19 @@ import qualified Data.Text.Lift as T
 import Data.Time (ZonedTime)
 import qualified Data.Time.Format as Time
 import Language.Haskell.TH.Syntax (Lift (..))
+import Text.URI (URI)
+import qualified Text.URI as URI
 
 data PostError
   = NoAuthor
+  | MalformedURI SomeException
   | NoEmail
   | NoTitle
   | NoSlug
   | NoDate
   | NoDescription
   | MalformedDate String
+  deriving (Exception)
 
 data Post = Post {postMeta :: PostMeta, postDoc :: OrgDoc}
   deriving (Show, Lift)
@@ -57,6 +64,7 @@ data Post = Post {postMeta :: PostMeta, postDoc :: OrgDoc}
 data PostMeta
   = PostMeta
       { postMetaAuthor :: Text,
+        postMetaURI :: Maybe URI,
         postMetaEmail :: Text,
         postMetaSlug :: Text,
         postMetaTitle :: Text,
@@ -77,6 +85,8 @@ formatDate = Time.formatTime Time.defaultTimeLocale "%Y-%02m-%02d %I:%M%p %Z"
 orgToPost :: OrgFile -> Either PostError Post
 orgToPost OrgFile {..} = do
   postMetaAuthor <- maybe (Left NoAuthor) pure $ Map.lookup "author" orgMeta
+  postMetaURI' <- pure $ Map.lookup "uri" orgMeta
+  postMetaURI <- first MalformedURI $ traverse URI.mkURI postMetaURI'
   postMetaEmail <- maybe (Left NoEmail) pure $ Map.lookup "email" orgMeta
   postMetaTitle <- maybe (Left NoTitle) pure $ Map.lookup "title" orgMeta
   postMetaSlug <- maybe (Left NoSlug) pure $ Map.lookup "slug" orgMeta
@@ -101,6 +111,7 @@ postToOrg Post {..} =
 instance Show PostError where
   show = \case
     NoAuthor -> "Missing an #+author:"
+    MalformedURI e -> "URI is malformed: " <> show e
     NoEmail -> "Missing an #+email:"
     NoTitle -> "Missing a #+title:"
     NoSlug -> "Missing a #+slug:"

@@ -19,24 +19,37 @@
 
 module AllPosts
   ( AllPosts (..),
+    toAtomFeed,
     embedPosts,
     lookupPost,
   )
 where
 
 import qualified Club.Html as Club
-import Data.Foldable (traverse_)
+import Data.Foldable (maximumBy, traverse_)
+import Data.Function (on)
 import qualified Data.List as List
 import Data.Post (Post (..), PostMeta (..))
 import qualified Data.Post as Post
 import Data.Post.TH (embedPosts)
 import Data.Text (Text)
+import qualified Data.Text as T
+import Data.Time.Format.ISO8601 (iso8601Show)
+import Data.Time.LocalTime (zonedTimeToUTC)
+import Development.GitRev (gitCommitDate)
 import Lucid
+import qualified Post
+import qualified Text.Atom.Feed as Atom
+import qualified Text.RSS.Syntax as RSS
+import qualified Text.URI as URI
 
 newtype AllPosts = AllPosts [Post]
 
 lookupPost :: (Post -> Bool) -> AllPosts -> Maybe Post
 lookupPost f (AllPosts ps) = List.find f ps
+
+title :: Text
+title = "Posts - John Soo"
 
 instance ToHtml AllPosts where
 
@@ -45,7 +58,7 @@ instance ToHtml AllPosts where
   toHtml (AllPosts ps) =
     doctypehtml_ $ do
       head_ $ do
-        title_ "Posts - John Soo"
+        title_ $ toHtml title
         Club.cmuSerif
         Club.css
       body_ $ do
@@ -62,3 +75,25 @@ postLinkItem PostMeta {..} =
     a_ [href_ ("/post/" <> postMetaSlug)] (toHtml postMetaTitle)
     Club.verticalSep
     toHtml postMetaDescription
+
+toAtomFeed :: AllPosts -> Atom.Feed
+toAtomFeed (AllPosts ps) = Atom.Feed
+  { Atom.feedId = "http://localhost:4000/posts",
+    Atom.feedTitle = Atom.TextString title,
+    Atom.feedUpdated = T.pack $ iso8601Show $ postMetaDate $ latestEntry ps,
+    Atom.feedAuthors = Post.atomAuthor . postMeta <$> ps,
+    Atom.feedCategories = mempty,
+    Atom.feedContributors = mempty,
+    Atom.feedGenerator = Nothing,
+    Atom.feedIcon = mempty,
+    Atom.feedLinks = mempty,
+    Atom.feedLogo = mempty,
+    Atom.feedRights = Nothing,
+    Atom.feedSubtitle = Nothing,
+    Atom.feedEntries = Post.atomEntry <$> ps,
+    Atom.feedAttrs = mempty,
+    Atom.feedOther = mempty
+  }
+  where
+    latestEntry =
+      maximumBy (compare `on` (zonedTimeToUTC . postMetaDate)) . fmap postMeta

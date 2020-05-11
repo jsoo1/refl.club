@@ -26,8 +26,14 @@ import qualified Data.Org.Lucid as Org
 import Data.Post (Post (..), PostMeta (..))
 import qualified Data.Post as Post
 import Data.Text (Text)
+import qualified Data.Text as T
+import qualified Data.Text.Lazy as TL
 import qualified Data.Time.Format as Time
+import Data.Time.Format.ISO8601 (iso8601Show)
+import qualified HTMLEntities.Text as HTMLEntities
 import Lucid
+import qualified Text.Atom.Feed as Atom
+import qualified Text.URI as URI
 
 orgStyle :: OrgStyle
 orgStyle =
@@ -77,3 +83,42 @@ byLine PostMeta {..} = do
     a_
       [href_ ("mailto:" <> postMetaEmail)]
       (toHtml postMetaEmail)
+
+atomAuthor :: PostMeta -> Atom.Person
+atomAuthor PostMeta {..} = Atom.Person
+  { Atom.personName = postMetaAuthor,
+    Atom.personURI = URI.render <$> postMetaURI,
+    Atom.personEmail = pure postMetaEmail,
+    Atom.personOther = mempty
+  }
+
+atomEntry :: Post -> Atom.Entry
+atomEntry post@Post {..} = Atom.Entry
+  { Atom.entryId = "http://localhost:4000/post/" <> postMetaSlug postMeta,
+    Atom.entryTitle = Atom.TextString $ postMetaTitle postMeta,
+    Atom.entryPublished = Just $ T.pack $ iso8601Show $ postMetaDate postMeta,
+    Atom.entryUpdated = T.pack $ iso8601Show $ postMetaDate postMeta,
+    Atom.entryAuthors = pure $ atomAuthor postMeta,
+    Atom.entryCategories = mempty,
+    Atom.entryContent =
+      Just $ Atom.HTMLContent
+        $ HTMLEntities.text
+        $ TL.toStrict
+        $ Lucid.renderText
+        $ toHtml
+        $ Org.body orgStyle
+        $ Post.postToOrg post,
+    Atom.entryContributor = mempty,
+    Atom.entryRights =
+      Just $ Atom.HTMLString
+        $ HTMLEntities.text
+        $ TL.toStrict
+        $ Lucid.renderText Club.ccBySa,
+    Atom.entryLinks = mempty,
+    Atom.entrySummary = Nothing,
+    Atom.entrySource = Nothing,
+    Atom.entryInReplyTo = Nothing,
+    Atom.entryInReplyTotal = Nothing,
+    Atom.entryAttrs = mempty,
+    Atom.entryOther = mempty
+  }

@@ -44,11 +44,18 @@ import Servant
     err404,
     serveDirectoryWebApp,
   )
+import Servant.Atom
 import Servant.HTML.Lucid (HTML)
+import Servant.RSS
+import qualified Text.Atom.Feed as Atom
+import Text.Atom.Xmlbf ()
+import qualified Text.RSS.Syntax as RSS
 
 type Club =
   Get '[HTML] About
     :<|> "posts" :> Get '[HTML] AllPosts
+    :<|> "posts" :> "atom.xml" :> Get '[Atom] Atom.Feed
+    -- :<|> "posts" :> "rss.xml" :> Get '[RSS] RSS.RSS
     :<|> "post" :> Capture "slug" Text :> Get '[HTML] Post
     :<|> Raw
 
@@ -59,6 +66,7 @@ club :: String -> Server Club
 club staticDir =
   pure About
     :<|> pure allPosts
+    :<|> pure (toAtomFeed allPosts)
     :<|> ( \slug -> do
              let bySlug = (slug ==) . postMetaSlug . postMeta
              maybe (throwError err404) pure (lookupPost bySlug allPosts)
