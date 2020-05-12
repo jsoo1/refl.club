@@ -30,5 +30,6 @@ run rm -rf ghc*
 run mkdir -p /refl.club
 add . /refl.club
 workdir /refl.club
-run cabal update
-run cabal v1-install --force-reinstalls
+run cabal v2-update
+run cabal v2-build
+run rm -rf /refl.club
