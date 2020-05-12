@@ -93,7 +93,7 @@ atomAuthor PostMeta {..} = Atom.Person
 
 atomEntry :: Post -> Atom.Entry
 atomEntry post@Post {..} = Atom.Entry
-  { Atom.entryId = "http://localhost:4000/post/" <> postMetaSlug postMeta,
+  { Atom.entryId = "https://www.refl.club/post/" <> postMetaSlug postMeta,
     Atom.entryTitle = Atom.TextString $ postMetaTitle postMeta,
     Atom.entryPublished = Just $ T.pack $ iso8601Show $ postMetaDate postMeta,
     Atom.entryUpdated = T.pack $ iso8601Show $ postMetaDate postMeta,

@@ -47,9 +47,6 @@ newtype AllPosts = AllPosts [Post]
 lookupPost :: (Post -> Bool) -> AllPosts -> Maybe Post
 lookupPost f (AllPosts ps) = List.find f ps
 
-title :: Text
-title = "Posts - John Soo"
-
 instance ToHtml AllPosts where
 
   toHtmlRaw = toHtml
@@ -57,7 +54,7 @@ instance ToHtml AllPosts where
   toHtml (AllPosts ps) =
     doctypehtml_ $ do
       head_ $ do
-        title_ $ toHtml title
+        title_ "Posts - John Soo"
         Club.cmuSerif
         Club.css
       body_ $ do
@@ -77,15 +74,24 @@ postLinkItem PostMeta {..} =
 
 toAtomFeed :: AllPosts -> Atom.Feed
 toAtomFeed (AllPosts ps) = Atom.Feed
-  { Atom.feedId = "http://localhost:4000/posts",
-    Atom.feedTitle = Atom.TextString title,
+  { Atom.feedId = "https://www.refl.club/posts",
+    Atom.feedTitle = Atom.TextString "John Soo",
     Atom.feedUpdated = T.pack $ iso8601Show $ postMetaDate $ latestEntry ps,
     Atom.feedAuthors = Post.atomAuthor . postMeta <$> ps,
     Atom.feedCategories = mempty,
     Atom.feedContributors = mempty,
     Atom.feedGenerator = Nothing,
     Atom.feedIcon = mempty,
-    Atom.feedLinks = mempty,
+    Atom.feedLinks = pure $ Atom.Link
+      { Atom.linkHref = "https://www.refl.club/posts/atom.xml",
+        Atom.linkRel = Just $ Left "self",
+        Atom.linkType = Nothing,
+        Atom.linkHrefLang = Nothing,
+        Atom.linkTitle = Nothing,
+        Atom.linkLength = Nothing,
+        Atom.linkAttrs = mempty,
+        Atom.linkOther = mempty
+      },
     Atom.feedLogo = mempty,
     Atom.feedRights = Nothing,
     Atom.feedSubtitle = Nothing,
