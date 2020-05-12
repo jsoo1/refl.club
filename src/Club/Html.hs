@@ -3,7 +3,7 @@
 
 module Club.Html where
 
-import Development.GitRev (gitHash)
+import Club.Git (gitHead)
 import Lucid
 import qualified Lucid.Base as Lucid
 
@@ -48,7 +48,7 @@ script' =
 css :: Applicative m => HtmlT m ()
 css =
   link_
-    [ href_ $ "/" <> $(gitHash) <> "-refl.css",
+    [ href_ $ "/" <> $(gitHead) <> "-refl.css",
       rel_ "stylesheet",
       type_ "text/css"
     ]
@@ -77,7 +77,7 @@ prismJs = do
         \plugins/autoloader/prism-autoloader.min.js"
     ]
     ""
-  script_ $ "Prism.plugins.autoloader.languages_path = '/" <> $(gitHash) <> "-grammars/';"
+  script_ $ "Prism.plugins.autoloader.languages_path = '/" <> $(gitHead) <> "-grammars/';"
 
 cmuSerif :: Applicative m => HtmlT m ()
 cmuSerif =

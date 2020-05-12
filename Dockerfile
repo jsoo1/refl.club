@@ -14,12 +14,11 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from jsoo1/refl.club:7afa8a80a3ccbfb294d271684a8e5497d09f4f0a as build
+from jsoo1/refl.club:618ff18ad3e3118e38e46737cfecadd9d732bb5f as build
 
-run rm -rf /refl.club/*
 add . /refl.club
 workdir /refl.club
-run cabal v1-install
+run cabal v2-install exe:refl-club --overwrite-policy=always
 run mv $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
 run make static
 

@@ -19,8 +19,8 @@
 
 module About where
 
+import Club.Git (gitHead)
 import qualified Club.Html as Club
-import Development.GitRev (gitHash)
 import Lucid
 
 data About = About
@@ -43,7 +43,7 @@ instance ToHtml About where
           p_ "Host: Orange Combinator, aspiring proof engineer"
           p_ "5A15 8FAF 406A 748A 81A9  DC4E 4F43 7A76 B448 A23B"
           nav_ $ ul_ $ do
-            a_ [href_ $ "/" <> $(gitHash) <> "-john-soo-resume.pdf"] $
+            a_ [href_ $ "/" <> $(gitHead) <> "-john-soo-resume.pdf"] $
               li_ "Resume"
             a_ [href_ "/posts"] $
               li_ "Posts"
@@ -79,7 +79,7 @@ instance ToHtml About where
                 href_ "https://github.com/jsoo1/refl.club"
               ]
               "Source"
-            " (commit " <> $(gitHash) <> ")"
+            toHtml $ " (commit " <> $(gitHead) <> ")"
           p_ $ do
             a_ [href_ "https://www.haskell.org"] "Haskell"
             ","

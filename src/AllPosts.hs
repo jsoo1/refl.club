@@ -36,7 +36,6 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Time.Format.ISO8601 (iso8601Show)
 import Data.Time.LocalTime (zonedTimeToUTC)
-import Development.GitRev (gitCommitDate)
 import Lucid
 import qualified Post
 import qualified Text.Atom.Feed as Atom
