@@ -30,7 +30,6 @@ import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
 import qualified Data.Time.Format as Time
 import Data.Time.Format.ISO8601 (iso8601Show)
-import qualified HTMLEntities.Text as HTMLEntities
 import Lucid
 import qualified Text.Atom.Feed as Atom
 import qualified Text.URI as URI
@@ -102,7 +101,6 @@ atomEntry post@Post {..} = Atom.Entry
     Atom.entryCategories = mempty,
     Atom.entryContent =
       Just $ Atom.HTMLContent
-        $ HTMLEntities.text
         $ TL.toStrict
         $ Lucid.renderText
         $ toHtml
@@ -111,7 +109,6 @@ atomEntry post@Post {..} = Atom.Entry
     Atom.entryContributor = mempty,
     Atom.entryRights =
       Just $ Atom.HTMLString
-        $ HTMLEntities.text
         $ TL.toStrict
         $ Lucid.renderText Club.ccBySa,
     Atom.entryLinks = mempty,

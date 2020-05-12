@@ -40,7 +40,6 @@ library
                , feed >=1.2 && <1.4
                , feed-xmlbf ==0.0.1.*
                , file-embed >= 0.0 && <0.1
-               , html-entities >=1.1 && <1.2
                , lucid >=2.9.11 && <3
                , modern-uri >=0.3 && <0.4
                , mtl >=2.2 && <2.3
