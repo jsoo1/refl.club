@@ -44,8 +44,6 @@ instance ToHtml About where
           nav_ $ ul_ $ do
             a_ [href_ $ "/" <> $(gitHead) <> "-john-soo-resume.pdf"] $
               li_ "Resume"
-            a_ [href_ "/posts"] $
-              li_ "Posts"
             a_ [href_ "mailto:jsoo1@asu.edu"] $
               li_ "jsoo1@asu.edu"
             a_ [href_ "https://github.com/jsoo1"] $
@@ -61,7 +59,7 @@ instance ToHtml About where
               a_ [href_ "https://guix.gnu.org"] "Guix"
               "(functional package manager)"
             p_
-              "Ecosystem support for functional languages"
+              "Ecosystem support, functional languages"
           section_ $ do
             h3_ $ do
               a_ [href_ "https://github.com/jsoo1/guix-channel"] "Guix Channel"

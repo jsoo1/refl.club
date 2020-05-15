@@ -59,7 +59,14 @@ instance ToHtml AllPosts where
       body_ $ do
         Club.navBar $ Just Club.NavLocationPosts
         section_ [id_ "main"] $ ul_ $ do
-          h1_ "Posts"
+          div_
+            [ style_ "display:flex;",
+              style_ "align-items:center;",
+              style_ "justify-content:space-between;"
+            ]
+            $ do
+              h1_ "Posts"
+              a_ [href_ "https://www.refl.club/posts/atom.xml"] "Atom"
           traverse_ (postLinkItem . postMeta) ps
 
 postLinkItem :: Monad m => PostMeta -> HtmlT m ()
