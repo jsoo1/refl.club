@@ -45,6 +45,9 @@ script' :: Functor m => [Attribute] -> HtmlT m a -> HtmlT m a
 script' =
   with (Lucid.makeElement "script")
 
+atom :: Monad m => HtmlT m ()
+atom = a_ [href_ "https://www.refl.club/posts/atom.xml"] "Atom"
+
 css :: Applicative m => HtmlT m ()
 css =
   link_

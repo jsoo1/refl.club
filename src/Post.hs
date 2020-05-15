@@ -63,7 +63,12 @@ instance ToHtml Post where
         Club.prismCss
       body_ $ do
         Club.prismJs
-        Club.navBar Nothing
+        div_
+          [ style_ "display:flex;",
+            style_ "align-items:center;",
+            style_ "justify-content:space-between;"
+          ]
+          (Club.navBar Nothing >> Club.atom)
         article_ [id_ "main"] $ do
           h1_ $ toHtml $ postMetaTitle postMeta
           byLine postMeta

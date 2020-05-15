@@ -64,9 +64,7 @@ instance ToHtml AllPosts where
               style_ "align-items:center;",
               style_ "justify-content:space-between;"
             ]
-            $ do
-              h1_ "Posts"
-              a_ [href_ "https://www.refl.club/posts/atom.xml"] "Atom"
+            (h1_ "Posts" >> Club.atom)
           traverse_ (postLinkItem . postMeta) ps
 
 postLinkItem :: Monad m => PostMeta -> HtmlT m ()
