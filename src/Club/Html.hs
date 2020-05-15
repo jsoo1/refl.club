@@ -15,7 +15,7 @@ navBar curr =
   nav_ $ ul_ [style_ "display:flex;"] $ do
     skipToContent
     a_ (href_ "/" : [borderSolid | curr == Just NavLocationAbout]) $
-      li_ [padLight] "About"
+      li_ [padLight] "John Soo"
     verticalSep
     a_ (href_ "/posts" : [borderSolid | curr == Just NavLocationPosts]) $
       li_ [padLight] "Posts"
