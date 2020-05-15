@@ -57,7 +57,9 @@ instance ToHtml AllPosts where
         title_ "Posts - John Soo"
         Club.css
       body_ $ do
-        Club.navBar $ Just Club.NavLocationPosts
+        div_ [style_ "padding:0.5rem;"]
+          $ Club.navBar
+          $ Just Club.NavLocationPosts
         section_ [id_ "main"] $ ul_ $ do
           div_
             [ style_ "display:flex;",

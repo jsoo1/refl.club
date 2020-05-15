@@ -35,7 +35,9 @@ instance ToHtml About where
         title_ "John Soo"
         Club.css
       body_ $ do
-        Club.navBar $ Just Club.NavLocationAbout
+        div_ [style_ "padding:0.5rem;"]
+          $ Club.navBar
+          $ Just Club.NavLocationAbout
         section_ [id_ "main"] $ do
           h1_ "John Soo"
           p_ "Functional programming enthusiast"

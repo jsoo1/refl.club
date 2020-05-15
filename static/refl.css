@@ -27,6 +27,10 @@ body {
     color: black;
 }
 
+nav {
+    padding: 0;
+}
+
 footer {
     font-size: 1rem;
 }
@@ -56,7 +60,7 @@ ul {
     margin: 0;
 }
 
-section, nav {
+section {
     padding: 0.5rem;
 }
 
