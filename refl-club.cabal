@@ -68,8 +68,7 @@ executable refl-club
   main-is: Main.hs
   other-modules: Paths_refl_club
   hs-source-dirs: gcp
-  ghc-options: -threaded -rtsopts -O2 -static -with-rtsopts=-N -optl-pthread -optl-static
-  cc-options: -static
+  ghc-options: -threaded -rtsopts -O2 -with-rtsopts=-N -optl-pthread
   build-depends: base >=4.7 && <5
                , feed-xmlbf ==0.0.1.*
                , refl-club
