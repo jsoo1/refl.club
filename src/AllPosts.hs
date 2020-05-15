@@ -55,7 +55,6 @@ instance ToHtml AllPosts where
     doctypehtml_ $ do
       head_ $ do
         title_ "Posts - John Soo"
-        Club.cmuSerif
         Club.css
       body_ $ do
         Club.navBar $ Just Club.NavLocationPosts

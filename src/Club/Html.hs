@@ -79,15 +79,6 @@ prismJs = do
     ""
   script_ $ "Prism.plugins.autoloader.languages_path = '/" <> $(gitHead) <> "-grammars/';"
 
-cmuSerif :: Applicative m => HtmlT m ()
-cmuSerif =
-  link_
-    [ rel_ "stylesheet",
-      media_ "screen",
-      href_ "https://fontlibrary.org/face/cmu-serif",
-      type_ "text/css"
-    ]
-
 ccBySa :: Monad m => HtmlT m ()
 ccBySa = p_ $ do
   "This work is licensed under a "

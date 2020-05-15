@@ -27,10 +27,15 @@ where
 
 import About (About (..))
 import AllPosts
+import Club.Git (gitHead)
 import Control.Monad.Except (throwError)
+import Data.ByteString.Lazy (ByteString)
+import qualified Data.ByteString.Lazy as ByteString.Lazy
+import Data.FileEmbed (embedFile)
 import qualified Data.List as List
 import Data.Post (Post (postMeta), PostMeta (postMetaSlug))
 import Data.Text (Text)
+import qualified Data.Text as Text
 import Lucid
 import Post
 import Servant
@@ -47,6 +52,7 @@ import Servant
 import Servant.Atom
 import Servant.HTML.Lucid (HTML)
 import Servant.RSS
+import Servant.Woff
 import qualified Text.Atom.Feed as Atom
 import Text.Atom.Xmlbf ()
 import qualified Text.RSS.Syntax as RSS
@@ -57,6 +63,7 @@ type Club =
     :<|> "posts" :> "atom.xml" :> Get '[Atom] Atom.Feed
     -- :<|> "posts" :> "rss.xml" :> Get '[RSS] RSS.RSS
     :<|> "post" :> Capture "slug" Text :> Get '[HTML] Post
+    :<|> "cmunrm-webfont.woff" :> Get '[Woff] ByteString
     :<|> Raw
 
 clubApi :: Proxy Club
@@ -71,6 +78,7 @@ club staticDir =
              let bySlug = (slug ==) . postMetaSlug . postMeta
              maybe (throwError err404) pure (lookupPost bySlug allPosts)
          )
+    :<|> pure (ByteString.Lazy.fromStrict $(embedFile "cmunrm-webfont.woff"))
     :<|> serveDirectoryWebApp staticDir
   where
     allPosts = AllPosts (fmap snd $(embedPosts "posts"))

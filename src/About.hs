@@ -33,7 +33,6 @@ instance ToHtml About where
     doctypehtml_ $ do
       head_ $ do
         title_ "John Soo"
-        Club.cmuSerif
         Club.css
       body_ $ do
         Club.navBar $ Just Club.NavLocationAbout
@@ -108,3 +107,10 @@ instance ToHtml About where
                 href_ "https://github.com/PrismJS/prism/"
               ]
               "Prism"
+          p_ $ do
+            "Roman Sans:"
+            a_
+              [ style_ "margin-left:0.25rem",
+                href_ "https://tug.org/FontCatalogue/computermodern/"
+              ]
+              "Computer Modern"
