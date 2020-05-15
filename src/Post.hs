@@ -49,7 +49,12 @@ languageClass (Language l) = "language-" <> l
 
 prismHighlighting :: Highlighting
 prismHighlighting lang =
-  pre_ . code_ [class_ (maybe "" languageClass lang)] . toHtml
+  pre_ [style_ "font-family:'Iosevka';"]
+    . code_
+      [ style_ "font-family:'Iosevka';",
+        class_ (maybe "" languageClass lang)
+      ]
+    . toHtml
 
 instance ToHtml Post where
 

@@ -64,6 +64,7 @@ type Club =
     -- :<|> "posts" :> "rss.xml" :> Get '[RSS] RSS.RSS
     :<|> "post" :> Capture "slug" Text :> Get '[HTML] Post
     :<|> "cmunrm-webfont.woff" :> Get '[Woff] ByteString
+    :<|> "iosevka-regular.woff" :> Get '[Woff] ByteString
     :<|> Raw
 
 clubApi :: Proxy Club
@@ -79,6 +80,7 @@ club staticDir =
              maybe (throwError err404) pure (lookupPost bySlug allPosts)
          )
     :<|> pure (ByteString.Lazy.fromStrict $(embedFile "cmunrm-webfont.woff"))
+    :<|> pure (ByteString.Lazy.fromStrict $(embedFile "iosevka-regular.woff"))
     :<|> serveDirectoryWebApp staticDir
   where
     allPosts = AllPosts (fmap snd $(embedPosts "posts"))

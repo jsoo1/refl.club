@@ -9,6 +9,7 @@ license:        GPL-3
 license-file:   COPYING
 extra-source-files: posts/*.org
                   , cmunrm-webfont.woff
+                  , iosevka-regular.woff
                   , .git/HEAD
                   , .git/refs/heads/master
 build-type:     Simple

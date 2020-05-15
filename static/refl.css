@@ -19,6 +19,11 @@
     src: url("/cmunrm-webfont.woff") format('woff');
 }
 
+@font-face {
+    font-family: 'Iosevka';
+    src: url("/iosevka-regular.woff") format('woff');
+}
+
 body {
     font-family: 'CMUSerifRoman',serif;
     font-size: 1.5rem;
@@ -48,10 +53,6 @@ a {
 
 .skip-to-content:focus {
   transform: translateY(-2.25rem);
-}
-
-code {
-    font-family: monospace;
 }
 
 ul {
