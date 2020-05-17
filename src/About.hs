@@ -75,7 +75,7 @@ instance ToHtml About where
           h2_ "Implementation"
           p_ $ do
             a_
-              [ style_ "margin-right:0.25rem",
+              [ style_ "margin-right:0.25rem;",
                 href_ "https://github.com/jsoo1/refl.club"
               ]
               "Source"
@@ -104,14 +104,21 @@ instance ToHtml About where
           p_ $ do
             "Syntax:"
             a_
-              [ style_ "margin-left:0.25rem",
+              [ style_ "margin-left:0.25rem;",
                 href_ "https://github.com/PrismJS/prism/"
               ]
               "Prism"
           p_ $ do
             "Roman Sans:"
             a_
-              [ style_ "margin-left:0.25rem",
+              [ style_ "margin-left:0.25rem;",
                 href_ "https://tug.org/FontCatalogue/computermodern/"
               ]
               "Computer Modern"
+          p_ $ do
+            "Monospace:"
+            a_
+              [ style_ "margin-left:0.25rem;",
+                href_ "https://typeof.net/Iosevka/"
+              ]
+              "Iosevka"
