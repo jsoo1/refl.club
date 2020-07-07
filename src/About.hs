@@ -42,7 +42,7 @@ instance ToHtml About where
           h1_ "John Soo"
           p_ "Functional programming enthusiast"
           p_ "Host: Orange Combinator, aspiring proof engineer"
-          p_ "5A15 8FAF 406A 748A 81A9  DC4E 4F43 7A76 B448 A23B"
+          a_ [href_ "/key.pub"] "5A15 8FAF 406A 748A 81A9  DC4E 4F43 7A76 B448 A23B"
           nav_ $ ul_ $ do
             h2_ [id_ "profiles"] "Profiles"
             a_ [href_ $ "/" <> $(gitHead) <> "-john-soo-resume.pdf"] $
