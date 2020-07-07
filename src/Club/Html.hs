@@ -20,6 +20,23 @@ navBar curr =
     a_ (href_ "/posts" : [borderSolid | curr == Just NavLocationPosts]) $
       li_ [padLight] "Posts"
 
+waitOnFonts :: Monad m => HtmlT m ()
+waitOnFonts =
+  script_ "document.fonts.ready.then(fonts => {\
+          \\n  let fontFamilies = Array.from(fonts.values()).map(f => f.family)\
+          \\n  if (fontFamilies.includes('Iosevka')) {\
+          \\n    document.querySelectorAll('pre').forEach(e => { \
+          \\n      e.style.fontFamily = 'Iosevka,' + e.style.fontFamily\
+          \\n    })\
+          \\n    document.querySelectorAll('code').forEach(e => { \
+          \\n      e.style.fontFamily = 'Iosevka,' + e.style.fontFamily\
+          \\n    })\
+          \\n  }\
+          \\n  if (fontFamilies.includes('CMUSerifRoman')) {\
+          \\n    document.body.style.fontFamily = 'CMUSerifRoman' + document.body.style.fontFamily\
+          \\n  }\
+          \\n});"
+
 padLight :: Attribute
 padLight = class_ "pad-light"
 

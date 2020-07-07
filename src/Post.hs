@@ -49,9 +49,9 @@ languageClass (Language l) = "language-" <> l
 
 prismHighlighting :: Highlighting
 prismHighlighting lang =
-  pre_ [style_ "font-family:'Iosevka';"]
+  pre_ [style_ "font-family:'monospace';"]
     . code_
-      [ style_ "font-family:'Iosevka';",
+      [ style_ "font-family:'monospace';",
         class_ (maybe "" languageClass lang)
       ]
     . toHtml
@@ -64,6 +64,7 @@ instance ToHtml Post where
     doctypehtml_ $ do
       head_ $ do
         title_ $ toHtml $ postMetaTitle postMeta
+        Club.waitOnFonts
         Club.css
         Club.prismCss
       body_ $ do
