@@ -36,6 +36,7 @@ import qualified Data.List as List
 import Data.Post (Post (postMeta), PostMeta (postMetaSlug))
 import Data.Text (Text)
 import qualified Data.Text as Text
+import Embed.Text (embedTextFile)
 import Lucid
 import Post
 import Servant
@@ -46,6 +47,7 @@ import Servant
     Proxy (..),
     Raw,
     Server,
+    PlainText,
     err404,
     serveDirectoryWebApp,
   )
@@ -65,6 +67,7 @@ type Club =
     :<|> "post" :> Capture "slug" Text :> Get '[HTML] Post
     :<|> "cmunrm-webfont.woff" :> Get '[Woff] ByteString
     :<|> "iosevka-regular.woff" :> Get '[Woff] ByteString
+    :<|> "key.pub" :> Get '[PlainText] Text
     :<|> Raw
 
 clubApi :: Proxy Club
@@ -81,6 +84,7 @@ club staticDir =
          )
     :<|> pure (ByteString.Lazy.fromStrict $(embedFile "cmunrm-webfont.woff"))
     :<|> pure (ByteString.Lazy.fromStrict $(embedFile "iosevka-regular.woff"))
+    :<|> pure $(embedTextFile "key.pub")
     :<|> serveDirectoryWebApp staticDir
   where
     allPosts = AllPosts (fmap snd $(embedPosts "posts"))

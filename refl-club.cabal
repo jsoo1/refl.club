@@ -8,6 +8,7 @@ copyright:      2020 John Soo
 license:        GPL-3
 license-file:   COPYING
 extra-source-files: posts/*.org
+                  , key.pub
                   , cmunrm-webfont.woff
                   , iosevka-regular.woff
                   , .git/HEAD
@@ -34,6 +35,7 @@ library
                  , Data.Post
                  , Data.Post.TH
                  , Data.Text.Lift
+                 , Embed.Text
                  , Servant.Woff
   build-depends: base >=4.7 && <5
                , bifunctors >=5.5 && <5.6
