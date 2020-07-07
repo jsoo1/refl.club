@@ -5,6 +5,8 @@
 ** TODO Clay or language-css for css files?
 ** TODO HTML escaping for lucid
 ** TODO Style for user's preferred dark/light mode
+** TODO Resume - latex to lucid, embed and compile pdf.
+** TODO Font loading fixes
 * Notes
 ** To push to google cloud.
    [[https://cloud.google.com/run/docs/quickstarts/build-and-deploy?_ga=2.5581815.-594943557.1587610413&_gac=1.240779703.1587610457.EAIaIQobChMImarsxsX96AIVmKDsCh2MPwUlEAAYASAAEgJjQvD_BwE#other][Google Cloud Run docs]]
