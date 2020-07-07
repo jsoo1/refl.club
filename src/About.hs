@@ -79,7 +79,8 @@ instance ToHtml About where
                 href_ "https://github.com/jsoo1/refl.club"
               ]
               "Source"
-            toHtml $ " (commit " <> $(gitHead) <> ")"
+            span_ [style_ "word-break:break-word;" ] $
+              toHtml $ " ( commit " <> $(gitHead) <> ")"
           p_ $ do
             a_ [href_ "https://www.haskell.org"] "Haskell"
             ","
