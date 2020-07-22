@@ -2,17 +2,9 @@
   . ((eval
       . (setq
          projectile-project-compilation-cmd
-         (concat
-          "docker run --rm -it"
-          " --volume " (projectile-project-root) ":" (projectile-project-root)
-          " refl-club-build "
-          "cabal new-build")
+         "env -u GHC_PACKAGE_PATH cabal new-build"
          projectile-project-run-cmd
-         (concat
-          "docker run --rm --name refl.club"
-          " --volume " (projectile-project-root) ":" (projectile-project-root)
-          " refl-club-build "
-          "sh")
+         "env -u GHC_PACKAGE_PATH PORT=4000 cabal new-run exe:refl-club -- .static"
          haskell-process-wrapper-function
          (lambda (argv)
            (append `("env" "-u" "GHC_PACKAGE_PATH") argv))))))
