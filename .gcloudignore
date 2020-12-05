@@ -1,2 +1,4 @@
 !.git/HEAD
 !.git/refs/heads/master
+dist
+dist-newstyle
