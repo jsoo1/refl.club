@@ -1,0 +1,39 @@
+#+title: Pausing Guix Builds
+#+author: John Soo
+#+email: jsoo1@asu.edu
+#+date: 2020-12-05 09:09AM PST
+#+slug: pausing-guix-builds
+#+description: Pause long runs of guix build
+
+You can now pause guix builds using ~guix processes~, xargs and
+[[https://www.gnu.org/software/recutils/][recutils]].
+
+To pause all processes:
+
+#+begin_src sh
+guix processes --format=normalized \
+  | recsel -t ChildProcess -j Session \
+  | recfmt -- ' -{{PID}} -{{Session.PID}}' \
+  | xargs sudo kill -s SIGSTOP
+#+end_src
+
+To resume all processes, use SIGCONT instead of SIGSTOP:
+
+#+begin_src sh
+guix processes --format=normalized \
+  | recsel -t ChildProcess -j Session \
+  | recfmt -- ' -{{PID}} -{{Session.PID}}' \
+  | xargs sudo kill -s SIGCONT
+#+end_src
+
+To specify which session to pause/resume, use the ~-e~ recsel flag.
+Here, the ~ means to filter based on regex match. Replace the search
+terms with the command you want to pause. You can also get quite
+creative here, recutils are very flexible.
+
+#+begin_src sh
+guix processes --format=normalized \
+  | recsel -t ChildProcess -j Session -e 'Session.ClientCommand ~ "guix system reconfigure"' \
+  | recfmt -- ' -{{PID}} -{{Session.PID}}' \
+  | xargs sudo kill -s SIGSTOP
+#+end_src
