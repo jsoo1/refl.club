@@ -30,7 +30,7 @@ module Data.Post.TH
 where
 
 import Control.Exception (ErrorCall (..), Exception (..), throw)
-import Control.Monad ((<=<), void)
+import Control.Monad ((<=<))
 import Data.Bifunctor (first)
 import Data.ByteString (ByteString)
 import Data.Data (Data, Typeable, cast)
@@ -55,7 +55,6 @@ import Language.Haskell.TH.Syntax
 
 embedPosts :: FilePath -> Q Exp
 embedPosts fp = do
-  void (qAddDependentFile fp)
   typ <- [t|[(FilePath, Post)]|]
   orgFiles <- either (fail . show) pure =<< runIO (postsDir fp)
   traverse_ (qAddDependentFile . (\p -> fp <> "/" <> p) . fst) orgFiles
