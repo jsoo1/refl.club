@@ -27,7 +27,7 @@ guix processes --format=normalized \
 #+end_src
 
 To specify which session to pause/resume, use the ~-e~ recsel flag.
-Here, the ~ means to filter based on regex match. Replace the search
+Here, the tilde means to filter based on regex match. Replace the search
 terms with the command you want to pause. You can also get quite
 creative here, recutils are very flexible.
 
