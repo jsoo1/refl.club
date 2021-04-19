@@ -15,7 +15,7 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 GIT_HASH = $(shell git rev-parse HEAD)
-STATIC = grammars john-soo-resume.pdf refl.css
+STATIC = john-soo-resume.pdf refl.css
 STATIC_SRC = $(foreach file,$(STATIC),static/$(file))
 STATIC_TARGET = $(foreach file,$(STATIC),.static/$(GIT_HASH)-$(file))
 aws = docker run --rm -it --workdir / --volume $(PWD)/out:/out --volume ~/.aws:/root/.aws mikesir87/aws-cli aws
