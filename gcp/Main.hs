@@ -1,7 +1,4 @@
-{-# LANGUAGE DataKinds #-}
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
-{-# LANGUAGE TypeOperators #-}
 
 -- This file is part of refl.club - a personal website and blog
 -- Copyright (C) 2020 John Soo <jsoo1@asu.edu>
