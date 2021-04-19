@@ -98,7 +98,6 @@ prismJs = do
         \plugins/autoloader/prism-autoloader.min.js"
     ]
     ""
-  script_ $ "Prism.plugins.autoloader.languages_path = '/" <> $(gitHead) <> "-grammars/';"
 
 ccBySa :: Monad m => HtmlT m ()
 ccBySa = p_ $ do
