@@ -66,12 +66,12 @@ instance ToHtml AllPosts where
 
 postLinkItem :: Monad m => PostMeta -> HtmlT m ()
 postLinkItem PostMeta {..} =
-  li_ [style_ "display:flex;"] $ do
-    toHtml $ Post.formatDate postMetaDate
-    Club.verticalSep
-    a_ [href_ ("/post/" <> postMetaSlug)] (toHtml postMetaTitle)
-    Club.verticalSep
-    toHtml postMetaDescription
+  li_ [style_ "display:flex;flex-direction:column;padding-bottom:0.75rem;"] $ do
+    span_ [style_ "display:flex"] $ do
+      toHtml $ Post.formatDate postMetaDate
+      span_ [style_ "margin-left:0.5rem;margin-right:0.5rem;"] "-"
+      a_ [href_ ("/post/" <> postMetaSlug)] $ toHtml postMetaTitle
+    span_ [] $ toHtml postMetaDescription
 
 toAtomFeed :: [Post] -> Atom.Feed
 toAtomFeed ps = Atom.Feed
