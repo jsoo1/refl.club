@@ -8,7 +8,7 @@ copyright:      2020 John Soo
 license:        GPL-3
 license-file:   COPYING
 extra-source-files: posts/*.org
-                  , key.pub
+                  , john-soo.asc
                   , cmunrm-webfont.woff
                   , iosevka-regular.woff
                   , .git/HEAD
