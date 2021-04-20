@@ -84,7 +84,7 @@ postsApi posts = do
 postRoute :: Q (Type, Exp) -> (FilePath, Post) -> Q (Type, Exp)
 postRoute q (_, post) = do
   (api, server) <- q
-  typ <- [t|$(pure api) :<|> "post" :> $(slugSym post) :> Priority '(0, 9) :> Get '[HTML] Post|]
+  typ <- [t|$(pure api) :<|> Frequency 'Monthly :> "post" :> $(slugSym post) :> Get '[HTML] Post|]
   exp <- [e|$(pure server) :<|> pure $(lift post)|]
   pure (typ, exp)
   where

@@ -43,6 +43,7 @@ import Post
 import Servant
   ( (:<|>) (..),
     (:>) (..),
+    Context (EmptyContext),
     Get,
     PlainText,
     Proxy (..),
@@ -56,6 +57,7 @@ import Servant.PDF (PDF)
 import Servant.PgpKey (PgpKey)
 import Servant.RSS
 import Servant.Seo (Disallow, Frequency, Period (..), Priority)
+import Servant.Seo.Orphans ()
 import Servant.Woff
 import qualified Text.Atom.Feed as Atom
 import Text.Atom.Xmlbf ()
@@ -63,9 +65,9 @@ import qualified Text.RSS.Syntax as RSS
 
 type Club =
   Priority '(0, 9) :> Frequency 'Monthly :> Get '[HTML] About
-    :<|> Disallow "john-soo.asc" :> Frequency 'Monthly :> Get '[PgpKey] Text
-    :<|> AppendSymbol $(gitHeadSym) "-john-soo-resume.pdf" :> Frequency 'Monthly :> Get '[PDF] ByteString
-    :<|> "posts" :> Frequency 'Monthly :> Get '[HTML] AllPosts
+    :<|> Frequency 'Monthly :> "john-soo.asc" :> Get '[PgpKey] Text
+    :<|> Frequency 'Monthly :> AppendSymbol $(gitHeadSym) "-john-soo-resume.pdf" :> Get '[PDF] ByteString
+    :<|> Priority '(1, 0) :> Frequency 'Monthly :> "posts" :> Get '[HTML] AllPosts
     :<|> $(fmap fst (postsDirQ "posts" >>= postsApi))
     :<|> Disallow (AppendSymbol $(gitHeadSym) "-refl.css") :> Get '[CSS] Text
     :<|> Disallow "cmunrm-webfont.woff" :> Get '[Woff] ByteString
