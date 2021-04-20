@@ -24,9 +24,8 @@ run mv $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
 from alpine:3.10 as run
 
 copy --from=build /usr/local/bin/refl-club /usr/local/bin/refl-club
-copy --from=build /refl.club/.static /static
 run apk update && apk upgrade
 run addgroup app && adduser refl -G app -G users -D
-run chown refl:app /usr/local/bin/refl-club && chown -R refl:app /static
+run chown refl:app /usr/local/bin/refl-club
 user refl
 cmd [ "refl-club" ]
