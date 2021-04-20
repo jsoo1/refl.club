@@ -1,7 +1,5 @@
 * Todos
-** TODO Servant sitemap library
 ** TODO Quote parsing for org-mode
-** IN-PROGRESS Feed atom and/or rss feed
 ** TODO Clay or language-css for css files?
 ** TODO HTML escaping for lucid
 ** TODO Style for user's preferred dark/light mode

@@ -20,7 +20,6 @@ add . /refl.club
 workdir /refl.club
 run cabal v2-install exe:refl-club --overwrite-policy=always
 run mv $(realpath ~/.cabal/bin/refl-club) /usr/local/bin
-run make static
 
 from alpine:3.10 as run
 
@@ -30,4 +29,4 @@ run apk update && apk upgrade
 run addgroup app && adduser refl -G app -G users -D
 run chown refl:app /usr/local/bin/refl-club && chown -R refl:app /static
 user refl
-cmd [ "refl-club", "/static" ]
+cmd [ "refl-club" ]

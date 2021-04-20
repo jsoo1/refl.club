@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeApplications #-}
 
 -- This file is part of refl.club - a personal website and blog
@@ -18,14 +19,13 @@
 
 module Main where
 
-import Club (Club, club, clubApi)
+import Club (Club, api, server)
 import Network.Wai.Handler.Warp (run)
-import Servant (serve)
+import Servant.Seo
 import System.Environment
 import Text.Atom.Xmlbf ()
 
 main :: IO ()
 main = do
-  staticDir <- head <$> getArgs
   port <- read @Int <$> getEnv "PORT"
-  run port $ serve clubApi $ club staticDir
+  run port $ serveWithSeo' "https://refl.club" api server

@@ -20,8 +20,6 @@
 module AllPosts
   ( AllPosts (..),
     toAtomFeed,
-    embedPosts,
-    lookupPost,
   )
 where
 
@@ -31,7 +29,6 @@ import Data.Function (on)
 import qualified Data.List as List
 import Data.Post (Post (..), PostMeta (..))
 import qualified Data.Post as Post
-import Data.Post.TH (embedPosts)
 import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Time.Format.ISO8601 (iso8601Show)
@@ -43,9 +40,6 @@ import qualified Text.RSS.Syntax as RSS
 import qualified Text.URI as URI
 
 newtype AllPosts = AllPosts [Post]
-
-lookupPost :: (Post -> Bool) -> AllPosts -> Maybe Post
-lookupPost f (AllPosts ps) = List.find f ps
 
 instance ToHtml AllPosts where
 
@@ -79,8 +73,8 @@ postLinkItem PostMeta {..} =
     Club.verticalSep
     toHtml postMetaDescription
 
-toAtomFeed :: AllPosts -> Atom.Feed
-toAtomFeed (AllPosts ps) = Atom.Feed
+toAtomFeed :: [Post] -> Atom.Feed
+toAtomFeed ps = Atom.Feed
   { Atom.feedId = "https://www.refl.club/posts",
     Atom.feedTitle = Atom.TextString "John Soo",
     Atom.feedUpdated = T.pack $ iso8601Show $ postMetaDate $ latestEntry ps,

@@ -20,71 +20,70 @@
 
 module Club
   ( Club,
-    clubApi,
-    club,
+    api,
+    server,
   )
 where
 
 import About (About (..))
 import AllPosts
-import Club.Git (gitHead)
+import Club.Git (gitHead, gitHeadSym)
 import Control.Monad.Except (throwError)
-import Data.ByteString.Lazy (ByteString)
-import qualified Data.ByteString.Lazy as ByteString.Lazy
+import Data.ByteString (ByteString)
 import Data.FileEmbed (embedFile)
 import qualified Data.List as List
 import Data.Post (Post (postMeta), PostMeta (postMetaSlug))
+import Data.Post.TH (embedPosts, postsApi, postsDirQ)
 import Data.Text (Text)
 import qualified Data.Text as Text
 import Embed.Text (embedTextFile)
+import GHC.TypeLits (AppendSymbol, Symbol)
 import Lucid
 import Post
 import Servant
   ( (:<|>) (..),
     (:>) (..),
-    Capture,
     Get,
-    Proxy (..),
-    Raw,
-    Server,
     PlainText,
+    Proxy (..),
+    Server,
     err404,
-    serveDirectoryWebApp,
   )
 import Servant.Atom
+import Servant.CSS (CSS)
 import Servant.HTML.Lucid (HTML)
+import Servant.PDF (PDF)
+import Servant.PgpKey (PgpKey)
 import Servant.RSS
+import Servant.Seo (Disallow, Frequency, Period (..), Priority)
 import Servant.Woff
 import qualified Text.Atom.Feed as Atom
 import Text.Atom.Xmlbf ()
 import qualified Text.RSS.Syntax as RSS
 
 type Club =
-  Get '[HTML] About
-    :<|> "posts" :> Get '[HTML] AllPosts
-    :<|> "posts" :> "atom.xml" :> Get '[Atom] Atom.Feed
-    -- :<|> "posts" :> "rss.xml" :> Get '[RSS] RSS.RSS
-    :<|> "post" :> Capture "slug" Text :> Get '[HTML] Post
-    :<|> "cmunrm-webfont.woff" :> Get '[Woff] ByteString
-    :<|> "iosevka-regular.woff" :> Get '[Woff] ByteString
-    :<|> "key.pub" :> Get '[PlainText] Text
-    :<|> Raw
+  Priority '(0, 9) :> Frequency 'Monthly :> Get '[HTML] About
+    :<|> Disallow "john-soo.asc" :> Frequency 'Monthly :> Get '[PgpKey] Text
+    :<|> AppendSymbol $(gitHeadSym) "-john-soo-resume.pdf" :> Frequency 'Monthly :> Get '[PDF] ByteString
+    :<|> "posts" :> Frequency 'Monthly :> Get '[HTML] AllPosts
+    :<|> $(fmap fst (postsDirQ "posts" >>= postsApi))
+    :<|> Disallow (AppendSymbol $(gitHeadSym) "-refl.css") :> Get '[CSS] Text
+    :<|> Disallow "cmunrm-webfont.woff" :> Get '[Woff] ByteString
+    :<|> Disallow "iosevka-regular.woff" :> Get '[Woff] ByteString
 
-clubApi :: Proxy Club
-clubApi = Proxy
+api :: Proxy Club
+api = Proxy
 
-club :: String -> Server Club
-club staticDir =
+allPosts :: AllPosts
+allPosts = AllPosts (fmap snd $(embedPosts "posts"))
+
+server :: Server Club
+server =
   pure About
+    :<|> pure $(embedTextFile "john-soo.asc")
+    :<|> pure $(embedFile "john-soo-resume.pdf")
     :<|> pure allPosts
-    :<|> pure (toAtomFeed allPosts)
-    :<|> ( \slug -> do
-             let bySlug = (slug ==) . postMetaSlug . postMeta
-             maybe (throwError err404) pure (lookupPost bySlug allPosts)
-         )
-    :<|> pure (ByteString.Lazy.fromStrict $(embedFile "cmunrm-webfont.woff"))
-    :<|> pure (ByteString.Lazy.fromStrict $(embedFile "iosevka-regular.woff"))
-    :<|> pure $(embedTextFile "key.pub")
-    :<|> serveDirectoryWebApp staticDir
-  where
-    allPosts = AllPosts (fmap snd $(embedPosts "posts"))
+    :<|> $(fmap snd (postsDirQ "posts" >>= postsApi))
+    :<|> pure $(embedTextFile "refl.css")
+    :<|> pure $(embedFile "cmunrm-webfont.woff")
+    :<|> pure $(embedFile "iosevka-regular.woff")

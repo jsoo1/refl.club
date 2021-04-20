@@ -2,10 +2,12 @@
 
 module Club.Git
   ( gitHead,
+    gitHeadSym,
   )
 where
 
 import Data.ByteString as BS
+import Data.Char (isSpace)
 import Data.FileEmbed (embedFile)
 import Data.Maybe (fromMaybe)
 import Data.Text (Text)
@@ -18,21 +20,30 @@ import Language.Haskell.TH.Syntax
     Lift,
     Q,
     Quasi (qAddDependentFile),
+    TyLit (..),
+    Type (..),
     lift,
     runIO,
   )
 
 gitHead :: Q Exp
 gitHead = do
-  typ <- [t|Text|]
   qAddDependentFile ".git/HEAD"
+  typ <- [t|Text|]
   e <- liftText =<< runIO readHead
   pure $ SigE e typ
 
 readHead :: IO Text
 readHead = do
   txt <- Text.readFile ".git/HEAD"
-  case Text.words txt of
+  ref <- case Text.words txt of
     [ref] -> pure ref
     [ref, file] -> Text.readFile (".git/" <> Text.unpack file)
     _ -> fail $ "unexpected .git/HEAD: " <> Text.unpack txt
+  pure (Text.filter (not . isSpace) ref)
+
+gitHeadSym :: Q Type
+gitHeadSym = do
+  qAddDependentFile ".git/HEAD"
+  head <- runIO readHead
+  pure $ LitT $ StrTyLit $ Text.unpack head
