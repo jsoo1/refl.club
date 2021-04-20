@@ -9,6 +9,8 @@ license:        GPL-3
 license-file:   COPYING
 extra-source-files: posts/*.org
                   , john-soo.asc
+                  , john-soo-resume.pdf
+                  , refl.css
                   , cmunrm-webfont.woff
                   , iosevka-regular.woff
                   , .git/HEAD
