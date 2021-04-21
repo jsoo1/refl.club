@@ -19,6 +19,9 @@ navBar curr =
     verticalSep
     a_ (href_ "/posts" : [borderSolid | curr == Just NavLocationPosts]) $
       li_ [padLight] "Posts"
+    verticalSep
+    a_ [href_ "https://www.refl.club/posts/atom.xml"] $
+      li_ [padLight] "Atom"
 
 waitOnFonts :: Monad m => HtmlT m ()
 waitOnFonts =
@@ -32,9 +35,6 @@ waitOnFonts =
     \\n    document.querySelectorAll('code').forEach(e => { \
     \\n      e.style.fontFamily = 'Iosevka,' + e.style.fontFamily\
     \\n    })\
-    \\n  }\
-    \\n  if (fontFamilies.includes('CMUSerifRoman')) {\
-    \\n    document.body.style.fontFamily = 'CMUSerifRoman' + document.body.style.fontFamily\
     \\n  }\
     \\n});"
 
@@ -62,9 +62,6 @@ verticalSep =
 script' :: Functor m => [Attribute] -> HtmlT m a -> HtmlT m a
 script' =
   with (Lucid.makeElement "script")
-
-atom :: Monad m => HtmlT m ()
-atom = a_ [href_ "https://www.refl.club/posts/atom.xml"] "Atom"
 
 css :: Applicative m => HtmlT m ()
 css =

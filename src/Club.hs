@@ -70,7 +70,6 @@ type Club =
     :<|> Priority '(1, 0) :> Frequency 'Monthly :> "posts" :> Get '[HTML] AllPosts
     :<|> $(fmap fst (postsDirQ "posts" >>= postsApi))
     :<|> Disallow (AppendSymbol $(gitHeadSym) "-refl.css") :> Get '[CSS] Text
-    :<|> Disallow "cmunrm-webfont.woff" :> Get '[Woff] ByteString
     :<|> Disallow "iosevka-regular.woff" :> Get '[Woff] ByteString
 
 api :: Proxy Club
@@ -87,5 +86,4 @@ server =
     :<|> pure allPosts
     :<|> $(fmap snd (postsDirQ "posts" >>= postsApi))
     :<|> pure $(embedTextFile "refl.css")
-    :<|> pure $(embedFile "cmunrm-webfont.woff")
     :<|> pure $(embedFile "iosevka-regular.woff")

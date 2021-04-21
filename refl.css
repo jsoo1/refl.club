@@ -15,11 +15,6 @@
    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
 @font-face {
-    font-family: 'CMUSerifRoman';
-    src: url("/cmunrm-webfont.woff") format('woff');
-}
-
-@font-face {
     font-family: 'Iosevka';
     src: url("/iosevka-regular.woff") format('woff');
 }

@@ -58,10 +58,9 @@ instance ToHtml AllPosts where
         section_ [id_ "main"] $ ul_ $ do
           div_
             [ style_ "display:flex;",
-              style_ "align-items:center;",
-              style_ "justify-content:space-between;"
+              style_ "align-items:center;"
             ]
-            (h1_ "Posts" >> Club.atom)
+            (h1_ "Posts")
           traverse_ (postLinkItem . postMeta) ps
 
 postLinkItem :: Monad m => PostMeta -> HtmlT m ()
