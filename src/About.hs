@@ -112,13 +112,6 @@ instance ToHtml About where
               ]
               "Prism"
           p_ $ do
-            "Roman Sans:"
-            a_
-              [ style_ "margin-left:0.25rem;",
-                href_ "https://tug.org/FontCatalogue/computermodern/"
-              ]
-              "Computer Modern"
-          p_ $ do
             "Monospace:"
             a_
               [ style_ "margin-left:0.25rem;",
