@@ -82,7 +82,7 @@ instance ToHtml About where
               "Source"
             span_ [style_ "word-break:break-word;"]
               $ toHtml
-              $ " ( commit " <> $(gitHead) <> ")"
+              $ " (commit " <> $(gitHead) <> ")"
           p_ $ do
             a_ [href_ "https://www.haskell.org"] "Haskell"
             ","
