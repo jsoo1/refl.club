@@ -9,14 +9,12 @@
    [[https://cloud.google.com/run/docs/quickstarts/build-and-deploy?_ga=2.5581815.-594943557.1587610413&_gac=1.240779703.1587610457.EAIaIQobChMImarsxsX96AIVmKDsCh2MPwUlEAAYASAAEgJjQvD_BwE#other][Google Cloud Run docs]]
    [[https://hub.docker.com/r/google/cloud-sdk][Google cloud cli container]]
    #+BEGIN_SRC sh
-   docker run -it --network host \
+   docker run --rm -it --network host \
      --env TERM=xterm-256color \
      --env PROJECT=$PROJECT \
      --volume $PWD:/refl-club \
+     --volume $PWD/.private/gcloud:/root/.config/gcloud \
      --workdir /refl-club \
+     --entrypoint /refl-club/deploy.sh \
      google/cloud-sdk
-   gcloud auth login
-   gcloud config set project $PROJECT
-   gcloud builds submit --timeout=10800s --tag gcr.io/$PROJECT/refl-club
-   gcloud run deploy --image gcr.io/$PROJECT/refl-club --platform managed
    #+END_SRC
