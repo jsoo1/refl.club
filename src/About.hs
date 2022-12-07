@@ -54,6 +54,8 @@ instance ToHtml About where
               li_ "github.com/jsoo1"
             a_ [href_ "https://twitter.com/jsoo1"] $
               li_ "twitter.com/jsoo1"
+            a_ [rel_ "me", href_ "https://floss.social/@jsoo"] $
+              li_ "floss.social/@jsoo"
             a_ [href_ "https://meetup.com/orange-combinator"] $
               li_ "meetup.com/orange-combinator"
         section_ [id_ "activity"] $ do
