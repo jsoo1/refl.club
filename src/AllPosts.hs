@@ -55,22 +55,19 @@ instance ToHtml AllPosts where
         div_ [style_ "padding:0.5rem;"]
           $ Club.navBar
           $ Just Club.NavLocationPosts
-        section_ [id_ "main"] $ ul_ $ do
-          div_
-            [ style_ "display:flex;",
-              style_ "align-items:center;"
-            ]
-            (h1_ "Posts")
+        section_ [id_ "main"] $ ul_ [style_ "max-width:50rem;"] $ do
+          h1_ "Posts"
           traverse_ (postLinkItem . postMeta) ps
 
 postLinkItem :: Monad m => PostMeta -> HtmlT m ()
 postLinkItem PostMeta {..} =
-  li_ [style_ "display:flex;flex-direction:column;padding-bottom:0.75rem;"] $ do
-    span_ [style_ "display:flex"] $ do
-      toHtml $ Post.formatDate postMetaDate
-      span_ [style_ "margin-left:0.5rem;margin-right:0.5rem;"] "-"
-      a_ [href_ ("/post/" <> postMetaSlug)] $ toHtml postMetaTitle
-    span_ [] $ toHtml postMetaDescription
+  li_ [style_ "outline:1px dashed;display:flex;flex-direction:column;margin-bottom:0.75rem;padding:0.75rem;"] $ do
+    a_ [style_ "text-decoration:none", href_ ("/post/" <> postMetaSlug)] $ do
+      span_ [style_ "text-decoration:underline"] $ toHtml postMetaTitle
+      span_ [style_ "display:flex"] $ do
+        toHtml $ Post.formatDate postMetaDate
+        span_ [style_ "margin-left:0.5rem;margin-right:0.5rem;"] "-"
+        span_ $ toHtml postMetaDescription
 
 toAtomFeed :: [Post] -> Atom.Feed
 toAtomFeed ps = Atom.Feed
