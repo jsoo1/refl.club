@@ -111,10 +111,3 @@ instance ToHtml About where
                 href_ "https://github.com/PrismJS/prism/"
               ]
               "Prism"
-          p_ $ do
-            "Monospace:"
-            a_
-              [ style_ "margin-left:0.25rem;",
-                href_ "https://typeof.net/Iosevka/"
-              ]
-              "Iosevka"
