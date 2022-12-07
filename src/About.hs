@@ -50,10 +50,8 @@ instance ToHtml About where
               li_ "Resume"
             a_ [href_ "mailto:jsoo1@asu.edu"] $
               li_ "jsoo1@asu.edu"
-            a_ [href_ "https://github.com/jsoo1"] $
-              li_ "github.com/jsoo1"
-            a_ [href_ "https://twitter.com/jsoo1"] $
-              li_ "twitter.com/jsoo1"
+            a_ [href_ "https://git.sr.ht/~jsoo"] $
+              li_ "git.sr.ht/~jsoo"
             a_ [rel_ "me", href_ "https://floss.social/@jsoo"] $
               li_ "floss.social/@jsoo"
             a_ [href_ "https://meetup.com/orange-combinator"] $
