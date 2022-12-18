@@ -45,7 +45,7 @@ instance ToHtml About where
           p_ "Host: Orange Combinator, aspiring proof engineer"
           a_ [href_ "/john-soo.asc"] $ do
             span_ [style_ "margin-right:0.25rem"] "PGP (fingerprint):"
-            span_ [customAttribute "aria-hidden" "true"]
+            span_ [makeAttribute "aria-hidden" "true"]
               "5A15 8FAF 406A 748A 81A9  DC4E 4F43 7A76 B448 A23B"
           nav_ $ ul_ $ do
             h2_ [id_ "profiles"] "Profiles"
