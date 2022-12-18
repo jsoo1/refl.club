@@ -22,6 +22,7 @@ module About where
 import Club.Git (gitHead)
 import qualified Club.Html as Club
 import Lucid
+import Lucid.Base (makeAttribute)
 
 data About = About
 
