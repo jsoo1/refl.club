@@ -23,20 +23,14 @@ navBar curr =
     a_ [href_ "https://www.refl.club/posts/atom.xml"] $
       li_ [padLight] "Atom"
 
-waitOnFonts :: Monad m => HtmlT m ()
-waitOnFonts =
-  script_
-    "document.fonts.ready.then(fonts => {\
-    \\n  let fontFamilies = Array.from(fonts.values()).map(f => f.family)\
-    \\n  if (fontFamilies.includes('Iosevka')) {\
-    \\n    document.querySelectorAll('pre').forEach(e => { \
-    \\n      e.style.fontFamily = 'Iosevka,' + e.style.fontFamily\
-    \\n    })\
-    \\n    document.querySelectorAll('code').forEach(e => { \
-    \\n      e.style.fontFamily = 'Iosevka,' + e.style.fontFamily\
-    \\n    })\
-    \\n  }\
-    \\n});"
+analytics :: Monad m => HtmlT m ()
+analytics =
+  script'
+    [ defer_ "true",
+      src_ "https://plausible.io/js/script.js",
+      Lucid.makeAttribute "data-domain" "refl.club"
+    ]
+    ""
 
 padLight :: Attribute
 padLight = class_ "pad-light"

@@ -49,7 +49,7 @@ instance ToHtml AllPosts where
     doctypehtml_ $ do
       head_ $ do
         title_ "Posts - John Soo"
-        Club.waitOnFonts
+        Club.analytics
         Club.css
       body_ $ do
         div_ [style_ "padding:0.5rem;"]
