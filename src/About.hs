@@ -34,7 +34,7 @@ instance ToHtml About where
     doctypehtml_ $ do
       head_ $ do
         title_ "John Soo"
-        Club.waitOnFonts
+        Club.analytics
         Club.css
       body_ $ do
         div_ [style_ "padding:0.5rem;"]

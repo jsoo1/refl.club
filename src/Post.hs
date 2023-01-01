@@ -64,7 +64,7 @@ instance ToHtml Post where
     doctypehtml_ $ do
       head_ $ do
         title_ $ toHtml $ postMetaTitle postMeta
-        Club.waitOnFonts
+        Club.analytics
         Club.css
         Club.prismCss
       body_ $ do
