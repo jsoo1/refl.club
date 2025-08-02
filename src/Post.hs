@@ -38,10 +38,8 @@ orgStyle :: OrgStyle
 orgStyle =
   Org.defaultStyle
     { includeTitle = False,
-      tableOfContents = Nothing,
       bootstrap = False,
-      highlighting = prismHighlighting,
-      hrBetweenSections = False
+      highlighting = prismHighlighting
     }
 
 languageClass :: Language -> Text

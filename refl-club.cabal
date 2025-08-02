@@ -32,10 +32,8 @@ library
                  , Club.Git
                  , Club.Html
                  , Post
-                 , Data.Org.Instances
                  , Data.Post
                  , Data.Post.TH
-                 , Data.Text.Lift
                  , Embed.Text
                  , Servant.CSS
                  , Servant.PDF

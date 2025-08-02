@@ -14,24 +14,14 @@ import Data.Text (Text)
 import qualified Data.Text as Text
 import Data.Text.Encoding (decodeUtf8')
 import qualified Data.Text.IO as Text
-import Data.Text.Lift (liftText)
-import Language.Haskell.TH.Syntax
-  ( Exp (..),
-    Lift,
-    Q,
-    Quasi (qAddDependentFile),
-    TyLit (..),
-    Type (..),
-    lift,
-    runIO,
-  )
+import qualified Language.Haskell.TH.Syntax as TH
 
-gitHead :: Q Exp
+
+gitHead :: TH.Q TH.Exp
 gitHead = do
-  qAddDependentFile ".git/HEAD"
-  typ <- [t|Text|]
-  e <- liftText =<< runIO readHead
-  pure $ SigE e typ
+  TH.addDependentFile ".git/HEAD"
+  t <- TH.runIO readHead
+  [|$(TH.lift t)|]
 
 readHead :: IO Text
 readHead = do
@@ -42,8 +32,8 @@ readHead = do
     _ -> fail $ "unexpected .git/HEAD: " <> Text.unpack txt
   pure (Text.filter (not . isSpace) ref)
 
-gitHeadSym :: Q Type
+gitHeadSym :: TH.Q TH.Type
 gitHeadSym = do
-  qAddDependentFile ".git/HEAD"
-  head <- runIO readHead
-  pure $ LitT $ StrTyLit $ Text.unpack head
+  TH.addDependentFile ".git/HEAD"
+  head <- TH.runIO readHead
+  pure $ TH.LitT $ TH.StrTyLit $ Text.unpack head

@@ -3,7 +3,10 @@
 {-# LANGUAGE DeriveLift #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes #-}
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# OPTIONS_GHC -Wno-missing-methods #-}
 
 -- This file is part of refl.club - a personal website and blog
 -- Copyright (C) 2020 John Soo <jsoo1@asu.edu>
@@ -42,14 +45,13 @@ import Data.List (intercalate)
 import Data.List.NonEmpty (NonEmpty (..))
 import qualified Data.Map as Map
 import Data.Org (OrgDoc (..), OrgFile (..))
-import Data.Org.Instances ()
 import Data.Text (Text)
 import qualified Data.Text as T
-import qualified Data.Text.Lift as T
 import Data.Time (ZonedTime)
 import Data.Time.LocalTime (zonedTimeToUTC)
 import qualified Data.Time.Format as Time
 import Language.Haskell.TH.Syntax (Lift (..))
+import qualified Language.Haskell.TH.Syntax as TH
 import Text.URI (URI)
 import qualified Text.URI as URI
 
@@ -78,10 +80,10 @@ data PostMeta
         postMetaPublished :: ZonedTime,
         postMetaUpdated :: [ZonedTime]
       }
-  deriving (Show, Data)
+  deriving (Show, Data, Lift)
 
-instance Lift PostMeta where
-  lift = T.liftDataWithText
+instance Lift ZonedTime where
+  lift = TH.liftData
 
 dateFormat :: String
 dateFormat = "%Y-%m-%d %I:%M%p %Z"

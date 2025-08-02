@@ -6,11 +6,17 @@ source-repository-package
 source-repository-package
   type: git
   location: https://github.com/jsoo1/feed-xmlbf.git
-  tag: 60650b21d1c0d2e478ceb7d6d43fc71878434c6c
+  tag: 485ba53dbf8d203248b2eafbfc85fb5bca922399
 
 source-repository-package
   type: git
   location: https://github.com/jsoo1/xml-types-xmlbf.git
   tag: 6b23e7ea880d542549802aea8dfb841ebd12f684
+
+source-repository-package
+  type: git
+  location: https://github.com/jsoo1/org-mode.git
+  tag: 44d49b68d5646d71c487553662836594451afe3c
+  subdir: org-mode
 
 packages: ./refl-club.cabal

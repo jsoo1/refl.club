@@ -17,18 +17,10 @@ module Embed.Text where
 -- along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import qualified Data.Text.IO as Text
-import Data.Text.Lift ()
-import Language.Haskell.TH.Syntax
-  ( Exp (..),
-    Lift,
-    Q,
-    Quasi (qAddDependentFile),
-    lift,
-    runIO,
-  )
+import qualified Language.Haskell.TH.Syntax as TH
 
-embedTextFile :: FilePath -> Q Exp
+embedTextFile :: FilePath -> TH.Q TH.Exp
 embedTextFile path = do
-  qAddDependentFile path
-  contents <- runIO $ Text.readFile path
-  lift contents
+  TH.addDependentFile path
+  contents <- TH.runIO $ Text.readFile path
+  TH.lift contents

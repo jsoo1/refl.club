@@ -44,13 +44,11 @@ import Data.FileEmbed (getDir)
 import Data.Foldable (foldl', traverse_)
 import Data.Maybe (fromMaybe)
 import Data.Org (org)
-import Data.Org.Instances ()
 import Data.Post (Post (postMeta), PostError, PostMeta (postMetaSlug), orgToPost)
 import qualified Data.Text as T
 import Data.Text (Text)
 import Data.Text.Encoding (decodeUtf8')
 import Data.Text.Encoding.Error (UnicodeException)
-import Data.Text.Lift (liftDataWithText)
 import GHC.TypeLits (KnownSymbol)
 import Language.Haskell.TH.Syntax
   ( Exp (..),
