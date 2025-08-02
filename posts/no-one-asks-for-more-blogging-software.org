@@ -1,7 +1,8 @@
 #+title: No one asks for more blogging software
 #+author: John Soo
 #+email: jsoo1@asu.edu
-#+date: 2020-05-04 09:00AM PDT
+#+published: 2020-05-04 09:00AM PDT
+#+updated: 2025-08-02 01:00PM MDT
 #+slug: no-one-asks-for-more-blogging-software
 #+description: Why I wrote this program.
 
@@ -18,7 +19,7 @@ might be closer to the author's fingertips.
 Moreover: the humble blog presents an opportunity to bring a problem
 into a language.
 
-[[https://twitter.com/GabrielG439/status/1186451668944113664?s=20][Gabriel Gonzalez]] says the following.  Also - note the lack of quote
+[[https://xcancel.com/GabriellaG439/status/1186451668944113664][Gabriella Gonzalez]] says the following.  Also - note the lack of quote
 formatting, I'll come back to that.
 
 #+BEGIN_SRC none
