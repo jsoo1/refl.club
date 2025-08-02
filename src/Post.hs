@@ -81,16 +81,19 @@ instance ToHtml Post where
           footer_ Club.ccBySa
 
 byLine :: Monad m => PostMeta -> HtmlT m ()
-byLine PostMeta {..} = do
+byLine meta@(PostMeta {..}) = do
   p_ [style_ "font-style:italic;"] $ toHtml postMetaDescription
   p_ [style_ "display:flex;", style_ "flex-wrap:wrap;"] $ do
-    span_ $ toHtml $ Post.formatDate postMetaDate
+    span_ $ toHtml $ Post.formatDate postMetaPublished
     Club.verticalSep
     span_ $ toHtml postMetaAuthor
     Club.verticalSep
     a_
       [href_ ("mailto:" <> postMetaEmail)]
       (toHtml postMetaEmail)
+    Club.verticalSep
+    span_ [style_ "padding-right:0.5rem"] "updated"
+    span_ $ toHtml $ Post.formatDate $ Post.mostRecentUpdateTime meta
 
 atomAuthor :: PostMeta -> Atom.Person
 atomAuthor PostMeta {..} = Atom.Person
@@ -104,8 +107,8 @@ atomEntry :: Post -> Atom.Entry
 atomEntry post@Post {..} = Atom.Entry
   { Atom.entryId = "https://www.refl.club/post/" <> postMetaSlug postMeta,
     Atom.entryTitle = Atom.TextString $ postMetaTitle postMeta,
-    Atom.entryPublished = Just $ T.pack $ iso8601Show $ postMetaDate postMeta,
-    Atom.entryUpdated = T.pack $ iso8601Show $ postMetaDate postMeta,
+    Atom.entryPublished = Just $ T.pack $ iso8601Show $ postMetaPublished postMeta,
+    Atom.entryUpdated = T.pack $ iso8601Show $ Post.mostRecentUpdateTime postMeta,
     Atom.entryAuthors = pure $ atomAuthor postMeta,
     Atom.entryCategories = mempty,
     Atom.entryContent =

@@ -1,7 +1,7 @@
 #+title: Pausing Guix Builds
 #+author: John Soo
 #+email: jsoo1@asu.edu
-#+date: 2020-12-05 09:09AM PST
+#+published: 2020-12-05 09:09AM PST
 #+slug: pausing-guix-builds
 #+description: Pause long runs of guix build
 

@@ -65,7 +65,7 @@ postLinkItem PostMeta {..} =
     a_ [style_ "text-decoration:none", href_ ("/post/" <> postMetaSlug)] $ do
       span_ [style_ "text-decoration:underline"] $ toHtml postMetaTitle
       span_ [style_ "display:flex"] $ do
-        toHtml $ Post.formatDate postMetaDate
+        toHtml $ Post.formatDate postMetaPublished
         span_ [style_ "margin-left:0.5rem;margin-right:0.5rem;"] "-"
         span_ $ toHtml postMetaDescription
 
@@ -73,7 +73,7 @@ toAtomFeed :: [Post] -> Atom.Feed
 toAtomFeed ps = Atom.Feed
   { Atom.feedId = "https://www.refl.club/posts",
     Atom.feedTitle = Atom.TextString "John Soo",
-    Atom.feedUpdated = T.pack $ iso8601Show $ postMetaDate $ latestEntry ps,
+    Atom.feedUpdated = T.pack $ iso8601Show $ latestUpdate ps,
     Atom.feedAuthors = Post.atomAuthor . postMeta <$> ps,
     Atom.feedCategories = mempty,
     Atom.feedContributors = mempty,
@@ -97,5 +97,5 @@ toAtomFeed ps = Atom.Feed
     Atom.feedOther = mempty
   }
   where
-    latestEntry =
-      maximumBy (compare `on` (zonedTimeToUTC . postMetaDate)) . fmap postMeta
+    latestUpdate =
+      maximumBy (compare `on` zonedTimeToUTC) . fmap (Post.mostRecentUpdateTime . postMeta)

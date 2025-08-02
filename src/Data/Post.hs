@@ -27,6 +27,7 @@ module Data.Post
     PostError (..),
     dateFormat,
     formatDate,
+    mostRecentUpdateTime,
     orgToPost,
     postToOrg,
   )
@@ -35,6 +36,10 @@ where
 import Control.Monad.Catch (Exception, SomeException, catch)
 import Data.Bifunctor (first)
 import Data.Data (Data)
+import Data.Foldable (maximumBy)
+import Data.Function (on)
+import Data.List (intercalate)
+import Data.List.NonEmpty (NonEmpty (..))
 import qualified Data.Map as Map
 import Data.Org (OrgDoc (..), OrgFile (..))
 import Data.Org.Instances ()
@@ -42,6 +47,7 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Lift as T
 import Data.Time (ZonedTime)
+import Data.Time.LocalTime (zonedTimeToUTC)
 import qualified Data.Time.Format as Time
 import Language.Haskell.TH.Syntax (Lift (..))
 import Text.URI (URI)
@@ -53,7 +59,7 @@ data PostError
   | NoEmail
   | NoTitle
   | NoSlug
-  | NoDate
+  | NoPublished
   | NoDescription
   | MalformedDate String
   deriving (Exception)
@@ -69,7 +75,8 @@ data PostMeta
         postMetaSlug :: Text,
         postMetaTitle :: Text,
         postMetaDescription :: Text,
-        postMetaDate :: ZonedTime
+        postMetaPublished :: ZonedTime,
+        postMetaUpdated :: [ZonedTime]
       }
   deriving (Show, Data)
 
@@ -90,23 +97,30 @@ orgToPost OrgFile {..} = do
   postMetaEmail <- maybe (Left NoEmail) pure $ Map.lookup "email" orgMeta
   postMetaTitle <- maybe (Left NoTitle) pure $ Map.lookup "title" orgMeta
   postMetaSlug <- maybe (Left NoSlug) pure $ Map.lookup "slug" orgMeta
-  postMetaDate' <- maybe (Left NoDate) (pure . T.unpack) $ Map.lookup "date" orgMeta
-  postMetaDate <- maybe (Left (MalformedDate postMetaDate')) pure $ parseTime postMetaDate'
+  postMetaPublished' <- maybe (Left NoPublished) (pure . T.unpack) $ Map.lookup "published" orgMeta
+  postMetaPublished <- parseTime postMetaPublished'
+  postMetaUpdated' <- maybe (pure []) (pure . fmap T.unpack . T.splitOn ",") $ Map.lookup "updated" orgMeta
+  postMetaUpdated <- traverse parseTime postMetaUpdated'
   postMetaDescription <- maybe (Left NoDescription) pure $ Map.lookup "description" orgMeta
   pure Post {postMeta = PostMeta {..}, postDoc = orgDoc}
   where
-    parseTime = Time.parseTimeM True Time.defaultTimeLocale dateFormat
+    parseTime s = maybe (Left (MalformedDate s)) Right
+      $ Time.parseTimeM True Time.defaultTimeLocale dateFormat s
 
 postToOrg :: Post -> OrgFile
 postToOrg Post {..} =
   OrgFile meta postDoc
   where
     meta :: Map.Map Text Text
-    meta =
-      Map.insert "title" (postMetaTitle postMeta)
-        $ Map.insert "slug" (postMetaSlug postMeta)
-        $ Map.insert "date" (T.pack (formatDate (postMetaDate postMeta)))
-        $ Map.insert "description" (postMetaDescription postMeta) mempty
+    meta = Map.fromList $
+        [ ("title", postMetaTitle postMeta)
+        , ("slug", postMetaSlug postMeta)
+        , ("published", T.pack (formatDate (postMetaPublished postMeta)))
+        , ("description", postMetaDescription postMeta)
+        ] <> if null (postMetaUpdated postMeta)
+               then []
+               else let formatted = fmap formatDate (postMetaUpdated postMeta) in
+                 [("updated", T.pack (intercalate "," formatted))]
 
 instance Show PostError where
   show = \case
@@ -115,7 +129,13 @@ instance Show PostError where
     NoEmail -> "Missing an #+email:"
     NoTitle -> "Missing a #+title:"
     NoSlug -> "Missing a #+slug:"
-    NoDate -> "Missing a #+date:"
+    NoPublished -> "Missing a #+published:"
     NoDescription -> "Missing a #+description:"
     MalformedDate d ->
-      "Date " <> d <> " is malformed, please use format " <> dateFormat
+      "Malformed date " <> d <> " (use date format: " <> dateFormat <> ")"
+
+
+mostRecentUpdateTime :: PostMeta -> ZonedTime
+mostRecentUpdateTime PostMeta{..} =
+  maximumBy (compare `on` zonedTimeToUTC)
+    (postMetaPublished :| postMetaUpdated)
