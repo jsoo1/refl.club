@@ -1,9 +1,0 @@
-Dockerfile
-out
-dist
-dist-newstyle
-cabal.project.local*
-.ghc.environment*
-.envrc
-README.org
-TODOs.org
