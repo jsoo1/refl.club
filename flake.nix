@@ -18,6 +18,11 @@
           ];
         };
 
+        apps.${localSystem}.deploy = {
+          type = "app";
+          program = lib.getExe self.packages.${localSystem}.dockerImages.refl-club.deploy;
+        };
+
         devShells.${localSystem}.default =
           self.packages.${localSystem}.haskellPackages.refl-club.shell;
       });

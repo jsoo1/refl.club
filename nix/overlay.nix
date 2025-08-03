@@ -4,8 +4,6 @@ final: prev: {
   };
 
   dockerImages = {
-    refl-club =
-      assert (final.haskellPackages.refl-club.self.rev != null);
-      final.callPackage ./pkgs/refl-club-image.nix { };
+    refl-club = final.callPackage ./pkgs/refl-club-image.nix { };
   };
 }
