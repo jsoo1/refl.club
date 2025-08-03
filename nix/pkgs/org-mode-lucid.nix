@@ -1,5 +1,13 @@
-{ fetchFromGitHub, mkDerivation, base, containers, hashable, lib, lucid, org-mode
-, text
+{
+  fetchFromGitHub,
+  mkDerivation,
+  base,
+  containers,
+  hashable,
+  lib,
+  lucid,
+  org-mode,
+  text,
 }:
 mkDerivation {
   pname = "org-mode-lucid";
@@ -15,7 +23,12 @@ mkDerivation {
     '';
   };
   libraryHaskellDepends = [
-    base containers hashable lucid org-mode text
+    base
+    containers
+    hashable
+    lucid
+    org-mode
+    text
   ];
   homepage = "https://github.com/fosskers/org-mode";
   description = "Lucid integration for org-mode";

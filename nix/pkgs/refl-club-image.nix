@@ -1,11 +1,12 @@
-{ lib
-, dockerTools
-, haskellPackages
-, writeShellApplication
-, google-cloud-sdk
-, gcrane
-, gzip
-, tini
+{
+  lib,
+  dockerTools,
+  haskellPackages,
+  writeShellApplication,
+  google-cloud-sdk,
+  gcrane,
+  gzip,
+  tini,
 }:
 
 assert (haskellPackages.refl-club.self.rev != null);
@@ -14,16 +15,22 @@ let
   self = dockerTools.buildLayeredImage {
     name = "refl-club";
     config = {
-      Entrypoint = [ "${lib.getExe tini}" "--" ];
+      Entrypoint = [
+        "${lib.getExe tini}"
+        "--"
+      ];
       Cmd = [ "${lib.getExe haskellPackages.refl-club}" ];
     };
   };
 in
-self.overrideAttrs(o: {
+self.overrideAttrs (o: {
   passthru = o.passthru // {
     deploy = writeShellApplication {
       name = "deploy-refl.club";
-      runtimeInputs = [ google-cloud-sdk gcrane ];
+      runtimeInputs = [
+        google-cloud-sdk
+        gcrane
+      ];
       text = ''
         image="''${REGION}-docker.pkg.dev/''${PROJECT}/''${REPOSITORY}/${o.imageName}:${o.passthru.imageTag}"
 

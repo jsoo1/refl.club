@@ -1,5 +1,13 @@
-{ fetchFromGitHub, mkDerivation, base, html-entities, lib, text
-, unordered-containers, xml-types, xmlbf
+{
+  fetchFromGitHub,
+  mkDerivation,
+  base,
+  html-entities,
+  lib,
+  text,
+  unordered-containers,
+  xml-types,
+  xmlbf,
 }:
 mkDerivation {
   pname = "xml-types-xmlbf";
@@ -11,7 +19,12 @@ mkDerivation {
     hash = "sha256-iMiz7eF2UZyJnNl70kC1yeK6rsbemKKCiXG8gpwEYMw=";
   };
   libraryHaskellDepends = [
-    base html-entities text unordered-containers xml-types xmlbf
+    base
+    html-entities
+    text
+    unordered-containers
+    xml-types
+    xmlbf
   ];
   description = "Orphan xmlbf To and From Xml instances for the xml-types library types";
   license = lib.licenses.bsd3;

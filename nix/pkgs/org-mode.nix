@@ -1,6 +1,18 @@
-{ fetchFromGitHub, mkDerivation, base, containers, filepath, hashable, lib
-, megaparsec, parser-combinators, tasty, tasty-hunit
-, template-haskell, text, time
+{
+  fetchFromGitHub,
+  mkDerivation,
+  base,
+  containers,
+  filepath,
+  hashable,
+  lib,
+  megaparsec,
+  parser-combinators,
+  tasty,
+  tasty-hunit,
+  template-haskell,
+  text,
+  time,
 }:
 mkDerivation {
   pname = "org-mode";
@@ -16,11 +28,23 @@ mkDerivation {
     '';
   };
   libraryHaskellDepends = [
-    base containers filepath hashable megaparsec parser-combinators
-    template-haskell text time
+    base
+    containers
+    filepath
+    hashable
+    megaparsec
+    parser-combinators
+    template-haskell
+    text
+    time
   ];
   testHaskellDepends = [
-    base megaparsec tasty tasty-hunit text time
+    base
+    megaparsec
+    tasty
+    tasty-hunit
+    text
+    time
   ];
   homepage = "https://github.com/fosskers/org-mode";
   description = "Parser for Emacs org-mode files";

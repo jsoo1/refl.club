@@ -1,5 +1,14 @@
-{ fetchFromGitHub, mkDerivation, base, feed, lib, text, unordered-containers
-, xml-types, xml-types-xmlbf, xmlbf
+{
+  fetchFromGitHub,
+  mkDerivation,
+  base,
+  feed,
+  lib,
+  text,
+  unordered-containers,
+  xml-types,
+  xml-types-xmlbf,
+  xmlbf,
 }:
 mkDerivation {
   pname = "feed-xmlbf";
@@ -11,7 +20,13 @@ mkDerivation {
     hash = "sha256-dPFQUKN3oqo8ThGdZ803KyHj4KO88As9ouFYfk1rcyM=";
   };
   libraryHaskellDepends = [
-    base feed text unordered-containers xml-types xml-types-xmlbf xmlbf
+    base
+    feed
+    text
+    unordered-containers
+    xml-types
+    xml-types-xmlbf
+    xmlbf
   ];
   description = "xmlbf To and From Xml instances for feed";
   license = lib.licenses.bsd3;
