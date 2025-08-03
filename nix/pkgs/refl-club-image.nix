@@ -1,9 +1,11 @@
-{ dockerTools
+{ lib
+, dockerTools
 , haskellPackages
 , writeShellApplication
 , google-cloud-sdk
 , gcrane
 , gzip
+, tini
 }:
 
 assert (haskellPackages.refl-club.self.rev != null);
@@ -11,8 +13,10 @@ assert (haskellPackages.refl-club.self.rev != null);
 let
   self = dockerTools.buildLayeredImage {
     name = "refl-club";
-    contents = [ haskellPackages.refl-club.bin ];
-    config.Entrypoint = [ "/bin/refl-club" ];
+    config = {
+      Entrypoint = [ "${lib.getExe tini}" "--" ];
+      Cmd = [ "${lib.getExe haskellPackages.refl-club}" ];
+    };
   };
 in
 self.overrideAttrs(o: {
