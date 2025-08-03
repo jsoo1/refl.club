@@ -1,2 +1,4 @@
 * refl.club
   My personal website.
+
+  Moved to [[https://git.sr.ht/~jsoo/refl.club][git.sr.ht/~jsoo/refl.club]]
