@@ -6,13 +6,15 @@
 }:
 final: prev: {
   refl-club = (final.callPackage ./pkgs/refl-club.nix { }).overrideAttrs (o: {
-    passthru.shell = mkShell {
-      name = "refl.club-shell";
-      inputsFrom = [ final.refl-club ];
-      packages = [
-        final.cabal2nix
-        final.cabal-install
-      ];
+    passthru = (o.passthru or { }) // {
+      shell = mkShell {
+        name = "refl.club-shell";
+        inputsFrom = [ final.refl-club ];
+        packages = [
+          final.cabal2nix
+          final.cabal-install
+        ];
+      };
     };
   });
 
