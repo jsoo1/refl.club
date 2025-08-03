@@ -1,4 +1,6 @@
 { haskell
+, gcrane
+, google-cloud-sdk
 , fetchFromGitHub
 , self ? null
 , mkShell
@@ -13,6 +15,8 @@ final: prev: {
         packages = [
           final.cabal2nix
           final.cabal-install
+          gcrane
+          google-cloud-sdk
         ];
       };
     };
