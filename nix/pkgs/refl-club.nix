@@ -15,6 +15,7 @@ mkDerivation {
   '';
   isLibrary = true;
   isExecutable = true;
+  enableSeparateBinOutput = true;
   libraryHaskellDepends = [
     base bifunctors bytestring containers exceptions feed feed-xmlbf
     file-embed http-media lucid modern-uri mtl org-mode org-mode-lucid
