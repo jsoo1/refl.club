@@ -45,8 +45,8 @@ import Data.Foldable (foldl', traverse_)
 import Data.Maybe (fromMaybe)
 import Data.Org (org)
 import Data.Post (Post (postMeta), PostError, PostMeta (postMetaSlug), orgToPost)
-import qualified Data.Text as T
 import Data.Text (Text)
+import qualified Data.Text as T
 import Data.Text.Encoding (decodeUtf8')
 import Data.Text.Encoding.Error (UnicodeException)
 import GHC.TypeLits (KnownSymbol)
@@ -62,10 +62,10 @@ import Language.Haskell.TH.Syntax
     runIO,
   )
 import Servant
-  ( (:<|>) (..),
-    (:>) (..),
-    Get,
+  ( Get,
     Server,
+    (:<|>) (..),
+    (:>) (..),
   )
 import Servant.Atom
 import Servant.HTML.Lucid (HTML)

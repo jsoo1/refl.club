@@ -42,7 +42,6 @@ import qualified Text.URI as URI
 newtype AllPosts = AllPosts [Post]
 
 instance ToHtml AllPosts where
-
   toHtmlRaw = toHtml
 
   toHtml (AllPosts ps) =
@@ -52,14 +51,14 @@ instance ToHtml AllPosts where
         Club.analytics
         Club.css
       body_ $ do
-        div_ [style_ "padding:0.5rem;"]
-          $ Club.navBar
-          $ Just Club.NavLocationPosts
+        div_ [style_ "padding:0.5rem;"] $
+          Club.navBar $
+            Just Club.NavLocationPosts
         section_ [id_ "main"] $ ul_ [style_ "max-width:50rem;"] $ do
           h1_ "Posts"
           traverse_ (postLinkItem . postMeta) ps
 
-postLinkItem :: Monad m => PostMeta -> HtmlT m ()
+postLinkItem :: (Monad m) => PostMeta -> HtmlT m ()
 postLinkItem PostMeta {..} =
   li_ [style_ "outline:1px dashed;display:flex;flex-direction:column;margin-bottom:0.75rem;padding:0.75rem;"] $ do
     a_ [style_ "text-decoration:none", href_ ("/post/" <> postMetaSlug)] $ do
@@ -70,32 +69,35 @@ postLinkItem PostMeta {..} =
         span_ $ toHtml postMetaDescription
 
 toAtomFeed :: [Post] -> Atom.Feed
-toAtomFeed ps = Atom.Feed
-  { Atom.feedId = "https://www.refl.club/posts",
-    Atom.feedTitle = Atom.TextString "John Soo",
-    Atom.feedUpdated = T.pack $ iso8601Show $ latestUpdate ps,
-    Atom.feedAuthors = Post.atomAuthor . postMeta <$> ps,
-    Atom.feedCategories = mempty,
-    Atom.feedContributors = mempty,
-    Atom.feedGenerator = Nothing,
-    Atom.feedIcon = mempty,
-    Atom.feedLinks = pure $ Atom.Link
-      { Atom.linkHref = "https://www.refl.club/posts/atom.xml",
-        Atom.linkRel = Just $ Left "self",
-        Atom.linkType = Nothing,
-        Atom.linkHrefLang = Nothing,
-        Atom.linkTitle = Nothing,
-        Atom.linkLength = Nothing,
-        Atom.linkAttrs = mempty,
-        Atom.linkOther = mempty
-      },
-    Atom.feedLogo = mempty,
-    Atom.feedRights = Nothing,
-    Atom.feedSubtitle = Nothing,
-    Atom.feedEntries = Post.atomEntry <$> ps,
-    Atom.feedAttrs = mempty,
-    Atom.feedOther = mempty
-  }
+toAtomFeed ps =
+  Atom.Feed
+    { Atom.feedId = "https://www.refl.club/posts",
+      Atom.feedTitle = Atom.TextString "John Soo",
+      Atom.feedUpdated = T.pack $ iso8601Show $ latestUpdate ps,
+      Atom.feedAuthors = Post.atomAuthor . postMeta <$> ps,
+      Atom.feedCategories = mempty,
+      Atom.feedContributors = mempty,
+      Atom.feedGenerator = Nothing,
+      Atom.feedIcon = mempty,
+      Atom.feedLinks =
+        pure $
+          Atom.Link
+            { Atom.linkHref = "https://www.refl.club/posts/atom.xml",
+              Atom.linkRel = Just $ Left "self",
+              Atom.linkType = Nothing,
+              Atom.linkHrefLang = Nothing,
+              Atom.linkTitle = Nothing,
+              Atom.linkLength = Nothing,
+              Atom.linkAttrs = mempty,
+              Atom.linkOther = mempty
+            },
+      Atom.feedLogo = mempty,
+      Atom.feedRights = Nothing,
+      Atom.feedSubtitle = Nothing,
+      Atom.feedEntries = Post.atomEntry <$> ps,
+      Atom.feedAttrs = mempty,
+      Atom.feedOther = mempty
+    }
   where
     latestUpdate =
       maximumBy (compare `on` zonedTimeToUTC) . fmap (Post.mostRecentUpdateTime . postMeta)

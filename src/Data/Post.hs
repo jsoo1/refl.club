@@ -48,8 +48,8 @@ import Data.Org (OrgDoc (..), OrgFile (..))
 import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Time (ZonedTime)
-import Data.Time.LocalTime (zonedTimeToUTC)
 import qualified Data.Time.Format as Time
+import Data.Time.LocalTime (zonedTimeToUTC)
 import Language.Haskell.TH.Syntax (Lift (..))
 import qualified Language.Haskell.TH.Syntax as TH
 import Text.URI (URI)
@@ -71,15 +71,15 @@ data Post = Post {postMeta :: PostMeta, postDoc :: OrgDoc}
 
 data PostMeta
   = PostMeta
-      { postMetaAuthor :: Text,
-        postMetaURI :: Maybe URI,
-        postMetaEmail :: Text,
-        postMetaSlug :: Text,
-        postMetaTitle :: Text,
-        postMetaDescription :: Text,
-        postMetaPublished :: ZonedTime,
-        postMetaUpdated :: [ZonedTime]
-      }
+  { postMetaAuthor :: Text,
+    postMetaURI :: Maybe URI,
+    postMetaEmail :: Text,
+    postMetaSlug :: Text,
+    postMetaTitle :: Text,
+    postMetaDescription :: Text,
+    postMetaPublished :: ZonedTime,
+    postMetaUpdated :: [ZonedTime]
+  }
   deriving (Show, Data, Lift)
 
 instance Lift ZonedTime where
@@ -88,7 +88,7 @@ instance Lift ZonedTime where
 dateFormat :: String
 dateFormat = "%Y-%m-%d %I:%M%p %Z"
 
-formatDate :: Time.FormatTime t => t -> String
+formatDate :: (Time.FormatTime t) => t -> String
 formatDate = Time.formatTime Time.defaultTimeLocale "%Y-%02m-%02d %I:%M%p %Z"
 
 orgToPost :: OrgFile -> Either PostError Post
@@ -106,23 +106,27 @@ orgToPost OrgFile {..} = do
   postMetaDescription <- maybe (Left NoDescription) pure $ Map.lookup "description" orgMeta
   pure Post {postMeta = PostMeta {..}, postDoc = orgDoc}
   where
-    parseTime s = maybe (Left (MalformedDate s)) Right
-      $ Time.parseTimeM True Time.defaultTimeLocale dateFormat s
+    parseTime s =
+      maybe (Left (MalformedDate s)) Right $
+        Time.parseTimeM True Time.defaultTimeLocale dateFormat s
 
 postToOrg :: Post -> OrgFile
 postToOrg Post {..} =
   OrgFile meta postDoc
   where
     meta :: Map.Map Text Text
-    meta = Map.fromList $
-        [ ("title", postMetaTitle postMeta)
-        , ("slug", postMetaSlug postMeta)
-        , ("published", T.pack (formatDate (postMetaPublished postMeta)))
-        , ("description", postMetaDescription postMeta)
-        ] <> if null (postMetaUpdated postMeta)
-               then []
-               else let formatted = fmap formatDate (postMetaUpdated postMeta) in
-                 [("updated", T.pack (intercalate "," formatted))]
+    meta =
+      Map.fromList $
+        [ ("title", postMetaTitle postMeta),
+          ("slug", postMetaSlug postMeta),
+          ("published", T.pack (formatDate (postMetaPublished postMeta))),
+          ("description", postMetaDescription postMeta)
+        ]
+          <> if null (postMetaUpdated postMeta)
+            then []
+            else
+              let formatted = fmap formatDate (postMetaUpdated postMeta)
+               in [("updated", T.pack (intercalate "," formatted))]
 
 instance Show PostError where
   show = \case
@@ -136,8 +140,8 @@ instance Show PostError where
     MalformedDate d ->
       "Malformed date " <> d <> " (use date format: " <> dateFormat <> ")"
 
-
 mostRecentUpdateTime :: PostMeta -> ZonedTime
-mostRecentUpdateTime PostMeta{..} =
-  maximumBy (compare `on` zonedTimeToUTC)
+mostRecentUpdateTime PostMeta {..} =
+  maximumBy
+    (compare `on` zonedTimeToUTC)
     (postMetaPublished :| postMetaUpdated)

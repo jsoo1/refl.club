@@ -55,7 +55,6 @@ prismHighlighting lang =
     . toHtml
 
 instance ToHtml Post where
-
   toHtmlRaw = toHtml
 
   toHtml p@Post {..} =
@@ -78,7 +77,7 @@ instance ToHtml Post where
           toHtml $ Org.body orgStyle (Post.postToOrg p)
           footer_ Club.ccBySa
 
-byLine :: Monad m => PostMeta -> HtmlT m ()
+byLine :: (Monad m) => PostMeta -> HtmlT m ()
 byLine meta@(PostMeta {..}) = do
   p_ [style_ "font-style:italic;"] $ toHtml postMetaDescription
   p_ [style_ "display:flex;", style_ "flex-wrap:wrap;"] $ do
@@ -94,38 +93,42 @@ byLine meta@(PostMeta {..}) = do
     span_ $ toHtml $ Post.formatDate $ Post.mostRecentUpdateTime meta
 
 atomAuthor :: PostMeta -> Atom.Person
-atomAuthor PostMeta {..} = Atom.Person
-  { Atom.personName = postMetaAuthor,
-    Atom.personURI = URI.render <$> postMetaURI,
-    Atom.personEmail = pure postMetaEmail,
-    Atom.personOther = mempty
-  }
+atomAuthor PostMeta {..} =
+  Atom.Person
+    { Atom.personName = postMetaAuthor,
+      Atom.personURI = URI.render <$> postMetaURI,
+      Atom.personEmail = pure postMetaEmail,
+      Atom.personOther = mempty
+    }
 
 atomEntry :: Post -> Atom.Entry
-atomEntry post@Post {..} = Atom.Entry
-  { Atom.entryId = "https://www.refl.club/post/" <> postMetaSlug postMeta,
-    Atom.entryTitle = Atom.TextString $ postMetaTitle postMeta,
-    Atom.entryPublished = Just $ T.pack $ iso8601Show $ postMetaPublished postMeta,
-    Atom.entryUpdated = T.pack $ iso8601Show $ Post.mostRecentUpdateTime postMeta,
-    Atom.entryAuthors = pure $ atomAuthor postMeta,
-    Atom.entryCategories = mempty,
-    Atom.entryContent =
-      Just $ Atom.HTMLContent
-        $ TL.toStrict
-        $ Lucid.renderText
-        $ toHtml
-        $ Org.body orgStyle
-        $ Post.postToOrg post,
-    Atom.entryContributor = mempty,
-    Atom.entryRights =
-      Just $ Atom.HTMLString
-        $ TL.toStrict
-        $ Lucid.renderText Club.ccBySa,
-    Atom.entryLinks = mempty,
-    Atom.entrySummary = Nothing,
-    Atom.entrySource = Nothing,
-    Atom.entryInReplyTo = Nothing,
-    Atom.entryInReplyTotal = Nothing,
-    Atom.entryAttrs = mempty,
-    Atom.entryOther = mempty
-  }
+atomEntry post@Post {..} =
+  Atom.Entry
+    { Atom.entryId = "https://www.refl.club/post/" <> postMetaSlug postMeta,
+      Atom.entryTitle = Atom.TextString $ postMetaTitle postMeta,
+      Atom.entryPublished = Just $ T.pack $ iso8601Show $ postMetaPublished postMeta,
+      Atom.entryUpdated = T.pack $ iso8601Show $ Post.mostRecentUpdateTime postMeta,
+      Atom.entryAuthors = pure $ atomAuthor postMeta,
+      Atom.entryCategories = mempty,
+      Atom.entryContent =
+        Just $
+          Atom.HTMLContent $
+            TL.toStrict $
+              Lucid.renderText $
+                toHtml $
+                  Org.body orgStyle $
+                    Post.postToOrg post,
+      Atom.entryContributor = mempty,
+      Atom.entryRights =
+        Just $
+          Atom.HTMLString $
+            TL.toStrict $
+              Lucid.renderText Club.ccBySa,
+      Atom.entryLinks = mempty,
+      Atom.entrySummary = Nothing,
+      Atom.entrySource = Nothing,
+      Atom.entryInReplyTo = Nothing,
+      Atom.entryInReplyTotal = Nothing,
+      Atom.entryAttrs = mempty,
+      Atom.entryOther = mempty
+    }

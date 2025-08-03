@@ -10,7 +10,7 @@ import qualified Lucid.Base as Lucid
 data NavLocation = NavLocationAbout | NavLocationPosts
   deriving (Eq)
 
-navBar :: Monad m => Maybe NavLocation -> HtmlT m ()
+navBar :: (Monad m) => Maybe NavLocation -> HtmlT m ()
 navBar curr =
   nav_ $ ul_ [style_ "display:flex;"] $ do
     skipToContent
@@ -23,7 +23,7 @@ navBar curr =
     a_ [href_ "https://www.refl.club/posts/atom.xml"] $
       li_ [padLight] "Atom"
 
-analytics :: Monad m => HtmlT m ()
+analytics :: (Monad m) => HtmlT m ()
 analytics =
   script'
     [ defer_ "true",
@@ -38,11 +38,11 @@ padLight = class_ "pad-light"
 borderSolid :: Attribute
 borderSolid = class_ "border-solid"
 
-skipToContent :: Monad m => HtmlT m ()
+skipToContent :: (Monad m) => HtmlT m ()
 skipToContent =
   a_ [href_ "#main", class_ "skip-to-content"] "Skip to content"
 
-verticalSep :: Monad m => HtmlT m ()
+verticalSep :: (Monad m) => HtmlT m ()
 verticalSep =
   span_
     [ style_ "margin-left:0.5rem;",
@@ -53,11 +53,11 @@ verticalSep =
     ""
 
 -- | Lucid script_ has no attributes.
-script' :: Functor m => [Attribute] -> HtmlT m a -> HtmlT m a
+script' :: (Functor m) => [Attribute] -> HtmlT m a -> HtmlT m a
 script' =
   with (Lucid.makeElement "script")
 
-css :: Applicative m => HtmlT m ()
+css :: (Applicative m) => HtmlT m ()
 css =
   link_
     [ href_ $ "/" <> $(gitHead) <> "-refl.css",
@@ -65,7 +65,7 @@ css =
       type_ "text/css"
     ]
 
-prismCss :: Applicative m => HtmlT m ()
+prismCss :: (Applicative m) => HtmlT m ()
 prismCss =
   link_
     [ rel_ "stylesheet",
@@ -75,7 +75,7 @@ prismCss =
         \themes/prism-solarizedlight.min.css"
     ]
 
-prismJs :: Monad m => HtmlT m ()
+prismJs :: (Monad m) => HtmlT m ()
 prismJs = do
   script'
     [ src_
@@ -90,7 +90,7 @@ prismJs = do
     ]
     ""
 
-ccBySa :: Monad m => HtmlT m ()
+ccBySa :: (Monad m) => HtmlT m ()
 ccBySa = p_ $ do
   "This work is licensed under a "
   a_

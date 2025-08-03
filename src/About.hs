@@ -27,7 +27,6 @@ import Lucid.Base (makeAttribute)
 data About = About
 
 instance ToHtml About where
-
   toHtmlRaw = toHtml
 
   toHtml _ =
@@ -37,16 +36,17 @@ instance ToHtml About where
         Club.analytics
         Club.css
       body_ $ do
-        div_ [style_ "padding:0.5rem;"]
-          $ Club.navBar
-          $ Just Club.NavLocationAbout
+        div_ [style_ "padding:0.5rem;"] $
+          Club.navBar $
+            Just Club.NavLocationAbout
         section_ [id_ "main"] $ do
           h1_ "John Soo"
           p_ "Functional programming enthusiast"
           p_ "Host: Orange Combinator, aspiring proof engineer"
           a_ [href_ "/john-soo.asc"] $ do
             span_ [style_ "margin-right:0.25rem"] "PGP (fingerprint):"
-            span_ [makeAttribute "aria-hidden" "true"]
+            span_
+              [makeAttribute "aria-hidden" "true"]
               "5A15 8FAF 406A 748A 81A9  DC4E 4F43 7A76 B448 A23B"
           nav_ $ ul_ $ do
             h2_ [id_ "profiles"] "Profiles"
@@ -87,9 +87,9 @@ instance ToHtml About where
                 href_ "https://github.com/jsoo1/refl.club"
               ]
               "Source"
-            span_ [style_ "word-break:break-word;"]
-              $ toHtml
-              $ " (commit " <> $(gitHead) <> ")"
+            span_ [style_ "word-break:break-word;"] $
+              toHtml $
+                " (commit " <> $(gitHead) <> ")"
           p_ $ do
             a_ [href_ "https://www.haskell.org"] "Haskell"
             ","

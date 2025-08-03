@@ -41,14 +41,14 @@ import GHC.TypeLits (AppendSymbol, Symbol)
 import Lucid
 import Post
 import Servant
-  ( (:<|>) (..),
-    (:>) (..),
-    Context (EmptyContext),
+  ( Context (EmptyContext),
     Get,
     PlainText,
     Proxy (..),
     Server,
     err404,
+    (:<|>) (..),
+    (:>) (..),
   )
 import Servant.Atom
 import Servant.CSS (CSS)
