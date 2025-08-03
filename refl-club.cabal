@@ -13,7 +13,6 @@ extra-source-files: posts/*.org
                   , refl.css
                   , iosevka-regular.woff
                   , .git/HEAD
-                  , .git/refs/heads/master
 build-type:     Simple
 cabal-version:  >= 2.0
 tested-with: GHC == 9.2.8
@@ -66,8 +65,7 @@ executable refl-club
   main-is: Main.hs
   other-modules: Paths_refl_club
   hs-source-dirs: gcp
-  ghc-options: -threaded -rtsopts -O2 -static -with-rtsopts=-N -optl-pthread -optl-static
-  cc-options: -static
+  ghc-options: -threaded -rtsopts -O2 -static -with-rtsopts=-N -optl-pthread
   build-depends: base
                , feed-xmlbf
                , refl-club
