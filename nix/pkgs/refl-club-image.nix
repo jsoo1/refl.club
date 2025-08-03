@@ -1,6 +1,6 @@
 { dockerTools, haskellPackages }:
 
-dockerTools.streamLayeredImage {
+dockerTools.buildLayeredImage {
   name = "refl-club";
   contents = [ haskellPackages.refl-club.bin ];
 }
