@@ -16,7 +16,6 @@ import Data.Text.Encoding (decodeUtf8')
 import qualified Data.Text.IO as Text
 import qualified Language.Haskell.TH.Syntax as TH
 
-
 gitHead :: TH.Q TH.Exp
 gitHead = do
   TH.addDependentFile ".git/HEAD"
@@ -35,5 +34,5 @@ readHead = do
 gitHeadSym :: TH.Q TH.Type
 gitHeadSym = do
   TH.addDependentFile ".git/HEAD"
-  head <- TH.runIO readHead
-  pure $ TH.LitT $ TH.StrTyLit $ Text.unpack head
+  t <- TH.runIO readHead
+  pure $ TH.LitT $ TH.StrTyLit $ Text.unpack t
